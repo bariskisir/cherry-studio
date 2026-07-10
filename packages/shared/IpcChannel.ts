@@ -150,8 +150,6 @@ export enum IpcChannel {
   Antigravity_GetStatus = 'antigravity:get-status',
   Antigravity_GetQuota = 'antigravity:get-quota',
   Antigravity_FetchModels = 'antigravity:fetch-models',
-  Antigravity_SetAuthPath = 'antigravity:set-auth-path',
-  Antigravity_SetAuthSource = 'antigravity:set-auth-source',
   Antigravity_SetSkipRefresh = 'antigravity:set-skip-refresh',
 
   // claude code

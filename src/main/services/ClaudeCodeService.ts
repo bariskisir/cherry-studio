@@ -4,13 +4,13 @@ import type {
   ClaudeCodeQuota,
   ClaudeCodeStatus,
   CliAuthFileOptions,
-  CliProviderModel,
-  ReasoningLevelOption
+  CliProviderModel
 } from '@shared/cliProvider'
 import { app, net } from 'electron'
 import os from 'os'
 import path from 'path'
 
+import { parseClaudeModelsResponse } from './cliProviderModels'
 import { readJsonFile, writeJsonFile } from './fileUtils'
 
 const logger = loggerService.withContext('ClaudeCodeService')
@@ -237,39 +237,8 @@ class ClaudeCodeService {
         const detail = await response.text().catch(() => '')
         throw new ClaudeCodeServiceError(`Claude Code models request failed (${response.status}): ${detail}`)
       }
-      const data: any = await response.json()
-      for (const item of data?.data ?? []) {
-        if (item?.id) {
-          const caps = item?.capabilities
-          const effortCap = caps?.effort
-          let reasoningLevels: ReasoningLevelOption[] | undefined
-          let defaultReasoningLevel: string | undefined
-          if (effortCap?.supported === true) {
-            const levels: ReasoningLevelOption[] = []
-            for (const key of Object.keys(effortCap)) {
-              if (key !== 'supported' && effortCap[key]?.supported === true) {
-                const knownDescriptions: Record<string, string> = {
-                  low: 'Fast responses with lighter reasoning',
-                  medium: 'Balanced reasoning for everyday tasks',
-                  high: 'Greater reasoning depth for complex tasks',
-                  xhigh: 'Extra high reasoning depth for complex tasks',
-                  max: 'Maximum reasoning depth for the most complex tasks'
-                }
-                levels.push({
-                  effort: key,
-                  description: knownDescriptions[key] || key
-                })
-              }
-            }
-            if (levels.length > 0) {
-              reasoningLevels = levels
-              defaultReasoningLevel = levels[levels.length - 1].effort
-            }
-          }
-          models.push({ id: item.id, name: item.display_name || item.id, reasoningLevels, defaultReasoningLevel })
-        }
-      }
-      const nextAfterId = data?.has_more && data?.last_id ? String(data.last_id) : undefined
+      const { models: pageModels, nextAfterId } = parseClaudeModelsResponse(await response.json())
+      models.push(...pageModels)
       if (nextAfterId && seenCursors.has(nextAfterId)) break
       if (nextAfterId) seenCursors.add(nextAfterId)
       afterId = nextAfterId

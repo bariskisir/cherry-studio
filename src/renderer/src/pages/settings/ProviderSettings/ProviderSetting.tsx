@@ -130,9 +130,11 @@ const ProviderSetting: FC<Props> = ({ providerId, isOnboarding = false }) => {
     'antigravity',
     'claude-code'
   ] as const satisfies SystemProviderId[]
-  const hideApiInput = noAPIInputProviders.some((id) => id === provider.id) || noAPIInputProviders.some((id) => id === provider.type)
+  const hideApiInput =
+    noAPIInputProviders.some((id) => id === provider.id) || noAPIInputProviders.some((id) => id === provider.type)
   const noAPIKeyInputProviders = ['copilot', 'vertexai'] as const satisfies SystemProviderId[]
-  const hideApiKeyInput = noAPIKeyInputProviders.some((id) => id === provider.id) || noAPIKeyInputProviders.some((id) => id === provider.type)
+  const hideApiKeyInput =
+    noAPIKeyInputProviders.some((id) => id === provider.id) || noAPIKeyInputProviders.some((id) => id === provider.type)
 
   const providerConfig = PROVIDER_URLS[provider.id]
   const officialWebsite = providerConfig?.websites?.official

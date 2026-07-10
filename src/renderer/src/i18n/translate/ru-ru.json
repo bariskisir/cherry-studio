@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "Заполняйте только когда провайдер предоставляет базовый адрес, совместимый с Claude.",
       "antigravity": {
         "auth_file_hint": "Войдите с помощью Antigravity/Gemini CLI, затем нажмите Обновить. Учётные данные считываются из диспетчера учётных данных Windows (или ~/.antigravity/.credentials.json).",
+        "auth_file_path": "Путь к файлу аутентификации",
+        "auth_source": "Источник аутентификации",
+        "auth_source_file": "Файл аутентификации",
+        "auth_source_windows": "Учётные данные Windows",
+        "browse": "Обзор",
         "description": "Antigravity выполняет вход с вашей учётной записью Google через локальный Antigravity/Gemini CLI. Ключ API не требуется — учётные данные считываются локально, а маркер доступа обновляется автоматически.",
+        "expires_at": "Срок действия токена",
         "not_signed_in": "Вход не выполнен. Войдите с помощью Antigravity CLI, чтобы использовать этого поставщика.",
         "plan": "План: {{plan}}",
         "project": "Проект: {{project}}",
+        "quota_refresh_token": "Токен обновления",
         "refresh": "Обновить",
+        "resets_in": "сброс через {{time}}",
+        "session": "Сессия",
         "signed_in": "Выполнен вход как {{email}}",
+        "usage": "Использование",
         "warning": "Google запрещает использование сторонними инструментами. Используйте на свой страх и риск."
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "Проверить несколько ключей API",
       "claude_code": {
         "auth_file_hint": "Запустите `claude setup-token` в терминале, затем нажмите Обновить. Учётные данные считываются из ~/.claude/.credentials.json.",
+        "auth_file_path": "Путь к файлу аутентификации",
+        "browse": "Обзор",
         "description": "Claude Code выполняет вход с вашей учётной записью Anthropic через официальный Claude Code CLI. Ключ API не требуется — учётные данные считываются из локального файла, записанного CLI, а маркер доступа обновляется автоматически.",
+        "expires_at": "Срок действия токена",
+        "five_hour_usage": "Сессия (сброс {{reset}})",
         "not_signed_in": "Вход не выполнен. Войдите с помощью Claude Code CLI, чтобы использовать этого поставщика.",
         "plan": "План: {{plan}}",
+        "quota_refresh_token": "Токен обновления",
         "refresh": "Обновить",
+        "seven_day_usage": "Неделя (сброс {{reset}})",
         "signed_in": "Выполнен вход",
+        "usage": "Использование",
         "warning": "Anthropic запрещает использование сторонними инструментами. Используйте на свой страх и риск."
       },
       "codex": {
         "auth_file_hint": "Запустите `codex login` в терминале, затем нажмите Обновить. Учётные данные считываются из ~/.codex/auth.json.",
+        "auth_file_path": "Путь к файлу аутентификации",
+        "browse": "Обзор",
         "description": "Codex выполняет вход с вашей учётной записью ChatGPT через официальный Codex CLI. Ключ API не требуется — учётные данные считываются из локального файла, записанного CLI.",
+        "expires_at": "Срок действия токена",
         "not_signed_in": "Вход не выполнен. Войдите с помощью Codex CLI, чтобы использовать этого поставщика.",
         "plan": "План: {{plan}}",
+        "quota_refresh_token": "Токен обновления",
         "refresh": "Обновить",
-        "signed_in": "Выполнен вход как {{email}}"
+        "session_usage": "Сессия (сброс {{reset}})",
+        "signed_in": "Выполнен вход как {{email}}",
+        "usage": "Использование",
+        "weekly_usage": "Неделя (сброс {{reset}})"
       },
       "copilot": {
         "auth_failed": "Github Copilot认证失败",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Требовать подтверждение удаления темы"
+      },
       "pin_to_top": "Закрепленные топики сверху",
       "position": {
         "label": "Позиция топиков",

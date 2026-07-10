@@ -1,23 +1,14 @@
-import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import type { ClaudeCodeQuota } from '@shared/cliProvider'
-import { Alert, Button, Switch } from 'antd'
-import { type FC, useCallback, useEffect, useState } from 'react'
+import { Alert } from 'antd'
+import { type FC, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import {
-  Container,
-  DetailRow,
-  FilePathInput,
-  FilePathRow,
-  OptionLabel,
-  OptionRow,
-  OptionsCard,
-  ProgressRow,
-  StretchProgress,
-  UsageContainer
-} from './shared/styled'
+import { AuthFilePathOption, RefreshTokenOption } from './shared/AuthFileOptions'
+import { ProviderQuotaAlert } from './shared/ProviderQuotaAlert'
+import { Container, DetailRow, OptionsCard, ProgressRow, StretchProgress, UsageContainer } from './shared/styled'
+import { useAuthFileSettings } from './shared/useAuthFileSettings'
 import { useProviderQuota } from './shared/useProviderQuota'
-import { formatExpiry, formatReset, loadPersisted, loadPersistedBoolean, persist, selectJsonFile } from './shared/utils'
+import { formatExpiry, formatReset } from './shared/utils'
 
 const LS_AUTH_PATH = 'claude-code-auth-path'
 const LS_REFRESH_TOKEN = 'claude-code-refresh-token'
@@ -36,8 +27,10 @@ const UNAVAILABLE_QUOTA: ClaudeCodeQuota = {
 
 const ClaudeCodeSettings: FC = () => {
   const { t } = useTranslation()
-  const [authFilePath, setAuthFilePath] = useState(() => loadPersisted(LS_AUTH_PATH, ''))
-  const [refreshToken, setRefreshToken] = useState(() => loadPersistedBoolean(LS_REFRESH_TOKEN))
+  const { authFilePath, refreshToken, browseAuthFile, updateRefreshToken } = useAuthFileSettings({
+    authPathStorageKey: LS_AUTH_PATH,
+    refreshTokenStorageKey: LS_REFRESH_TOKEN
+  })
 
   useEffect(() => {
     void window.api.claudeCode.setAuthPath(authFilePath)
@@ -57,19 +50,6 @@ const ClaudeCodeSettings: FC = () => {
     unavailableQuota: UNAVAILABLE_QUOTA
   })
 
-  const handleBrowse = async () => {
-    const result = await selectJsonFile()
-    if (result) {
-      setAuthFilePath(result)
-      persist(LS_AUTH_PATH, result)
-    }
-  }
-
-  const handleRefreshTokenChange = (v: boolean) => {
-    setRefreshToken(v)
-    persist(LS_REFRESH_TOKEN, String(v))
-  }
-
   const signedIn = quota?.available === true
 
   return (
@@ -80,65 +60,58 @@ const ClaudeCodeSettings: FC = () => {
         message={t('settings.provider.claude_code.warning')}
         style={{ marginBottom: 10 }}
       />
-      <Alert
-        type={signedIn ? 'success' : 'info'}
-        showIcon
-        icon={signedIn ? <CheckCircleOutlined /> : <ExclamationCircleOutlined />}
+      <ProviderQuotaAlert
+        signedIn={signedIn}
+        loading={loading}
         message={
           signedIn ? t('settings.provider.claude_code.signed_in') : t('settings.provider.claude_code.not_signed_in')
         }
-        description={
-          <div>
-            {signedIn && quota?.plan ? (
-              <DetailRow>{t('settings.provider.claude_code.plan', { plan: quota.plan })}</DetailRow>
-            ) : null}
-            {signedIn && quota?.expiresAt ? (
-              <DetailRow>{formatExpiry(quota.expiresAt, t, 'settings.provider.claude_code.expires_at')}</DetailRow>
-            ) : null}
-            {signedIn && (quota?.fiveHourUsedPercent != null || quota?.sevenDayUsedPercent != null) && (
-              <UsageContainer>
-                {quota.fiveHourUsedPercent != null && (
-                  <ProgressRow>
-                    <span>
-                      {t('settings.provider.claude_code.five_hour_usage', {
-                        reset: formatReset(quota.fiveHourResetsAt, t)
-                      })}
-                    </span>
-                    <StretchProgress percent={Math.round(quota.fiveHourUsedPercent)} size="small" />
-                  </ProgressRow>
-                )}
-                {quota.sevenDayUsedPercent != null && (
-                  <ProgressRow>
-                    <span>
-                      {t('settings.provider.claude_code.seven_day_usage', {
-                        reset: formatReset(quota.sevenDayResetsAt, t)
-                      })}
-                    </span>
-                    <StretchProgress percent={Math.round(quota.sevenDayUsedPercent)} size="small" />
-                  </ProgressRow>
-                )}
-              </UsageContainer>
+        refreshLabel={t('settings.provider.claude_code.refresh')}
+        onRefresh={refreshQuota}>
+        {signedIn && quota?.plan ? (
+          <DetailRow>{t('settings.provider.claude_code.plan', { plan: quota.plan })}</DetailRow>
+        ) : null}
+        {signedIn && quota?.expiresAt ? (
+          <DetailRow>{formatExpiry(quota.expiresAt, t, 'settings.provider.claude_code.expires_at')}</DetailRow>
+        ) : null}
+        {signedIn && (quota?.fiveHourUsedPercent != null || quota?.sevenDayUsedPercent != null) && (
+          <UsageContainer>
+            {quota.fiveHourUsedPercent != null && (
+              <ProgressRow>
+                <span>
+                  {t('settings.provider.claude_code.five_hour_usage', {
+                    reset: formatReset(quota.fiveHourResetsAt, t)
+                  })}
+                </span>
+                <StretchProgress percent={Math.round(quota.fiveHourUsedPercent)} size="small" />
+              </ProgressRow>
             )}
-          </div>
-        }
-        action={
-          <Button size="small" loading={loading} onClick={refreshQuota}>
-            {t('settings.provider.claude_code.refresh')}
-          </Button>
-        }
-      />
+            {quota.sevenDayUsedPercent != null && (
+              <ProgressRow>
+                <span>
+                  {t('settings.provider.claude_code.seven_day_usage', {
+                    reset: formatReset(quota.sevenDayResetsAt, t)
+                  })}
+                </span>
+                <StretchProgress percent={Math.round(quota.sevenDayUsedPercent)} size="small" />
+              </ProgressRow>
+            )}
+          </UsageContainer>
+        )}
+      </ProviderQuotaAlert>
       <OptionsCard>
-        <OptionRow>
-          <OptionLabel>{t('settings.provider.claude_code.quota_refresh_token')}</OptionLabel>
-          <Switch checked={refreshToken} onChange={handleRefreshTokenChange} />
-        </OptionRow>
-        <OptionRow>
-          <OptionLabel>{t('settings.provider.claude_code.auth_file_path')}</OptionLabel>
-          <FilePathRow>
-            <FilePathInput value={authFilePath || DEFAULT_AUTH_PATH} readOnly />
-            <Button onClick={handleBrowse}>{t('settings.provider.claude_code.browse')}</Button>
-          </FilePathRow>
-        </OptionRow>
+        <RefreshTokenOption
+          label={t('settings.provider.claude_code.quota_refresh_token')}
+          checked={refreshToken}
+          onChange={updateRefreshToken}
+        />
+        <AuthFilePathOption
+          label={t('settings.provider.claude_code.auth_file_path')}
+          browseLabel={t('settings.provider.claude_code.browse')}
+          path={authFilePath}
+          defaultPath={DEFAULT_AUTH_PATH}
+          onBrowse={browseAuthFile}
+        />
       </OptionsCard>
     </Container>
   )

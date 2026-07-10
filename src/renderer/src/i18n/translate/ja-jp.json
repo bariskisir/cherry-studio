@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "サービスプロバイダーがClaude互換のベースアドレスを提供する場合のみ入力してください。",
       "antigravity": {
         "auth_file_hint": "Antigravity/Gemini CLIでサインインし、更新をクリックしてください。認証情報はWindows Credential Manager（または~/.antigravity/.credentials.json）から読み取られます。",
+        "auth_file_path": "認証ファイルのパス",
+        "auth_source": "認証ソース",
+        "auth_source_file": "認証ファイル",
+        "auth_source_windows": "Windows 資格情報",
+        "browse": "参照",
         "description": "AntigravityはローカルのAntigravity/Gemini CLIを通じてGoogleアカウントでサインインします。APIキーは不要です。認証情報はローカルで読み取られ、アクセストークンは自動的に更新されます。",
+        "expires_at": "トークンの有効期限",
         "not_signed_in": "サインインしていません。このプロバイダーを使用するにはAntigravity CLIでサインインしてください。",
         "plan": "プラン: {{plan}}",
         "project": "プロジェクト: {{project}}",
+        "quota_refresh_token": "リフレッシュトークン",
         "refresh": "更新",
+        "resets_in": "{{time}} 後にリセット",
+        "session": "セッション",
         "signed_in": "{{email}}としてサインイン中",
+        "usage": "使用量",
         "warning": "Googleはサードパーティ製ツールの使用を禁止しています。自己責任で使用してください。"
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "複数のAPIキーをチェック",
       "claude_code": {
         "auth_file_hint": "ターミナルで`claude setup-token`を実行し、更新をクリックしてください。認証情報は~/.claude/.credentials.jsonから読み取られます。",
+        "auth_file_path": "認証ファイルのパス",
+        "browse": "参照",
         "description": "Claude Codeは公式のClaude Code CLIを通じてAnthropicアカウントでサインインします。APIキーは不要です。認証情報はCLIが書き込んだローカルファイルから読み取られ、アクセストークンは自動的に更新されます。",
+        "expires_at": "トークンの有効期限",
+        "five_hour_usage": "セッション（{{reset}} にリセット）",
         "not_signed_in": "サインインしていません。このプロバイダーを使用するにはClaude Code CLIでサインインしてください。",
         "plan": "プラン: {{plan}}",
+        "quota_refresh_token": "リフレッシュトークン",
         "refresh": "更新",
+        "seven_day_usage": "週間（{{reset}} にリセット）",
         "signed_in": "サインイン中",
+        "usage": "使用量",
         "warning": "Anthropicはサードパーティ製ツールの使用を禁止しています。自己責任で使用してください。"
       },
       "codex": {
         "auth_file_hint": "ターミナルで`codex login`を実行し、更新をクリックしてください。認証情報は~/.codex/auth.jsonから読み取られます。",
+        "auth_file_path": "認証ファイルのパス",
+        "browse": "参照",
         "description": "Codexは公式のCodex CLIを通じてChatGPTアカウントでサインインします。APIキーは不要です。認証情報はCLIが書き込んだローカルファイルから読み取られます。",
+        "expires_at": "トークンの有効期限",
         "not_signed_in": "サインインしていません。このプロバイダーを使用するにはCodex CLIでサインインしてください。",
         "plan": "プラン: {{plan}}",
+        "quota_refresh_token": "リフレッシュトークン",
         "refresh": "更新",
-        "signed_in": "{{email}}としてサインイン中"
+        "session_usage": "セッション（{{reset}} にリセット）",
+        "signed_in": "{{email}}としてサインイン中",
+        "usage": "使用量",
+        "weekly_usage": "週間（{{reset}} にリセット）"
       },
       "copilot": {
         "auth_failed": "Github Copilotの認証に失敗しました。",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "トピック削除時に確認を必須にする"
+      },
       "pin_to_top": "固定トピックを上部に表示",
       "position": {
         "label": "トピックの位置",

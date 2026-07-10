@@ -485,8 +485,6 @@ const api = {
     getQuota: (options?: AntigravityAuthOptions): Promise<AntigravityQuota> =>
       ipcRenderer.invoke(IpcChannel.Antigravity_GetQuota, options),
     fetchModels: (): Promise<CliProviderModel[]> => ipcRenderer.invoke(IpcChannel.Antigravity_FetchModels),
-    setAuthPath: (authFilePath: string) => ipcRenderer.invoke(IpcChannel.Antigravity_SetAuthPath, authFilePath),
-    setAuthSource: (useCredMan: boolean) => ipcRenderer.invoke(IpcChannel.Antigravity_SetAuthSource, useCredMan),
     setSkipRefresh: (value: boolean) => ipcRenderer.invoke(IpcChannel.Antigravity_SetSkipRefresh, value)
   },
   claudeCode: {

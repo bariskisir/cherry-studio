@@ -23,6 +23,7 @@ import {
   isOllamaProvider,
   isVertexProvider
 } from '@renderer/utils/provider'
+import type { CliProviderModel } from '@shared/cliProvider'
 import { defaultAppHeaders } from '@shared/utils'
 import * as z from 'zod'
 
@@ -562,51 +563,32 @@ const openAICompatibleFetcher: ModelFetcher = {
   }
 }
 
-/** Antigravity: model catalog fetched via IPC from the Google Cloud Code API */
-const antigravityFetcher: ModelFetcher = {
-  match: (p) => isAntigravityProvider(p),
-  fetch: async (provider) => {
-    const models = await window.api.antigravity.fetchModels()
-    return dedup(models, (m) => m.id).map((m) =>
-      toModel(m.id, provider, {
-        name: m.name,
-        supportsThinking: m.supportsThinking,
-        reasoningLevels: m.reasoningLevels,
-        defaultReasoningLevel: m.defaultReasoningLevel
-      })
-    )
+function createCliProviderFetcher(
+  match: (provider: Provider) => boolean,
+  fetchModels: () => Promise<CliProviderModel[]>
+): ModelFetcher {
+  return {
+    match,
+    fetch: async (provider) =>
+      dedup(await fetchModels(), (model) => model.id).map((model) =>
+        toModel(model.id, provider, {
+          name: model.name,
+          supportsThinking: model.supportsThinking,
+          reasoningLevels: model.reasoningLevels,
+          defaultReasoningLevel: model.defaultReasoningLevel
+        })
+      )
   }
 }
+
+/** Antigravity: model catalog fetched via IPC from the Google Cloud Code API */
+const antigravityFetcher = createCliProviderFetcher(isAntigravityProvider, () => window.api.antigravity.fetchModels())
 
 /** Claude Code: model catalog fetched via IPC from the Anthropic API (OAuth) */
-const claudeCodeFetcher: ModelFetcher = {
-  match: (p) => isClaudeCodeProvider(p),
-  fetch: async (provider) => {
-    const models = await window.api.claudeCode.fetchModels()
-    return dedup(models, (m) => m.id).map((m) =>
-      toModel(m.id, provider, {
-        name: m.name,
-        reasoningLevels: m.reasoningLevels,
-        defaultReasoningLevel: m.defaultReasoningLevel
-      })
-    )
-  }
-}
+const claudeCodeFetcher = createCliProviderFetcher(isClaudeCodeProvider, () => window.api.claudeCode.fetchModels())
 
 /** Codex: fetches models from the ChatGPT backend via the Codex API */
-const codexFetcher: ModelFetcher = {
-  match: (p) => isCodexProvider(p),
-  fetch: async (provider) => {
-    const models = await window.api.codex.fetchModels()
-    return models.map((m) =>
-      toModel(m.id, provider, {
-        name: m.name,
-        reasoningLevels: m.reasoningLevels,
-        defaultReasoningLevel: m.defaultReasoningLevel
-      })
-    )
-  }
-}
+const codexFetcher = createCliProviderFetcher(isCodexProvider, () => window.api.codex.fetchModels())
 
 // === Registry (order matters: first match wins) ===
 

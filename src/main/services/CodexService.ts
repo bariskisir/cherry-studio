@@ -4,13 +4,13 @@ import type {
   CliProviderModel,
   CodexCredentials,
   CodexQuota,
-  CodexStatus,
-  ReasoningLevelOption
+  CodexStatus
 } from '@shared/cliProvider'
 import { app, net } from 'electron'
 import os from 'os'
 import path from 'path'
 
+import { parseCodexModelsResponse } from './cliProviderModels'
 import { readJsonFile, writeJsonFile } from './fileUtils'
 import { getJwtExpiry, readJwtClaim } from './jwtUtils'
 
@@ -189,26 +189,7 @@ class CodexService {
       if (!response.ok) {
         throw new CodexServiceError(`Codex models request failed (${response.status})`)
       }
-      const data: any = await response.json()
-      const models: CliProviderModel[] = []
-      if (data?.models && Array.isArray(data.models)) {
-        for (const item of data.models) {
-          const id = item?.slug || item?.model || item?.id
-          const name = item?.display_name || item?.displayName || id
-          if (id && !id.toLowerCase().includes('auto-review') && !id.toLowerCase().includes('auto_review')) {
-            const reasoningLevelsRaw = item?.supported_reasoning_levels
-            const reasoningLevels: ReasoningLevelOption[] | undefined = Array.isArray(reasoningLevelsRaw)
-              ? reasoningLevelsRaw
-                  .filter((rl: any) => rl?.effort && rl?.description)
-                  .map((rl: any) => ({ effort: rl.effort, description: rl.description }))
-              : undefined
-            const defaultReasoningLevel: string | undefined =
-              typeof item?.default_reasoning_level === 'string' ? item.default_reasoning_level : undefined
-            models.push({ id, name, reasoningLevels, defaultReasoningLevel })
-          }
-        }
-      }
-      return models
+      return parseCodexModelsResponse(await response.json())
     } catch (error) {
       logger.warn('Codex model listing via API failed', error as Error)
       return []

@@ -46,8 +46,8 @@ export interface ClaudeCodeQuota {
   hasRefreshToken: boolean
 }
 
-export interface AntigravityAuthOptions extends CliAuthFileOptions {
-  useCredentialManager?: boolean
+export interface AntigravityAuthOptions {
+  refreshToken?: boolean
 }
 
 export interface AntigravityCredentials {

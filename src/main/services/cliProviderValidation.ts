@@ -48,10 +48,6 @@ export function validateAntigravityAuthOptions(value: unknown): AntigravityAuthO
   if (!options) return undefined
 
   return {
-    ...validateCliAuthOptions(options),
-    useCredentialManager:
-      options.useCredentialManager === undefined
-        ? undefined
-        : validateBoolean(options.useCredentialManager, 'useCredentialManager')
+    refreshToken: options.refreshToken === undefined ? undefined : validateBoolean(options.refreshToken, 'refreshToken')
   }
 }

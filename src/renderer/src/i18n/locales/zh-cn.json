@@ -3953,7 +3953,6 @@
         "button": "查看",
         "title": "更新日志"
       },
-
       "social": {
         "title": "社交账号"
       },
@@ -5856,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "删除话题时确认"
+      },
       "pin_to_top": "固定话题置顶",
       "position": {
         "label": "话题位置",
@@ -5864,9 +5866,6 @@
       },
       "show": {
         "time": "显示话题时间"
-      },
-      "delete_confirmation": {
-        "title": "删除话题时确认"
       }
     },
     "translate": {

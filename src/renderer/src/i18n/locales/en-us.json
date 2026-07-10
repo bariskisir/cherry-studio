@@ -3953,7 +3953,6 @@
         "button": "Releases",
         "title": "Release Notes"
       },
-
       "social": {
         "title": "Social Accounts"
       },
@@ -5856,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Require Topic Delete Confirmation"
+      },
       "pin_to_top": "Pin Topics to Top",
       "position": {
         "label": "Topic position",
@@ -5864,9 +5866,6 @@
       },
       "show": {
         "time": "Show topic time"
-      },
-      "delete_confirmation": {
-        "title": "Require Topic Delete Confirmation"
       }
     },
     "translate": {

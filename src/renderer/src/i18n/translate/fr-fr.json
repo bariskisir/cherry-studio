@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "Remplir seulement lorsque le fournisseur propose une adresse de base compatible Claude.",
       "antigravity": {
         "auth_file_hint": "Connectez-vous avec la CLI Antigravity/Gemini, puis cliquez sur Actualiser. Les identifiants sont lus depuis le Gestionnaire d'identifiants Windows (ou ~/.antigravity/.credentials.json).",
+        "auth_file_path": "Chemin du fichier d’authentification",
+        "auth_source": "Source d’authentification",
+        "auth_source_file": "Fichier d’authentification",
+        "auth_source_windows": "Identifiants Windows",
+        "browse": "Parcourir",
         "description": "Antigravity se connecte avec votre compte Google via la CLI locale Antigravity/Gemini. Il n'y a pas de clé API — les identifiants sont lus localement et le jeton d'accès est actualisé automatiquement.",
+        "expires_at": "Expiration du jeton",
         "not_signed_in": "Non connecté. Connectez-vous avec la CLI Antigravity pour utiliser ce fournisseur.",
         "plan": "Forfait : {{plan}}",
         "project": "Projet : {{project}}",
+        "quota_refresh_token": "Jeton d’actualisation",
         "refresh": "Actualiser",
+        "resets_in": "réinitialisation dans {{time}}",
+        "session": "Session",
         "signed_in": "Connecté en tant que {{email}}",
+        "usage": "Utilisation",
         "warning": "Google interdit l'utilisation par des outils tiers. Utilisation à vos risques et périls."
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "Vérifier plusieurs clés API",
       "claude_code": {
         "auth_file_hint": "Exécutez `claude setup-token` dans un terminal, puis cliquez sur Actualiser. Les identifiants sont lus depuis ~/.claude/.credentials.json.",
+        "auth_file_path": "Chemin du fichier d’authentification",
+        "browse": "Parcourir",
         "description": "Claude Code se connecte avec votre compte Anthropic via la CLI officielle Claude Code. Il n'y a pas de clé API — les identifiants sont lus depuis le fichier local écrit par la CLI et le jeton d'accès est actualisé automatiquement.",
+        "expires_at": "Expiration du jeton",
+        "five_hour_usage": "Session (réinitialisation {{reset}})",
         "not_signed_in": "Non connecté. Connectez-vous avec la CLI Claude Code pour utiliser ce fournisseur.",
         "plan": "Forfait : {{plan}}",
+        "quota_refresh_token": "Jeton d’actualisation",
         "refresh": "Actualiser",
+        "seven_day_usage": "Hebdomadaire (réinitialisation {{reset}})",
         "signed_in": "Connecté",
+        "usage": "Utilisation",
         "warning": "Anthropic interdit l'utilisation par des outils tiers. Utilisation à vos risques et périls."
       },
       "codex": {
         "auth_file_hint": "Exécutez `codex login` dans un terminal, puis cliquez sur Actualiser. Les identifiants sont lus depuis ~/.codex/auth.json.",
+        "auth_file_path": "Chemin du fichier d’authentification",
+        "browse": "Parcourir",
         "description": "Codex se connecte avec votre compte ChatGPT via la CLI officielle Codex. Il n'y a pas de clé API — les identifiants sont lus depuis le fichier local écrit par la CLI.",
+        "expires_at": "Expiration du jeton",
         "not_signed_in": "Non connecté. Connectez-vous avec la CLI Codex pour utiliser ce fournisseur.",
         "plan": "Forfait : {{plan}}",
+        "quota_refresh_token": "Jeton d’actualisation",
         "refresh": "Actualiser",
-        "signed_in": "Connecté en tant que {{email}}"
+        "session_usage": "Session (réinitialisation {{reset}})",
+        "signed_in": "Connecté en tant que {{email}}",
+        "usage": "Utilisation",
+        "weekly_usage": "Hebdomadaire (réinitialisation {{reset}})"
       },
       "copilot": {
         "auth_failed": "Échec de l'authentification Github Copilot",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Exiger une confirmation avant de supprimer un sujet"
+      },
       "pin_to_top": "Épingler la discussion en haut",
       "position": {
         "label": "Position du sujet",

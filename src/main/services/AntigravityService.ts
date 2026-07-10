@@ -10,18 +10,13 @@ import type {
   AntigravityStatus,
   CliProviderModel
 } from '@shared/cliProvider'
-import { execFile } from 'child_process'
-import { app, net } from 'electron'
-import path from 'path'
+import { net } from 'electron'
 
-import { readJsonFile, writeJsonFile } from './fileUtils'
+import { AntigravityCredentialStore } from './AntigravityCredentialStore'
+import { parseAntigravityModelsResponse } from './cliProviderModels'
 import { readJwtClaim } from './jwtUtils'
 
 const logger = loggerService.withContext('AntigravityService')
-
-const ANTIGRAVITY_DIR = '.antigravity'
-const CREDENTIALS_FILE_NAME = '.credentials.json'
-const CREDENTIAL_TARGET = 'gemini:antigravity'
 
 const API_BASE = 'https://daily-cloudcode-pa.googleapis.com'
 const TOKEN_ENDPOINT = 'https://oauth2.googleapis.com/token'
@@ -53,78 +48,13 @@ class AntigravityService {
   private projectId = ''
   private plan = ''
   private cliVersion = ''
-  private authSourceKey = ''
   private readonly refreshPromises = new Map<string, Promise<void>>()
-  private authPathOverride = ''
-  private useCredentialManagerOverride = true
+  private readonly credentialStore = new AntigravityCredentialStore()
   private skipRefreshOverride = false
-
-  private getFilePath = (): string => {
-    const home = app.getPath('home')
-    return path.join(home, ANTIGRAVITY_DIR, CREDENTIALS_FILE_NAME)
-  }
 
   public getUserAgent = (): string => {
     const version = this.cliVersion || DEFAULT_CLI_VERSION
     return `antigravity/cli/${version} (aidev_client; os_type=${os.platform()}; arch=${os.arch()}; auth_method=consumer)`
-  }
-
-  private readCredentialManager = (): Promise<string | null> => {
-    if (process.platform !== 'win32') return Promise.resolve(null)
-
-    const script = `
-$ErrorActionPreference = 'Stop'
-$sig = @"
-using System;
-using System.Runtime.InteropServices;
-public class CredMan {
-  [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-  public struct CREDENTIAL {
-    public uint Flags; public uint Type; public IntPtr TargetName; public IntPtr Comment;
-    public System.Runtime.InteropServices.ComTypes.FILETIME LastWritten;
-    public uint CredentialBlobSize; public IntPtr CredentialBlob; public uint Persist;
-    public uint AttributeCount; public IntPtr Attributes; public IntPtr TargetAlias; public IntPtr UserName;
-  }
-  [DllImport("advapi32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
-  public static extern bool CredRead(string target, uint type, uint flags, out IntPtr credential);
-  [DllImport("advapi32.dll")] public static extern void CredFree(IntPtr cred);
-  public static string Read(string target) {
-    IntPtr credPtr;
-    if(!CredRead(target, 1, 0, out credPtr)) return null;
-    try {
-      CREDENTIAL c = (CREDENTIAL)Marshal.PtrToStructure(credPtr, typeof(CREDENTIAL));
-      byte[] buf = new byte[c.CredentialBlobSize];
-      Marshal.Copy(c.CredentialBlob, buf, 0, (int)c.CredentialBlobSize);
-      return System.Convert.ToBase64String(buf);
-    } finally { CredFree(credPtr); }
-  }
-}
-"@
-Add-Type -TypeDefinition $sig
-$r = [CredMan]::Read('${CREDENTIAL_TARGET}')
-if ($r -eq $null) { exit 1 }
-[Console]::Out.Write($r)
-`
-    const encoded = Buffer.from(script, 'utf16le').toString('base64')
-    return new Promise((resolve) => {
-      execFile(
-        'powershell.exe',
-        ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-EncodedCommand', encoded],
-        { timeout: 10000, windowsHide: true },
-        (error, stdout) => {
-          if (error || !stdout?.trim()) {
-            resolve(null)
-            return
-          }
-          try {
-            const blob = Buffer.from(stdout.trim(), 'base64').toString('utf-8')
-            resolve(blob.replace(/\0+$/, ''))
-          } catch {
-            resolve(null)
-          }
-        }
-      )
-    })
   }
 
   private parseCredentialValue = (input: unknown): AntigravityAuth | null => {
@@ -149,30 +79,17 @@ if ($r -eq $null) { exit 1 }
     }
   }
 
-  private readRawCredentials = async (options: {
-    useCredentialManager: boolean
-    authFilePath: string
-  }): Promise<AntigravityAuth> => {
-    let fromManager: AntigravityAuth | null = null
-    if (options.useCredentialManager) {
-      const raw = await this.readCredentialManager()
-      if (raw) fromManager = this.parseCredentialValue(raw)
-    }
-    let fromFile: AntigravityAuth | null = null
-    try {
-      fromFile = this.parseCredentialValue(await readJsonFile(options.authFilePath))
-    } catch {
-      // ignore
-    }
-    const newer = [fromManager, fromFile].filter(Boolean) as AntigravityAuth[]
-    if (newer.length === 1) return newer[0]
-    if (newer.length === 2) return newer[0].expiry >= newer[1].expiry ? newer[0] : newer[1]
+  private readRawCredentials = async (): Promise<AntigravityAuth> => {
+    const raw = await this.credentialStore.read()
+    const auth = raw ? this.parseCredentialValue(raw) : null
+    if (auth) return auth
+
     throw new AntigravityServiceError(
       'Antigravity credentials not found. Please sign in with the Antigravity/Gemini CLI first.'
     )
   }
 
-  private refreshTokens = async (auth: AntigravityAuth, authFilePath: string): Promise<void> => {
+  private refreshTokens = async (auth: AntigravityAuth): Promise<void> => {
     if (!auth.refreshToken) return
     logger.info('Refreshing Antigravity access token')
     const body = new URLSearchParams({
@@ -198,10 +115,10 @@ if ($r -eq $null) { exit 1 }
       auth.idToken = data.id_token
       auth.email = readJwtClaim(data.id_token, 'email') || auth.email
     }
-    await this.persistCredentials(auth, authFilePath)
+    await this.persistCredentials(auth)
   }
 
-  private persistCredentials = async (auth: AntigravityAuth, authFilePath: string): Promise<void> => {
+  private persistCredentials = async (auth: AntigravityAuth): Promise<void> => {
     try {
       const payload = {
         token: {
@@ -213,22 +130,15 @@ if ($r -eq $null) { exit 1 }
         },
         auth_method: 'consumer'
       }
-      await writeJsonFile(authFilePath, payload)
+      await this.credentialStore.write(JSON.stringify(payload))
     } catch (error) {
       logger.warn('Could not persist refreshed Antigravity credentials', error as Error)
     }
   }
 
-  private ensureAuth = async (
-    options?: AntigravityAuthOptions & { skipRefresh?: boolean }
-  ): Promise<AntigravityAuth> => {
-    const useCredentialManager = options?.useCredentialManager ?? this.useCredentialManagerOverride
-    const authFilePath = options?.authFilePath || this.authPathOverride || this.getFilePath()
-    const sourceKey = `${useCredentialManager ? 'credential-manager' : 'file'}:${authFilePath}`
-
-    if (!this.auth || sourceKey !== this.authSourceKey) {
-      this.auth = await this.readRawCredentials({ useCredentialManager, authFilePath })
-      this.authSourceKey = sourceKey
+  private ensureAuth = async (options?: { skipRefresh?: boolean }): Promise<AntigravityAuth> => {
+    if (!this.auth) {
+      this.auth = await this.readRawCredentials()
       this.projectId = ''
       this.plan = ''
     }
@@ -238,12 +148,12 @@ if ($r -eq $null) { exit 1 }
     const expired = this.auth.expiry > 0 && Date.now() >= this.auth.expiry - EXPIRY_BUFFER_MS
     if (expired && this.auth.refreshToken) {
       const auth = this.auth
-      let refreshPromise = this.refreshPromises.get(sourceKey)
+      let refreshPromise = this.refreshPromises.get('native')
       if (!refreshPromise) {
-        refreshPromise = this.refreshTokens(auth, authFilePath).finally(() => {
-          this.refreshPromises.delete(sourceKey)
+        refreshPromise = this.refreshTokens(auth).finally(() => {
+          this.refreshPromises.delete('native')
         })
-        this.refreshPromises.set(sourceKey, refreshPromise)
+        this.refreshPromises.set('native', refreshPromise)
       }
       try {
         await refreshPromise
@@ -310,35 +220,12 @@ if ($r -eq $null) { exit 1 }
     'User-Agent': this.getUserAgent()
   })
 
-  public setAuthPath = (path: string): void => {
-    if (this.authPathOverride === path) return
-    this.authPathOverride = path
-    this.resetIdentityCache()
-  }
-
-  public setUseCredentialManager = (value: boolean): void => {
-    if (this.useCredentialManagerOverride === value) return
-    this.useCredentialManagerOverride = value
-    this.resetIdentityCache()
-  }
-
   public setSkipRefresh = (value: boolean): void => {
     this.skipRefreshOverride = value
   }
 
-  private resetIdentityCache(): void {
-    this.auth = null
-    this.authSourceKey = ''
-    this.projectId = ''
-    this.plan = ''
-  }
-
   public getCredentials = async (): Promise<AntigravityCredentials> => {
-    const auth = await this.ensureAuth({
-      useCredentialManager: this.useCredentialManagerOverride,
-      authFilePath: this.authPathOverride || undefined,
-      skipRefresh: this.skipRefreshOverride
-    })
+    const auth = await this.ensureAuth({ skipRefresh: this.skipRefreshOverride })
     await this.ensureProject(auth.accessToken)
     return { accessToken: auth.accessToken, projectId: this.projectId, userAgent: this.getUserAgent() }
   }
@@ -356,11 +243,7 @@ if ($r -eq $null) { exit 1 }
   public getQuota = async (options?: AntigravityAuthOptions): Promise<AntigravityQuota> => {
     try {
       const skipRefresh = options?.refreshToken === false
-      const auth = await this.ensureAuth({
-        useCredentialManager: options?.useCredentialManager,
-        authFilePath: options?.authFilePath,
-        skipRefresh
-      })
+      const auth = await this.ensureAuth({ skipRefresh })
       await this.ensureProject(auth.accessToken)
 
       const response = await net.fetch(`${API_BASE}/v1internal:retrieveUserQuotaSummary`, {
@@ -432,17 +315,9 @@ if ($r -eq $null) { exit 1 }
       const detail = await response.text().catch(() => '')
       throw new AntigravityServiceError(`Antigravity models request failed (${response.status}): ${detail}`)
     }
-    const data: any = await response.json()
-    const modelsObj = data?.models
-    if (!modelsObj || typeof modelsObj !== 'object') {
+    const models = parseAntigravityModelsResponse(await response.json())
+    if (!models) {
       throw new AntigravityServiceError('Antigravity models response is missing a model list.')
-    }
-    const models: CliProviderModel[] = []
-    for (const [id, info] of Object.entries(
-      modelsObj as Record<string, { isInternal?: boolean; displayName?: string; supportsThinking?: boolean }>
-    )) {
-      if (info?.isInternal === true) continue
-      models.push({ id, name: info?.displayName || id, supportsThinking: info?.supportsThinking === true })
     }
     return models
   }

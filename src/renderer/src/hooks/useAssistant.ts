@@ -1,5 +1,6 @@
 import { loggerService } from '@logger'
 import {
+  getDefaultReasoningEffortOption,
   getModelSupportedReasoningEffortOptions,
   getThinkModelType,
   isSupportedReasoningEffortModel,
@@ -25,7 +26,6 @@ import {
   updateTopics
 } from '@renderer/store/assistants'
 import { setDefaultModel, setQuickModel, setTranslateModel } from '@renderer/store/llm'
-import type { ReasoningEffortOption } from '@renderer/types'
 import type { Assistant, AssistantSettings, Model, ThinkingOption, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
@@ -126,9 +126,7 @@ export function useAssistant(id: string) {
             // 注意：这里假设可用的options不会为空
             const enableThinking = currentReasoningEffort !== undefined
             fallbackOption = enableThinking
-              ? ((model.defaultReasoningLevel ||
-                  supportedOptions.find((o) => o !== 'default' && o !== 'none') ||
-                  'high') as ReasoningEffortOption)
+              ? getDefaultReasoningEffortOption(model, supportedOptions)
               : supportedOptions[0]
           }
 

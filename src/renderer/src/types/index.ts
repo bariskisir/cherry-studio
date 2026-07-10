@@ -2,6 +2,7 @@ import type { LanguageModelV3Source } from '@ai-sdk/provider'
 import type { WebSearchResultBlock } from '@anthropic-ai/sdk/resources'
 import type OpenAI from '@cherrystudio/openai'
 import type { GenerateImagesConfig, GroundingMetadata, PersonGeneration } from '@google/genai'
+import type { ReasoningLevelOption } from '@shared/cliProvider'
 import type { CSSProperties } from 'react'
 
 export * from './file'
@@ -153,11 +154,6 @@ const ThinkModelTypes = [
  *            It's also used as "on" when the reasoning behavior of the model only could be set to "on" and "off".
  * - 'default': Depend on default behavior. It means we would not set any reasoning related settings when calling API.
  */
-export interface ReasoningLevelOption {
-  effort: string
-  description: string
-}
-
 export type ReasoningEffortOption = NonNullable<OpenAI.ReasoningEffort> | 'auto' | 'default' | (string & {})
 export type ThinkingOption = ReasoningEffortOption
 export type ThinkingModelType = (typeof ThinkModelTypes)[number]

@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "Preencher apenas quando o fornecedor fornece um endereço base compatível com Claude.",
       "antigravity": {
         "auth_file_hint": "Inicie sessão com a CLI Antigravity/Gemini e clique em Atualizar. As credenciais são lidas do Gestor de Credenciais do Windows (ou ~/.antigravity/.credentials.json).",
+        "auth_file_path": "Caminho do ficheiro de autenticação",
+        "auth_source": "Origem da autenticação",
+        "auth_source_file": "Ficheiro de autenticação",
+        "auth_source_windows": "Credenciais do Windows",
+        "browse": "Procurar",
         "description": "O Antigravity inicia sessão com a sua conta Google através da CLI local Antigravity/Gemini. Não há chave API — as credenciais são lidas localmente e o token de acesso é atualizado automaticamente.",
+        "expires_at": "Expiração do token",
         "not_signed_in": "Não tem sessão iniciada. Inicie sessão com a CLI Antigravity para usar este fornecedor.",
         "plan": "Plano: {{plan}}",
         "project": "Projeto: {{project}}",
+        "quota_refresh_token": "Token de atualização",
         "refresh": "Atualizar",
+        "resets_in": "repõe em {{time}}",
+        "session": "Sessão",
         "signed_in": "Sessão iniciada como {{email}}",
+        "usage": "Utilização",
         "warning": "O Google proíbe a utilização por ferramentas de terceiros. Utilize por sua conta e risco."
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "Verificar várias chaves API",
       "claude_code": {
         "auth_file_hint": "Execute `claude setup-token` num terminal e clique em Atualizar. As credenciais são lidas de ~/.claude/.credentials.json.",
+        "auth_file_path": "Caminho do ficheiro de autenticação",
+        "browse": "Procurar",
         "description": "O Claude Code inicia sessão com a sua conta Anthropic através da CLI oficial do Claude Code. Não há chave API — as credenciais são lidas do ficheiro local escrito pela CLI e o token de acesso é atualizado automaticamente.",
+        "expires_at": "Expiração do token",
+        "five_hour_usage": "Sessão (repõe {{reset}})",
         "not_signed_in": "Não tem sessão iniciada. Inicie sessão com a CLI Claude Code para usar este fornecedor.",
         "plan": "Plano: {{plan}}",
+        "quota_refresh_token": "Token de atualização",
         "refresh": "Atualizar",
+        "seven_day_usage": "Semanal (repõe {{reset}})",
         "signed_in": "Sessão iniciada",
+        "usage": "Utilização",
         "warning": "A Anthropic proíbe a utilização por ferramentas de terceiros. Utilize por sua conta e risco."
       },
       "codex": {
         "auth_file_hint": "Execute `codex login` num terminal e clique em Atualizar. As credenciais são lidas de ~/.codex/auth.json.",
+        "auth_file_path": "Caminho do ficheiro de autenticação",
+        "browse": "Procurar",
         "description": "O Codex inicia sessão com a sua conta ChatGPT através da CLI oficial do Codex. Não há chave API — as credenciais são lidas do ficheiro local escrito pela CLI.",
+        "expires_at": "Expiração do token",
         "not_signed_in": "Não tem sessão iniciada. Inicie sessão com a CLI Codex para usar este fornecedor.",
         "plan": "Plano: {{plan}}",
+        "quota_refresh_token": "Token de atualização",
         "refresh": "Atualizar",
-        "signed_in": "Sessão iniciada como {{email}}"
+        "session_usage": "Sessão (repõe {{reset}})",
+        "signed_in": "Sessão iniciada como {{email}}",
+        "usage": "Utilização",
+        "weekly_usage": "Semanal (repõe {{reset}})"
       },
       "copilot": {
         "auth_failed": "Falha na autenticação do Github Copilot",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Exigir confirmação para eliminar tópicos"
+      },
       "pin_to_top": "Fixar Tópico no Topo",
       "position": {
         "label": "Posição do tópico",

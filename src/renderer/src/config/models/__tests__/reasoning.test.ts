@@ -5,6 +5,8 @@ import { isEmbeddingModel, isRerankModel } from '../embedding'
 import { isOpenAIReasoningModel, isSupportedReasoningEffortOpenAIModel } from '../openai'
 import {
   findTokenLimit,
+  getDefaultReasoningEffortOption,
+  getDynamicReasoningEffortOptions,
   getModelSupportedReasoningEffortOptions,
   getThinkModelType,
   isClaude4SeriesModel,
@@ -2032,6 +2034,33 @@ describe('isGemini3ThinkingTokenModel', () => {
 })
 
 describe('getModelSupportedReasoningEffortOptions', () => {
+  describe('Dynamic provider metadata', () => {
+    it('normalizes and deduplicates server-provided effort levels', () => {
+      const model = createModel({
+        id: 'dynamic-model',
+        reasoningLevels: [
+          { effort: ' low ', description: 'Fast' },
+          { effort: 'low', description: 'Duplicate' },
+          { effort: 'default', description: 'Duplicate default' },
+          { effort: '', description: 'Invalid' },
+          { effort: 'max', description: 'Maximum' }
+        ]
+      })
+
+      expect(getDynamicReasoningEffortOptions(model)).toEqual(['default', 'low', 'max'])
+      expect(getModelSupportedReasoningEffortOptions(model)).toEqual(['default', 'low', 'max'])
+    })
+
+    it('uses a valid server default and falls back to the first enabled option', () => {
+      const options = ['default', 'none', 'low', 'high']
+
+      expect(getDefaultReasoningEffortOption(createModel({ defaultReasoningLevel: 'high' }), options)).toBe('high')
+      expect(getDefaultReasoningEffortOption(createModel({ defaultReasoningLevel: 'unsupported' }), options)).toBe(
+        'low'
+      )
+    })
+  })
+
   describe('Edge cases', () => {
     it('should return undefined for undefined model', () => {
       expect(getModelSupportedReasoningEffortOptions(undefined)).toBeUndefined()

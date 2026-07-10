@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "Folosește doar când furnizorul oferă un URL de bază compatibil cu Claude.",
       "antigravity": {
         "auth_file_hint": "Conectați-vă cu CLI Antigravity/Gemini, apoi faceți clic pe Reîmprospătare. Credențialele sunt citite din Managerul de Credențiale Windows (sau ~/.antigravity/.credentials.json).",
+        "auth_file_path": "Calea fișierului de autentificare",
+        "auth_source": "Sursa autentificării",
+        "auth_source_file": "Fișier de autentificare",
+        "auth_source_windows": "Acreditări Windows",
+        "browse": "Răsfoiește",
         "description": "Antigravity se conectează cu contul dvs. Google prin intermediul CLI-ului local Antigravity/Gemini. Nu există cheie API — credențialele sunt citite local și tokenul de acces este reîmprospătat automat.",
+        "expires_at": "Expirarea tokenului",
         "not_signed_in": "Nu sunteți conectat. Conectați-vă cu CLI Antigravity pentru a utiliza acest furnizor.",
         "plan": "Plan: {{plan}}",
         "project": "Proiect: {{project}}",
+        "quota_refresh_token": "Token de reîmprospătare",
         "refresh": "Reîmprospătare",
+        "resets_in": "se resetează în {{time}}",
+        "session": "Sesiune",
         "signed_in": "Conectat ca {{email}}",
+        "usage": "Utilizare",
         "warning": "Google interzice utilizarea de către instrumente terțe. Utilizați pe propriul risc."
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "Verifică chei API multiple",
       "claude_code": {
         "auth_file_hint": "Rulați `claude setup-token` într-un terminal, apoi faceți clic pe Reîmprospătare. Credențialele sunt citite din ~/.claude/.credentials.json.",
+        "auth_file_path": "Calea fișierului de autentificare",
+        "browse": "Răsfoiește",
         "description": "Claude Code se conectează cu contul dvs. Anthropic prin intermediul CLI-ului oficial Claude Code. Nu există cheie API — credențialele sunt citite din fișierul local scris de CLI și tokenul de acces este reîmprospătat automat.",
+        "expires_at": "Expirarea tokenului",
+        "five_hour_usage": "Sesiune (se resetează {{reset}})",
         "not_signed_in": "Nu sunteți conectat. Conectați-vă cu CLI Claude Code pentru a utiliza acest furnizor.",
         "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Token de reîmprospătare",
         "refresh": "Reîmprospătare",
+        "seven_day_usage": "Săptămânal (se resetează {{reset}})",
         "signed_in": "Conectat",
+        "usage": "Utilizare",
         "warning": "Anthropic interzice utilizarea de către instrumente terțe. Utilizați pe propriul risc."
       },
       "codex": {
         "auth_file_hint": "Rulați `codex login` într-un terminal, apoi faceți clic pe Reîmprospătare. Credențialele sunt citite din ~/.codex/auth.json.",
+        "auth_file_path": "Calea fișierului de autentificare",
+        "browse": "Răsfoiește",
         "description": "Codex se conectează cu contul dvs. ChatGPT prin intermediul CLI-ului oficial Codex. Nu există cheie API — credențialele sunt citite din fișierul local scris de CLI.",
+        "expires_at": "Expirarea tokenului",
         "not_signed_in": "Nu sunteți conectat. Conectați-vă cu CLI Codex pentru a utiliza acest furnizor.",
         "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Token de reîmprospătare",
         "refresh": "Reîmprospătare",
-        "signed_in": "Conectat ca {{email}}"
+        "session_usage": "Sesiune (se resetează {{reset}})",
+        "signed_in": "Conectat ca {{email}}",
+        "usage": "Utilizare",
+        "weekly_usage": "Săptămânal (se resetează {{reset}})"
       },
       "copilot": {
         "auth_failed": "Autentificarea Github Copilot a eșuat.",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Solicită confirmarea ștergerii subiectului"
+      },
       "pin_to_top": "Fixează subiectele sus",
       "position": {
         "label": "Poziție subiect",

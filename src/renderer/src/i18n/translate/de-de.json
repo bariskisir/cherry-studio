@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "Nur bei Anbietern, die ein Claude-kompatibles Basis-Endpunkt anbieten.",
       "antigravity": {
         "auth_file_hint": "Melden Sie sich mit der Antigravity/Gemini CLI an und klicken Sie dann auf Aktualisieren. Die Anmeldedaten werden aus dem Windows-Anmeldeinformationsmanager (oder ~/.antigravity/.credentials.json) gelesen.",
+        "auth_file_path": "Pfad zur Authentifizierungsdatei",
+        "auth_source": "Authentifizierungsquelle",
+        "auth_source_file": "Authentifizierungsdatei",
+        "auth_source_windows": "Windows-Anmeldeinformationen",
+        "browse": "Durchsuchen",
         "description": "Antigravity meldet sich mit Ihrem Google-Konto über die lokale Antigravity/Gemini CLI an. Es gibt keinen API-Schlüssel — die Anmeldedaten werden lokal gelesen und das Zugriffstoken wird automatisch aktualisiert.",
+        "expires_at": "Token läuft ab",
         "not_signed_in": "Nicht angemeldet. Melden Sie sich mit der Antigravity CLI an, um diesen Anbieter zu nutzen.",
         "plan": "Plan: {{plan}}",
         "project": "Projekt: {{project}}",
+        "quota_refresh_token": "Aktualisierungstoken",
         "refresh": "Aktualisieren",
+        "resets_in": "wird in {{time}} zurückgesetzt",
+        "session": "Sitzung",
         "signed_in": "Angemeldet als {{email}}",
+        "usage": "Nutzung",
         "warning": "Google untersagt die Nutzung durch Drittanbieter-Tools. Nutzung auf eigene Gefahr."
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "Mehrere API-Schlüssel testen",
       "claude_code": {
         "auth_file_hint": "Führen Sie `claude setup-token` in einem Terminal aus und klicken Sie dann auf Aktualisieren. Die Anmeldedaten werden aus ~/.claude/.credentials.json gelesen.",
+        "auth_file_path": "Pfad zur Authentifizierungsdatei",
+        "browse": "Durchsuchen",
         "description": "Claude Code meldet sich mit Ihrem Anthropic-Konto über die offizielle Claude Code CLI an. Es gibt keinen API-Schlüssel — die Anmeldedaten werden aus der lokalen Datei gelesen, die von der CLI geschrieben wurde, und das Zugriffstoken wird automatisch aktualisiert.",
+        "expires_at": "Token läuft ab",
+        "five_hour_usage": "Sitzung (Zurücksetzung {{reset}})",
         "not_signed_in": "Nicht angemeldet. Melden Sie sich mit der Claude Code CLI an, um diesen Anbieter zu nutzen.",
         "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Aktualisierungstoken",
         "refresh": "Aktualisieren",
+        "seven_day_usage": "Wöchentlich (Zurücksetzung {{reset}})",
         "signed_in": "Angemeldet",
+        "usage": "Nutzung",
         "warning": "Anthropic untersagt die Nutzung durch Drittanbieter-Tools. Nutzung auf eigene Gefahr."
       },
       "codex": {
         "auth_file_hint": "Führen Sie `codex login` in einem Terminal aus und klicken Sie dann auf Aktualisieren. Die Anmeldedaten werden aus ~/.codex/auth.json gelesen.",
+        "auth_file_path": "Pfad zur Authentifizierungsdatei",
+        "browse": "Durchsuchen",
         "description": "Codex meldet sich mit Ihrem ChatGPT-Konto über die offizielle Codex CLI an. Es gibt keinen API-Schlüssel — die Anmeldedaten werden aus der lokalen Datei gelesen, die von der CLI geschrieben wurde.",
+        "expires_at": "Token läuft ab",
         "not_signed_in": "Nicht angemeldet. Melden Sie sich mit der Codex CLI an, um diesen Anbieter zu nutzen.",
         "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Aktualisierungstoken",
         "refresh": "Aktualisieren",
-        "signed_in": "Angemeldet als {{email}}"
+        "session_usage": "Sitzung (Zurücksetzung {{reset}})",
+        "signed_in": "Angemeldet als {{email}}",
+        "usage": "Nutzung",
+        "weekly_usage": "Wöchentlich (Zurücksetzung {{reset}})"
       },
       "copilot": {
         "auth_failed": "Github Copilot-Authentifizierung fehlgeschlagen",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Bestätigung beim Löschen von Themen verlangen"
+      },
       "pin_to_top": "Thema anpinnen",
       "position": {
         "label": "Themenposition",

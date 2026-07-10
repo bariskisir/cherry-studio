@@ -40,6 +40,10 @@ vi.mock('@renderer/hooks/useAssistant', () => ({
 
 // Mock reasoning.ts utility functions
 vi.mock('@renderer/config/models', () => ({
+  getDynamicReasoningEffortOptions: (model: Model) => {
+    if (!model.reasoningLevels?.length) return undefined
+    return ['default', ...new Set(model.reasoningLevels.map(({ effort }) => effort.trim()).filter(Boolean))]
+  },
   getThinkModelType: (...args: any[]) => mockGetThinkModelType(...args),
   isFixedReasoningModel: (...args: any[]) => mockIsFixedReasoningModel(...args),
   isGPT5SeriesReasoningModel: (...args: any[]) => mockIsGPT5SeriesReasoningModel(...args),

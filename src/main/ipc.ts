@@ -897,12 +897,6 @@ export async function registerIpc(mainWindow: BrowserWindow, app: Electron.App) 
     AntigravityService.getQuota(validateAntigravityAuthOptions(options))
   )
   ipcMain.handle(IpcChannel.Antigravity_FetchModels, AntigravityService.fetchModels.bind(AntigravityService))
-  ipcMain.handle(IpcChannel.Antigravity_SetAuthPath, (_e, authFilePath) => {
-    AntigravityService.setAuthPath(validateAuthFilePath(authFilePath) ?? '')
-  })
-  ipcMain.handle(IpcChannel.Antigravity_SetAuthSource, (_e, useCredMan) => {
-    AntigravityService.setUseCredentialManager(validateBoolean(useCredMan, 'useCredentialManager'))
-  })
   ipcMain.handle(IpcChannel.Antigravity_SetSkipRefresh, (_e, value) => {
     AntigravityService.setSkipRefresh(validateBoolean(value, 'skipRefresh'))
   })

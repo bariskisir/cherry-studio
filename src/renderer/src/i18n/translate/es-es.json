@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "Rellenar solo cuando el proveedor proporcione una dirección base compatible con Claude.",
       "antigravity": {
         "auth_file_hint": "Inicie sesión con la CLI de Antigravity/Gemini y luego haga clic en Actualizar. Las credenciales se leen del Administrador de Credenciales de Windows (o ~/.antigravity/.credentials.json).",
+        "auth_file_path": "Ruta del archivo de autenticación",
+        "auth_source": "Fuente de autenticación",
+        "auth_source_file": "Archivo de autenticación",
+        "auth_source_windows": "Credenciales de Windows",
+        "browse": "Examinar",
         "description": "Antigravity inicia sesión con su cuenta de Google a través de la CLI local de Antigravity/Gemini. No hay clave API — las credenciales se leen localmente y el token de acceso se renueva automáticamente.",
+        "expires_at": "Caducidad del token",
         "not_signed_in": "No ha iniciado sesión. Inicie sesión con la CLI de Antigravity para usar este proveedor.",
         "plan": "Plan: {{plan}}",
         "project": "Proyecto: {{project}}",
+        "quota_refresh_token": "Token de actualización",
         "refresh": "Actualizar",
+        "resets_in": "se restablece en {{time}}",
+        "session": "Sesión",
         "signed_in": "Sesión iniciada como {{email}}",
+        "usage": "Uso",
         "warning": "Google prohíbe el uso por herramientas de terceros. Úselo bajo su propio riesgo."
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "Verificar múltiples claves API",
       "claude_code": {
         "auth_file_hint": "Ejecute `claude setup-token` en una terminal y luego haga clic en Actualizar. Las credenciales se leen de ~/.claude/.credentials.json.",
+        "auth_file_path": "Ruta del archivo de autenticación",
+        "browse": "Examinar",
         "description": "Claude Code inicia sesión con su cuenta de Anthropic a través de la CLI oficial de Claude Code. No hay clave API — las credenciales se leen del archivo local escrito por la CLI y el token de acceso se renueva automáticamente.",
+        "expires_at": "Caducidad del token",
+        "five_hour_usage": "Sesión (se restablece {{reset}})",
         "not_signed_in": "No ha iniciado sesión. Inicie sesión con la CLI de Claude Code para usar este proveedor.",
         "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Token de actualización",
         "refresh": "Actualizar",
+        "seven_day_usage": "Semanal (se restablece {{reset}})",
         "signed_in": "Sesión iniciada",
+        "usage": "Uso",
         "warning": "Anthropic prohíbe el uso por herramientas de terceros. Úselo bajo su propio riesgo."
       },
       "codex": {
         "auth_file_hint": "Ejecute `codex login` en una terminal y luego haga clic en Actualizar. Las credenciales se leen de ~/.codex/auth.json.",
+        "auth_file_path": "Ruta del archivo de autenticación",
+        "browse": "Examinar",
         "description": "Codex inicia sesión con su cuenta de ChatGPT a través de la CLI oficial de Codex. No hay clave API — las credenciales se leen del archivo local escrito por la CLI.",
+        "expires_at": "Caducidad del token",
         "not_signed_in": "No ha iniciado sesión. Inicie sesión con la CLI de Codex para usar este proveedor.",
         "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Token de actualización",
         "refresh": "Actualizar",
-        "signed_in": "Sesión iniciada como {{email}}"
+        "session_usage": "Sesión (se restablece {{reset}})",
+        "signed_in": "Sesión iniciada como {{email}}",
+        "usage": "Uso",
+        "weekly_usage": "Semanal (se restablece {{reset}})"
       },
       "copilot": {
         "auth_failed": "Autenticación de Github Copilot fallida",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Solicitar confirmación para eliminar temas"
+      },
       "pin_to_top": "Fijar tema en la parte superior",
       "position": {
         "label": "Posición del tema",

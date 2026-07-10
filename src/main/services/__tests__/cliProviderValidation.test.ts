@@ -95,21 +95,19 @@ describe('validateCliAuthOptions', () => {
 })
 
 describe('validateAntigravityAuthOptions', () => {
-  it('extends CLI options with useCredentialManager', () => {
+  it('accepts the refresh-token preference', () => {
     const result = validateAntigravityAuthOptions({
-      useCredentialManager: false
+      refreshToken: false
     })
-    expect(result?.useCredentialManager).toBe(false)
+    expect(result?.refreshToken).toBe(false)
   })
 
-  it('leaves useCredentialManager undefined when not provided', () => {
+  it('leaves refreshToken undefined when not provided', () => {
     const result = validateAntigravityAuthOptions({})
-    expect(result?.useCredentialManager).toBeUndefined()
+    expect(result?.refreshToken).toBeUndefined()
   })
 
-  it('throws for invalid useCredentialManager', () => {
-    expect(() => validateAntigravityAuthOptions({ useCredentialManager: 'yes' })).toThrow(
-      'useCredentialManager must be a boolean'
-    )
+  it('throws for invalid refreshToken', () => {
+    expect(() => validateAntigravityAuthOptions({ refreshToken: 'yes' })).toThrow('refreshToken must be a boolean')
   })
 })

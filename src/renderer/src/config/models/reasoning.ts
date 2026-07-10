@@ -251,18 +251,35 @@ export const getThinkModelType = (model: Model): ThinkingModelType => {
   }
 }
 
-const _getModelSupportedReasoningEffortOptions = (model: Model): ReasoningEffortOption[] | undefined => {
-  if (model.reasoningLevels && model.reasoningLevels.length > 0) {
-    const levels: ReasoningEffortOption[] = ['default']
-    const added = new Set<string>()
-    for (const rl of model.reasoningLevels) {
-      if (rl.effort && !added.has(rl.effort)) {
-        levels.push(rl.effort as ReasoningEffortOption)
-        added.add(rl.effort)
-      }
+export const getDynamicReasoningEffortOptions = (
+  model: Model | undefined | null
+): ReasoningEffortOption[] | undefined => {
+  if (!model?.reasoningLevels?.length) return undefined
+
+  const options: ReasoningEffortOption[] = ['default']
+  const added = new Set<ReasoningEffortOption>(options)
+  for (const { effort } of model.reasoningLevels) {
+    const option = effort.trim()
+    if (option && !added.has(option)) {
+      options.push(option)
+      added.add(option)
     }
-    return levels
   }
+  return options
+}
+
+export const getDefaultReasoningEffortOption = (
+  model: Model,
+  supportedOptions: ReasoningEffortOption[]
+): ReasoningEffortOption => {
+  const serverDefault = model.defaultReasoningLevel?.trim()
+  if (serverDefault && supportedOptions.includes(serverDefault)) return serverDefault
+  return supportedOptions.find((option) => option !== 'default' && option !== 'none') ?? supportedOptions[0]
+}
+
+const _getModelSupportedReasoningEffortOptions = (model: Model): ReasoningEffortOption[] | undefined => {
+  const dynamicOptions = getDynamicReasoningEffortOptions(model)
+  if (dynamicOptions) return dynamicOptions
   if (!isSupportedReasoningEffortModel(model) && !isSupportedThinkingTokenModel(model)) {
     return undefined
   }
@@ -347,7 +364,7 @@ function _isSupportedThinkingTokenModel(model: Model): boolean {
 // TODO: rename it
 export function isSupportedThinkingTokenModel(model?: Model): boolean {
   if (!model) return false
-  if (model.supportsThinking) return true
+  if (model.supportsThinking === true) return true
   const { idResult, nameResult } = withModelIdAndNameAsId(model, _isSupportedThinkingTokenModel)
   return idResult || nameResult
 }
@@ -358,7 +375,7 @@ export function isSupportedReasoningEffortModel(model?: Model): boolean {
     return false
   }
 
-  if (model.reasoningLevels && model.reasoningLevels.length > 0) {
+  if (getDynamicReasoningEffortOptions(model)) {
     return true
   }
 
@@ -874,11 +891,11 @@ export function isReasoningModel(model?: Model): boolean {
     return isUserSelectedModelType(model, 'reasoning')!
   }
 
-  if (model.reasoningLevels && model.reasoningLevels.length > 0) {
+  if (getDynamicReasoningEffortOptions(model)) {
     return true
   }
 
-  if (model.supportsThinking) {
+  if (model.supportsThinking === true) {
     return true
   }
 

@@ -11,6 +11,7 @@ import {
 } from '@renderer/components/Icons/SVGIcon'
 import { QuickPanelReservedSymbol, useQuickPanel } from '@renderer/components/QuickPanel'
 import {
+  getDynamicReasoningEffortOptions,
   getThinkModelType,
   isDoubaoThinkingAutoModel,
   isFixedReasoningModel,
@@ -34,6 +35,30 @@ interface Props {
   reasoningEffort?: ThinkingOption
   onReasoningEffortChange?: (option: ThinkingOption) => void
 }
+
+const EFFORT_LABEL_KEYS: Record<string, string> = {
+  default: 'assistants.settings.reasoning_effort.default',
+  none: 'assistants.settings.reasoning_effort.off',
+  minimal: 'assistants.settings.reasoning_effort.minimal',
+  high: 'assistants.settings.reasoning_effort.high',
+  low: 'assistants.settings.reasoning_effort.low',
+  medium: 'assistants.settings.reasoning_effort.medium',
+  auto: 'assistants.settings.reasoning_effort.auto',
+  xhigh: 'assistants.settings.reasoning_effort.xhigh'
+}
+
+const EFFORT_DESCRIPTION_KEYS: Record<string, string> = {
+  default: 'assistants.settings.reasoning_effort.default_description',
+  none: 'assistants.settings.reasoning_effort.off_description',
+  minimal: 'assistants.settings.reasoning_effort.minimal_description',
+  low: 'assistants.settings.reasoning_effort.low_description',
+  medium: 'assistants.settings.reasoning_effort.medium_description',
+  high: 'assistants.settings.reasoning_effort.high_description',
+  xhigh: 'assistants.settings.reasoning_effort.xhigh_description',
+  auto: 'assistants.settings.reasoning_effort.auto_description'
+}
+
+const formatEffortName = (option: ThinkingOption): string => option.charAt(0).toUpperCase() + option.slice(1)
 
 const ThinkingButton: FC<Props> = ({
   quickPanel,
@@ -59,17 +84,8 @@ const ThinkingButton: FC<Props> = ({
 
   // 获取当前模型支持的选项
   const supportedOptions: ThinkingOption[] = useMemo(() => {
-    if (model.reasoningLevels && model.reasoningLevels.length > 0) {
-      const levels: ThinkingOption[] = ['none', 'default']
-      const added = new Set<string>()
-      for (const rl of model.reasoningLevels) {
-        if (rl.effort && !added.has(rl.effort)) {
-          levels.push(rl.effort as ThinkingOption)
-          added.add(rl.effort)
-        }
-      }
-      return levels
-    }
+    const dynamicOptions = getDynamicReasoningEffortOptions(model)
+    if (dynamicOptions) return ['none', ...dynamicOptions.filter((option) => option !== 'none')]
     if (modelType === 'doubao') {
       if (isDoubaoThinkingAutoModel(model)) {
         return ['none', 'auto', 'high']
@@ -114,43 +130,29 @@ const ThinkingButton: FC<Props> = ({
     [isControlled, onReasoningEffortChange, updateAssistantSettings, assistant.enableWebSearch, model, t]
   )
 
+  const dynamicDescriptions = useMemo(() => {
+    const descriptions = new Map<string, string>()
+    for (const { effort, description } of model.reasoningLevels ?? []) {
+      if (!descriptions.has(effort)) descriptions.set(effort, description)
+    }
+    return descriptions
+  }, [model.reasoningLevels])
+
   const getEffortLabel = useCallback(
     (option: ThinkingOption): string => {
-      const staticLabels: Record<string, string> = {
-        default: t('assistants.settings.reasoning_effort.default'),
-        none: t('assistants.settings.reasoning_effort.off'),
-        minimal: t('assistants.settings.reasoning_effort.minimal'),
-        high: t('assistants.settings.reasoning_effort.high'),
-        low: t('assistants.settings.reasoning_effort.low'),
-        medium: t('assistants.settings.reasoning_effort.medium'),
-        auto: t('assistants.settings.reasoning_effort.auto'),
-        xhigh: t('assistants.settings.reasoning_effort.xhigh')
-      }
-      return staticLabels[option] || option.charAt(0).toUpperCase() + option.slice(1)
+      const translationKey = EFFORT_LABEL_KEYS[option]
+      return translationKey ? t(translationKey) : formatEffortName(option)
     },
     [t]
   )
 
   const getEffortDescription = useCallback(
     (option: ThinkingOption): string => {
-      const staticDescriptions: Record<string, string> = {
-        default: t('assistants.settings.reasoning_effort.default_description'),
-        none: t('assistants.settings.reasoning_effort.off_description'),
-        minimal: t('assistants.settings.reasoning_effort.minimal_description'),
-        low: t('assistants.settings.reasoning_effort.low_description'),
-        medium: t('assistants.settings.reasoning_effort.medium_description'),
-        high: t('assistants.settings.reasoning_effort.high_description'),
-        xhigh: t('assistants.settings.reasoning_effort.xhigh_description'),
-        auto: t('assistants.settings.reasoning_effort.auto_description')
-      }
-      if (staticDescriptions[option]) return staticDescriptions[option]
-      if (model.reasoningLevels) {
-        const rl = model.reasoningLevels.find((l) => l.effort === option)
-        if (rl?.description) return rl.description
-      }
-      return `${option.charAt(0).toUpperCase() + option.slice(1)} reasoning`
+      const translationKey = EFFORT_DESCRIPTION_KEYS[option]
+      if (translationKey) return t(translationKey)
+      return dynamicDescriptions.get(option) ?? `${formatEffortName(option)} reasoning`
     },
-    [t, model.reasoningLevels]
+    [dynamicDescriptions, t]
   )
 
   const panelItems = useMemo(() => {

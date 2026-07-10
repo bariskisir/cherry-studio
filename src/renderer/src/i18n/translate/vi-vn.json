@@ -5302,12 +5302,22 @@
       "anthropic_api_host_tooltip": "Chỉ sử dụng khi nhà cung cấp cung cấp URL cơ sở tương thích với Claude.",
       "antigravity": {
         "auth_file_hint": "Đăng nhập bằng CLI Antigravity/Gemini, sau đó nhấp vào Làm mới. Thông tin xác thực được đọc từ Trình quản lý Thông tin xác thực Windows (hoặc ~/.antigravity/.credentials.json).",
+        "auth_file_path": "Đường dẫn tệp xác thực",
+        "auth_source": "Nguồn xác thực",
+        "auth_source_file": "Tệp xác thực",
+        "auth_source_windows": "Thông tin xác thực Windows",
+        "browse": "Duyệt",
         "description": "Antigravity đăng nhập bằng tài khoản Google của bạn thông qua CLI Antigravity/Gemini cục bộ. Không có khóa API — thông tin xác thực được đọc cục bộ và mã truy cập được làm mới tự động.",
+        "expires_at": "Thời hạn token",
         "not_signed_in": "Chưa đăng nhập. Hãy đăng nhập bằng CLI Antigravity để sử dụng nhà cung cấp này.",
         "plan": "Gói: {{plan}}",
         "project": "Dự án: {{project}}",
+        "quota_refresh_token": "Token làm mới",
         "refresh": "Làm mới",
+        "resets_in": "đặt lại sau {{time}}",
+        "session": "Phiên",
         "signed_in": "Đã đăng nhập với tư cách {{email}}",
+        "usage": "Mức sử dụng",
         "warning": "Google cấm sử dụng công cụ của bên thứ ba. Sử dụng với rủi ro của riêng bạn."
       },
       "api": {
@@ -5418,20 +5428,34 @@
       "check_multiple_keys": "Kiểm tra nhiều khóa API",
       "claude_code": {
         "auth_file_hint": "Chạy `claude setup-token` trong terminal, sau đó nhấp vào Làm mới. Thông tin xác thực được đọc từ ~/.claude/.credentials.json.",
+        "auth_file_path": "Đường dẫn tệp xác thực",
+        "browse": "Duyệt",
         "description": "Claude Code đăng nhập bằng tài khoản Anthropic của bạn thông qua CLI Claude Code chính thức. Không có khóa API — thông tin xác thực được đọc từ tệp cục bộ do CLI ghi và mã truy cập được làm mới tự động.",
+        "expires_at": "Thời hạn token",
+        "five_hour_usage": "Phiên (đặt lại {{reset}})",
         "not_signed_in": "Chưa đăng nhập. Hãy đăng nhập bằng CLI Claude Code để sử dụng nhà cung cấp này.",
         "plan": "Gói: {{plan}}",
+        "quota_refresh_token": "Token làm mới",
         "refresh": "Làm mới",
+        "seven_day_usage": "Hàng tuần (đặt lại {{reset}})",
         "signed_in": "Đã đăng nhập",
+        "usage": "Mức sử dụng",
         "warning": "Anthropic cấm sử dụng công cụ của bên thứ ba. Sử dụng với rủi ro của riêng bạn."
       },
       "codex": {
         "auth_file_hint": "Chạy `codex login` trong terminal, sau đó nhấp vào Làm mới. Thông tin xác thực được đọc từ ~/.codex/auth.json.",
+        "auth_file_path": "Đường dẫn tệp xác thực",
+        "browse": "Duyệt",
         "description": "Codex đăng nhập bằng tài khoản ChatGPT của bạn thông qua CLI Codex chính thức. Không có khóa API — thông tin xác thực được đọc từ tệp cục bộ do CLI ghi.",
+        "expires_at": "Thời hạn token",
         "not_signed_in": "Chưa đăng nhập. Hãy đăng nhập bằng CLI Codex để sử dụng nhà cung cấp này.",
         "plan": "Gói: {{plan}}",
+        "quota_refresh_token": "Token làm mới",
         "refresh": "Làm mới",
-        "signed_in": "Đã đăng nhập với tư cách {{email}}"
+        "session_usage": "Phiên (đặt lại {{reset}})",
+        "signed_in": "Đã đăng nhập với tư cách {{email}}",
+        "usage": "Mức sử dụng",
+        "weekly_usage": "Hàng tuần (đặt lại {{reset}})"
       },
       "copilot": {
         "auth_failed": "Xác thực Github Copilot thất bại.",
@@ -5831,6 +5855,9 @@
       }
     },
     "topic": {
+      "delete_confirmation": {
+        "title": "Yêu cầu xác nhận khi xóa chủ đề"
+      },
       "pin_to_top": "Ghim chủ đề lên đầu",
       "position": {
         "label": "Vị trí chủ đề",
