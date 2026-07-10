@@ -439,10 +439,10 @@ if ($r -eq $null) { exit 1 }
     }
     const models: CliProviderModel[] = []
     for (const [id, info] of Object.entries(
-      modelsObj as Record<string, { isInternal?: boolean; displayName?: string }>
+      modelsObj as Record<string, { isInternal?: boolean; displayName?: string; supportsThinking?: boolean }>
     )) {
       if (info?.isInternal === true) continue
-      models.push({ id, name: info?.displayName || id })
+      models.push({ id, name: info?.displayName || id, supportsThinking: info?.supportsThinking === true })
     }
     return models
   }

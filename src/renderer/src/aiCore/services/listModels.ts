@@ -567,7 +567,14 @@ const antigravityFetcher: ModelFetcher = {
   match: (p) => isAntigravityProvider(p),
   fetch: async (provider) => {
     const models = await window.api.antigravity.fetchModels()
-    return dedup(models, (m) => m.id).map((m) => toModel(m.id, provider, { name: m.name }))
+    return dedup(models, (m) => m.id).map((m) =>
+      toModel(m.id, provider, {
+        name: m.name,
+        supportsThinking: m.supportsThinking,
+        reasoningLevels: m.reasoningLevels,
+        defaultReasoningLevel: m.defaultReasoningLevel
+      })
+    )
   }
 }
 
@@ -576,7 +583,13 @@ const claudeCodeFetcher: ModelFetcher = {
   match: (p) => isClaudeCodeProvider(p),
   fetch: async (provider) => {
     const models = await window.api.claudeCode.fetchModels()
-    return dedup(models, (m) => m.id).map((m) => toModel(m.id, provider, { name: m.name }))
+    return dedup(models, (m) => m.id).map((m) =>
+      toModel(m.id, provider, {
+        name: m.name,
+        reasoningLevels: m.reasoningLevels,
+        defaultReasoningLevel: m.defaultReasoningLevel
+      })
+    )
   }
 }
 
@@ -585,7 +598,13 @@ const codexFetcher: ModelFetcher = {
   match: (p) => isCodexProvider(p),
   fetch: async (provider) => {
     const models = await window.api.codex.fetchModels()
-    return models.map((m) => toModel(m.id, provider, { name: m.name }))
+    return models.map((m) =>
+      toModel(m.id, provider, {
+        name: m.name,
+        reasoningLevels: m.reasoningLevels,
+        defaultReasoningLevel: m.defaultReasoningLevel
+      })
+    )
   }
 }
 

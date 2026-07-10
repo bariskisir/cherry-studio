@@ -84,7 +84,15 @@ export interface AntigravityQuota {
   hasRefreshToken: boolean
 }
 
+export interface ReasoningLevelOption {
+  effort: string
+  description: string
+}
+
 export interface CliProviderModel {
   id: string
   name: string
+  reasoningLevels?: ReasoningLevelOption[]
+  defaultReasoningLevel?: string
+  supportsThinking?: boolean
 }

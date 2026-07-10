@@ -59,6 +59,17 @@ const ThinkingButton: FC<Props> = ({
 
   // 获取当前模型支持的选项
   const supportedOptions: ThinkingOption[] = useMemo(() => {
+    if (model.reasoningLevels && model.reasoningLevels.length > 0) {
+      const levels: ThinkingOption[] = ['none', 'default']
+      const added = new Set<string>()
+      for (const rl of model.reasoningLevels) {
+        if (rl.effort && !added.has(rl.effort)) {
+          levels.push(rl.effort as ThinkingOption)
+          added.add(rl.effort)
+        }
+      }
+      return levels
+    }
     if (modelType === 'doubao') {
       if (isDoubaoThinkingAutoModel(model)) {
         return ['none', 'auto', 'high']
@@ -103,52 +114,64 @@ const ThinkingButton: FC<Props> = ({
     [isControlled, onReasoningEffortChange, updateAssistantSettings, assistant.enableWebSearch, model, t]
   )
 
-  const reasoningEffortOptionLabelMap = {
-    default: t('assistants.settings.reasoning_effort.default'),
-    none: t('assistants.settings.reasoning_effort.off'),
-    minimal: t('assistants.settings.reasoning_effort.minimal'),
-    high: t('assistants.settings.reasoning_effort.high'),
-    low: t('assistants.settings.reasoning_effort.low'),
-    medium: t('assistants.settings.reasoning_effort.medium'),
-    auto: t('assistants.settings.reasoning_effort.auto'),
-    xhigh: t('assistants.settings.reasoning_effort.xhigh')
-  } as const satisfies Record<ThinkingOption, string>
+  const getEffortLabel = useCallback(
+    (option: ThinkingOption): string => {
+      const staticLabels: Record<string, string> = {
+        default: t('assistants.settings.reasoning_effort.default'),
+        none: t('assistants.settings.reasoning_effort.off'),
+        minimal: t('assistants.settings.reasoning_effort.minimal'),
+        high: t('assistants.settings.reasoning_effort.high'),
+        low: t('assistants.settings.reasoning_effort.low'),
+        medium: t('assistants.settings.reasoning_effort.medium'),
+        auto: t('assistants.settings.reasoning_effort.auto'),
+        xhigh: t('assistants.settings.reasoning_effort.xhigh')
+      }
+      return staticLabels[option] || option.charAt(0).toUpperCase() + option.slice(1)
+    },
+    [t]
+  )
 
-  const reasoningEffortDescriptionMap = {
-    default: t('assistants.settings.reasoning_effort.default_description'),
-    none: t('assistants.settings.reasoning_effort.off_description'),
-    minimal: t('assistants.settings.reasoning_effort.minimal_description'),
-    low: t('assistants.settings.reasoning_effort.low_description'),
-    medium: t('assistants.settings.reasoning_effort.medium_description'),
-    high: t('assistants.settings.reasoning_effort.high_description'),
-    xhigh: t('assistants.settings.reasoning_effort.xhigh_description'),
-    auto: t('assistants.settings.reasoning_effort.auto_description')
-  } as const satisfies Record<ThinkingOption, string>
+  const getEffortDescription = useCallback(
+    (option: ThinkingOption): string => {
+      const staticDescriptions: Record<string, string> = {
+        default: t('assistants.settings.reasoning_effort.default_description'),
+        none: t('assistants.settings.reasoning_effort.off_description'),
+        minimal: t('assistants.settings.reasoning_effort.minimal_description'),
+        low: t('assistants.settings.reasoning_effort.low_description'),
+        medium: t('assistants.settings.reasoning_effort.medium_description'),
+        high: t('assistants.settings.reasoning_effort.high_description'),
+        xhigh: t('assistants.settings.reasoning_effort.xhigh_description'),
+        auto: t('assistants.settings.reasoning_effort.auto_description')
+      }
+      if (staticDescriptions[option]) return staticDescriptions[option]
+      if (model.reasoningLevels) {
+        const rl = model.reasoningLevels.find((l) => l.effort === option)
+        if (rl?.description) return rl.description
+      }
+      return `${option.charAt(0).toUpperCase() + option.slice(1)} reasoning`
+    },
+    [t, model.reasoningLevels]
+  )
 
   const panelItems = useMemo(() => {
     // 使用表中定义的选项创建UI选项
     return supportedOptions.map((option) => ({
       level: option,
-      label: reasoningEffortOptionLabelMap[option],
-      description: reasoningEffortDescriptionMap[option],
+      label: getEffortLabel(option),
+      description: getEffortDescription(option),
       icon: ThinkingIcon({ option }),
       isSelected: currentReasoningEffort === option,
       action: () => onThinkingChange(option)
     }))
-  }, [
-    supportedOptions,
-    reasoningEffortOptionLabelMap,
-    reasoningEffortDescriptionMap,
-    currentReasoningEffort,
-    onThinkingChange
-  ])
+  }, [supportedOptions, getEffortLabel, getEffortDescription, currentReasoningEffort, onThinkingChange])
 
   const isThinkingEnabled =
     currentReasoningEffort !== undefined && currentReasoningEffort !== 'none' && currentReasoningEffort !== 'default'
 
-  // Check if model supports multiple thinking levels (more than one of: low, medium, high, xhigh, minimal)
+  // Check if model supports multiple thinking levels (not just on/off)
   const hasMultipleLevels = useMemo(() => {
-    return supportedOptions.filter((opt) => ['low', 'medium', 'high', 'xhigh', 'minimal'].includes(opt)).length > 1
+    const effortLevels = supportedOptions.filter((opt) => opt !== 'none' && opt !== 'default' && opt !== 'auto')
+    return effortLevels.length > 1
   }, [supportedOptions])
 
   const disableThinking = useCallback(() => {
@@ -260,8 +283,10 @@ const ThinkingIcon = (props: { option?: ThinkingOption; isFixedReasoning?: boole
         IconComponent = MdiLightbulbOffOutline
         break
       case 'default':
-      default:
         IconComponent = MdiLightbulbQuestion
+        break
+      default:
+        IconComponent = MdiLightbulbOn
         break
     }
   }

@@ -4,7 +4,8 @@ import type {
   CliProviderModel,
   CodexCredentials,
   CodexQuota,
-  CodexStatus
+  CodexStatus,
+  ReasoningLevelOption
 } from '@shared/cliProvider'
 import { app, net } from 'electron'
 import os from 'os'
@@ -195,7 +196,15 @@ class CodexService {
           const id = item?.slug || item?.model || item?.id
           const name = item?.display_name || item?.displayName || id
           if (id && !id.toLowerCase().includes('auto-review') && !id.toLowerCase().includes('auto_review')) {
-            models.push({ id, name })
+            const reasoningLevelsRaw = item?.supported_reasoning_levels
+            const reasoningLevels: ReasoningLevelOption[] | undefined = Array.isArray(reasoningLevelsRaw)
+              ? reasoningLevelsRaw
+                  .filter((rl: any) => rl?.effort && rl?.description)
+                  .map((rl: any) => ({ effort: rl.effort, description: rl.description }))
+              : undefined
+            const defaultReasoningLevel: string | undefined =
+              typeof item?.default_reasoning_level === 'string' ? item.default_reasoning_level : undefined
+            models.push({ id, name, reasoningLevels, defaultReasoningLevel })
           }
         }
       }

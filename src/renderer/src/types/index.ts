@@ -153,7 +153,12 @@ const ThinkModelTypes = [
  *            It's also used as "on" when the reasoning behavior of the model only could be set to "on" and "off".
  * - 'default': Depend on default behavior. It means we would not set any reasoning related settings when calling API.
  */
-export type ReasoningEffortOption = NonNullable<OpenAI.ReasoningEffort> | 'auto' | 'default'
+export interface ReasoningLevelOption {
+  effort: string
+  description: string
+}
+
+export type ReasoningEffortOption = NonNullable<OpenAI.ReasoningEffort> | 'auto' | 'default' | (string & {})
 export type ThinkingOption = ReasoningEffortOption
 export type ThinkingModelType = (typeof ThinkModelTypes)[number]
 export type ThinkingOptionConfig = Record<ThinkingModelType, ThinkingOption[]>
@@ -335,6 +340,9 @@ export type Model = {
   endpoint_type?: EndpointType
   supported_endpoint_types?: EndpointType[]
   supported_text_delta?: boolean
+  reasoningLevels?: ReasoningLevelOption[]
+  defaultReasoningLevel?: string
+  supportsThinking?: boolean
 }
 
 export type Suggestion = {

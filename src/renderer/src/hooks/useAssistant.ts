@@ -1,10 +1,10 @@
 import { loggerService } from '@logger'
 import {
+  getModelSupportedReasoningEffortOptions,
   getThinkModelType,
   isSupportedReasoningEffortModel,
   isSupportedThinkingTokenModel,
-  MODEL_SUPPORTED_OPTIONS,
-  MODEL_SUPPORTED_REASONING_EFFORT
+  MODEL_SUPPORTED_OPTIONS
 } from '@renderer/config/models'
 import { db } from '@renderer/databases'
 import { getDefaultTopic } from '@renderer/services/AssistantService'
@@ -25,6 +25,7 @@ import {
   updateTopics
 } from '@renderer/store/assistants'
 import { setDefaultModel, setQuickModel, setTranslateModel } from '@renderer/store/llm'
+import type { ReasoningEffortOption } from '@renderer/types'
 import type { Assistant, AssistantSettings, Model, ThinkingOption, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
@@ -111,8 +112,8 @@ export function useAssistant(id: string) {
     if (settings) {
       const currentReasoningEffort = settings.reasoning_effort
       if (isSupportedThinkingTokenModel(model) || isSupportedReasoningEffortModel(model)) {
-        const modelType = getThinkModelType(model)
-        const supportedOptions = MODEL_SUPPORTED_OPTIONS[modelType]
+        const dynamicOptions = getModelSupportedReasoningEffortOptions(model)
+        const supportedOptions = dynamicOptions || MODEL_SUPPORTED_OPTIONS[getThinkModelType(model)]
         if (supportedOptions.every((option) => option !== currentReasoningEffort)) {
           const cache = settings.reasoning_effort_cache
           let fallbackOption: ThinkingOption
@@ -125,8 +126,10 @@ export function useAssistant(id: string) {
             // 注意：这里假设可用的options不会为空
             const enableThinking = currentReasoningEffort !== undefined
             fallbackOption = enableThinking
-              ? MODEL_SUPPORTED_REASONING_EFFORT[modelType][0]
-              : MODEL_SUPPORTED_OPTIONS[modelType][0]
+              ? ((model.defaultReasoningLevel ||
+                  supportedOptions.find((o) => o !== 'default' && o !== 'none') ||
+                  'high') as ReasoningEffortOption)
+              : supportedOptions[0]
           }
 
           updateAssistantSettings({

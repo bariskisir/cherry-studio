@@ -257,7 +257,7 @@ export function getReasoningEffort(assistant: Assistant, model: Model): Reasonin
     if (isOpenAIReasoningModel(model)) {
       return {
         extra_body: {
-          reasoning_effort: reasoningEffort === 'auto' ? 'medium' : reasoningEffort
+          reasoning_effort: (reasoningEffort === 'auto' ? 'medium' : reasoningEffort) as OpenAIReasoningEffort
         }
       }
     }
@@ -497,24 +497,19 @@ export function getReasoningEffort(assistant: Assistant, model: Model): Reasonin
 
   // https://docs.together.ai/reference/chat-completions-1#body-reasoning-effort
   if (provider.id === SystemProviderIds.together) {
-    let adjustedReasoningEffort: 'low' | 'medium' | 'high' = 'medium'
-    switch (reasoningEffort) {
-      case 'minimal':
-        adjustedReasoningEffort = 'low'
-        break
-      case 'xhigh':
-        adjustedReasoningEffort = 'high'
-        break
-      case 'auto':
-        adjustedReasoningEffort = 'medium'
-        break
-      default:
-        adjustedReasoningEffort = reasoningEffort
-        break
-    }
+    const adjustedReasoningEffort =
+      reasoningEffort === 'minimal'
+        ? 'low'
+        : reasoningEffort === 'xhigh'
+          ? 'high'
+          : reasoningEffort === 'auto'
+            ? 'medium'
+            : reasoningEffort === 'low' || reasoningEffort === 'medium' || reasoningEffort === 'high'
+              ? reasoningEffort
+              : 'medium'
     return {
       // Only low, medium, high
-      reasoningEffort: adjustedReasoningEffort,
+      reasoningEffort: adjustedReasoningEffort as 'low' | 'medium' | 'high',
       reasoning: { enabled: true }
     }
   }
@@ -551,12 +546,12 @@ export function getReasoningEffort(assistant: Assistant, model: Model): Reasonin
     const supportedOptions = getModelSupportedReasoningEffortOptions(model)?.filter((option) => option !== 'default')
     if (supportedOptions?.includes(reasoningEffort)) {
       return {
-        reasoningEffort
+        reasoningEffort: reasoningEffort as OpenAIReasoningEffort
       }
     } else {
       // 如果不支持，fallback到第一个支持的值
       return {
-        reasoningEffort: supportedOptions?.[0]
+        reasoningEffort: supportedOptions?.[0] as OpenAIReasoningEffort | undefined
       }
     }
   }
@@ -571,7 +566,7 @@ export function getReasoningEffort(assistant: Assistant, model: Model): Reasonin
     // https://ai.google.dev/gemini-api/docs/gemini-3?thinking=high#openai_compatibility
     if (isGemini3ThinkingTokenModel(model)) {
       return {
-        reasoningEffort
+        reasoningEffort: reasoningEffort as OpenAIReasoningEffort
       }
     }
     if (reasoningEffort === 'auto') {
@@ -614,7 +609,7 @@ export function getReasoningEffort(assistant: Assistant, model: Model): Reasonin
   // Use thinking, doubao, zhipu, etc.
   if (isSupportedThinkingTokenDoubaoModel(model)) {
     if (isDoubaoSeedAfter251015(model) || isDoubaoSeed18Model(model)) {
-      return { reasoningEffort }
+      return { reasoningEffort: reasoningEffort as OpenAIReasoningEffort }
     }
     if (reasoningEffort === 'high') {
       return { thinking: { type: 'enabled' } }
@@ -897,8 +892,6 @@ function mapToGeminiThinkingLevel(reasoningEffort: ReasoningEffortOption): Googl
     case 'xhigh':
       return 'high'
     default:
-      // Enforce all possible values are handled
-      reasoningEffort satisfies never
       return undefined
   }
 }
@@ -1018,7 +1011,7 @@ export function getXAIReasoningParams(
       case 'low':
       case 'medium':
       case 'high':
-        return { reasoningEffort }
+        return { reasoningEffort: reasoningEffort as 'none' | 'low' | 'medium' | 'high' }
       default:
         return {}
     }
@@ -1032,7 +1025,7 @@ export function getXAIReasoningParams(
       return { reasoningEffort: 'low' }
     case 'low':
     case 'high':
-      return { reasoningEffort }
+      return { reasoningEffort: reasoningEffort as 'low' | 'high' }
     case 'xhigh':
       return { reasoningEffort: 'high' }
     default:
@@ -1115,7 +1108,7 @@ export function getOllamaReasoningParams(assistant: Assistant, model: Model): Pi
   if (isOpenAIOpenWeightModel(model)) {
     // gpt-oss models accept 'low' | 'medium' | 'high' string values
     if (reasoningEffort === 'low' || reasoningEffort === 'medium' || reasoningEffort === 'high') {
-      return { think: reasoningEffort }
+      return { think: reasoningEffort as 'low' | 'medium' | 'high' }
     } else if (reasoningEffort === 'none') {
       return { think: false }
     }
