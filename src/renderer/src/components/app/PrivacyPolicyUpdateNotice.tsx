@@ -22,8 +22,8 @@ const PopupContainer: FC<Props> = ({ resolve }) => {
     // Special Note (Regarding This Policy Update): Due to adjustments in our data collection architecture associated with this update, all related toggles under [Settings] - [General Settings] - [Privacy Settings] will be reset to their default ON state upon activation of the new version.
     // If you wish to maintain your previous OFF settings, please revisit the privacy settings page to make the necessary adjustments after upgrading. We apologize for any inconvenience this may cause and appreciate your understanding.
     if (String(LATEST_PRIVACY_POLICY_VERSION) === '20260531') {
-      dispatch(setEnableDataCollection(true))
-      void window.api.config.set('enableDataCollection', true)
+      dispatch(setEnableDataCollection(false))
+      void window.api.config.set('enableDataCollection', false)
     }
   }, [dispatch])
 

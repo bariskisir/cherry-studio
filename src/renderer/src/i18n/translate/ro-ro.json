@@ -3415,6 +3415,7 @@
     "aionly": "AiOnly",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "Baichuan",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "Alibaba Cloud",
     "deepseek": "DeepSeek",
@@ -5297,6 +5300,16 @@
       "anthropic_api_host": "Gazdă API Anthropic",
       "anthropic_api_host_preview": "Previzualizare Anthropic: {{url}}",
       "anthropic_api_host_tooltip": "Folosește doar când furnizorul oferă un URL de bază compatibil cu Claude.",
+      "antigravity": {
+        "auth_file_hint": "Conectați-vă cu CLI Antigravity/Gemini, apoi faceți clic pe Reîmprospătare. Credențialele sunt citite din Managerul de Credențiale Windows (sau ~/.antigravity/.credentials.json).",
+        "description": "Antigravity se conectează cu contul dvs. Google prin intermediul CLI-ului local Antigravity/Gemini. Nu există cheie API — credențialele sunt citite local și tokenul de acces este reîmprospătat automat.",
+        "not_signed_in": "Nu sunteți conectat. Conectați-vă cu CLI Antigravity pentru a utiliza acest furnizor.",
+        "plan": "Plan: {{plan}}",
+        "project": "Proiect: {{project}}",
+        "refresh": "Reîmprospătare",
+        "signed_in": "Conectat ca {{email}}",
+        "warning": "Google interzice utilizarea de către instrumente terțe. Utilizați pe propriul risc."
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5416,23 @@
       "check": "Verifică",
       "check_all_keys": "Verifică toate cheile",
       "check_multiple_keys": "Verifică chei API multiple",
+      "claude_code": {
+        "auth_file_hint": "Rulați `claude setup-token` într-un terminal, apoi faceți clic pe Reîmprospătare. Credențialele sunt citite din ~/.claude/.credentials.json.",
+        "description": "Claude Code se conectează cu contul dvs. Anthropic prin intermediul CLI-ului oficial Claude Code. Nu există cheie API — credențialele sunt citite din fișierul local scris de CLI și tokenul de acces este reîmprospătat automat.",
+        "not_signed_in": "Nu sunteți conectat. Conectați-vă cu CLI Claude Code pentru a utiliza acest furnizor.",
+        "plan": "Plan: {{plan}}",
+        "refresh": "Reîmprospătare",
+        "signed_in": "Conectat",
+        "warning": "Anthropic interzice utilizarea de către instrumente terțe. Utilizați pe propriul risc."
+      },
+      "codex": {
+        "auth_file_hint": "Rulați `codex login` într-un terminal, apoi faceți clic pe Reîmprospătare. Credențialele sunt citite din ~/.codex/auth.json.",
+        "description": "Codex se conectează cu contul dvs. ChatGPT prin intermediul CLI-ului oficial Codex. Nu există cheie API — credențialele sunt citite din fișierul local scris de CLI.",
+        "not_signed_in": "Nu sunteți conectat. Conectați-vă cu CLI Codex pentru a utiliza acest furnizor.",
+        "plan": "Plan: {{plan}}",
+        "refresh": "Reîmprospătare",
+        "signed_in": "Conectat ca {{email}}"
+      },
       "copilot": {
         "auth_failed": "Autentificarea Github Copilot a eșuat.",
         "auth_success": "Autentificarea GitHub Copilot a reușit.",

@@ -3,6 +3,20 @@ import type { TokenUsageData } from '@cherrystudio/analytics-client'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { SpanEntity, TokenUsage } from '@mcp-trace/trace-core'
 import type { SpanContext } from '@opentelemetry/api'
+import type {
+  AntigravityAuthOptions,
+  AntigravityCredentials,
+  AntigravityQuota,
+  AntigravityStatus,
+  ClaudeCodeCredentials,
+  ClaudeCodeQuota,
+  ClaudeCodeStatus,
+  CliAuthFileOptions,
+  CliProviderModel,
+  CodexCredentials,
+  CodexQuota,
+  CodexStatus
+} from '@shared/cliProvider'
 import type { GitBashPathInfo, TerminalConfig, UpgradeChannel } from '@shared/config/constant'
 import type { LogLevel, LogSourceWithContext } from '@shared/config/logger'
 import type {
@@ -455,6 +469,34 @@ const api = {
     getToken: (headers?: Record<string, string>) => ipcRenderer.invoke(IpcChannel.Copilot_GetToken, headers),
     logout: () => ipcRenderer.invoke(IpcChannel.Copilot_Logout),
     getUser: (token: string) => ipcRenderer.invoke(IpcChannel.Copilot_GetUser, token)
+  },
+  codex: {
+    getCredentials: (): Promise<CodexCredentials> => ipcRenderer.invoke(IpcChannel.Codex_GetCredentials),
+    getStatus: (): Promise<CodexStatus> => ipcRenderer.invoke(IpcChannel.Codex_GetStatus),
+    getQuota: (options?: CliAuthFileOptions): Promise<CodexQuota> =>
+      ipcRenderer.invoke(IpcChannel.Codex_GetQuota, options),
+    fetchModels: (): Promise<CliProviderModel[]> => ipcRenderer.invoke(IpcChannel.Codex_FetchModels),
+    setAuthPath: (authFilePath: string) => ipcRenderer.invoke(IpcChannel.Codex_SetAuthPath, authFilePath),
+    setSkipRefresh: (value: boolean) => ipcRenderer.invoke(IpcChannel.Codex_SetSkipRefresh, value)
+  },
+  antigravity: {
+    getCredentials: (): Promise<AntigravityCredentials> => ipcRenderer.invoke(IpcChannel.Antigravity_GetCredentials),
+    getStatus: (): Promise<AntigravityStatus> => ipcRenderer.invoke(IpcChannel.Antigravity_GetStatus),
+    getQuota: (options?: AntigravityAuthOptions): Promise<AntigravityQuota> =>
+      ipcRenderer.invoke(IpcChannel.Antigravity_GetQuota, options),
+    fetchModels: (): Promise<CliProviderModel[]> => ipcRenderer.invoke(IpcChannel.Antigravity_FetchModels),
+    setAuthPath: (authFilePath: string) => ipcRenderer.invoke(IpcChannel.Antigravity_SetAuthPath, authFilePath),
+    setAuthSource: (useCredMan: boolean) => ipcRenderer.invoke(IpcChannel.Antigravity_SetAuthSource, useCredMan),
+    setSkipRefresh: (value: boolean) => ipcRenderer.invoke(IpcChannel.Antigravity_SetSkipRefresh, value)
+  },
+  claudeCode: {
+    getCredentials: (): Promise<ClaudeCodeCredentials> => ipcRenderer.invoke(IpcChannel.ClaudeCode_GetCredentials),
+    getStatus: (): Promise<ClaudeCodeStatus> => ipcRenderer.invoke(IpcChannel.ClaudeCode_GetStatus),
+    getQuota: (options?: CliAuthFileOptions): Promise<ClaudeCodeQuota> =>
+      ipcRenderer.invoke(IpcChannel.ClaudeCode_GetQuota, options),
+    fetchModels: (): Promise<CliProviderModel[]> => ipcRenderer.invoke(IpcChannel.ClaudeCode_FetchModels),
+    setAuthPath: (authFilePath: string) => ipcRenderer.invoke(IpcChannel.ClaudeCode_SetAuthPath, authFilePath),
+    setSkipRefresh: (value: boolean) => ipcRenderer.invoke(IpcChannel.ClaudeCode_SetSkipRefresh, value)
   },
   cherryin: {
     saveToken: (accessToken: string, refreshToken?: string) =>

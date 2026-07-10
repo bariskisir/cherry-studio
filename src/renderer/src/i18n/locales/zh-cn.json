@@ -3415,6 +3415,7 @@
     "aionly": "唯一AI (AiOnly)",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "百川",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "阿里云百炼",
     "deepseek": "深度求索",
@@ -3950,6 +3953,7 @@
         "button": "查看",
         "title": "更新日志"
       },
+
       "social": {
         "title": "社交账号"
       },
@@ -5297,6 +5301,26 @@
       "anthropic_api_host": "Anthropic API 地址",
       "anthropic_api_host_preview": "Anthropic 预览：{{url}}",
       "anthropic_api_host_tooltip": "仅当服务商提供 Claude 兼容的基础地址时填写。",
+      "antigravity": {
+        "auth_file_hint": "使用 Antigravity/Gemini CLI 登录后点击刷新。凭据从 Windows 凭据管理器（或 ~/.antigravity/.credentials.json）读取。",
+        "auth_file_path": "认证文件路径",
+        "auth_source": "认证源",
+        "auth_source_file": "认证文件",
+        "auth_source_windows": "Windows 凭据",
+        "browse": "浏览",
+        "description": "Antigravity 通过本地 Antigravity/Gemini CLI 使用你的 Google 账号登录。无需 API 密钥——凭据从本地读取，访问令牌会自动刷新。",
+        "expires_at": "令牌过期",
+        "not_signed_in": "未登录。请先通过 Antigravity CLI 登录以使用该提供商。",
+        "plan": "套餐：{{plan}}",
+        "project": "项目：{{project}}",
+        "quota_refresh_token": "刷新令牌",
+        "refresh": "刷新",
+        "resets_in": "{{time}}后重置",
+        "session": "会话",
+        "signed_in": "邮箱：{{email}}",
+        "usage": "使用量",
+        "warning": "Google 禁止第三方工具使用。使用风险自负。"
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5427,37 @@
       "check": "检测",
       "check_all_keys": "检测所有密钥",
       "check_multiple_keys": "检测多个 API 密钥",
+      "claude_code": {
+        "auth_file_hint": "在终端运行 `claude setup-token`，然后点击刷新。凭据将从 ~/.claude/.credentials.json 读取。",
+        "auth_file_path": "认证文件路径",
+        "browse": "浏览",
+        "description": "Claude Code 通过官方 Claude Code CLI 使用你的 Anthropic 账号登录。无需 API 密钥——凭据从 CLI 写入的本地文件读取，访问令牌会自动刷新。",
+        "expires_at": "令牌过期",
+        "five_hour_usage": "会话（{{reset}}后重置）",
+        "not_signed_in": "未登录。请先通过 Claude Code CLI 登录以使用该提供商。",
+        "plan": "套餐：{{plan}}",
+        "quota_refresh_token": "刷新令牌",
+        "refresh": "刷新",
+        "seven_day_usage": "每周（{{reset}}后重置）",
+        "signed_in": "已登录",
+        "usage": "使用量",
+        "warning": "Anthropic 禁止第三方工具使用。使用风险自负。"
+      },
+      "codex": {
+        "auth_file_hint": "在终端运行 `codex login`，然后点击刷新。凭据将从 ~/.codex/auth.json 读取。",
+        "auth_file_path": "认证文件路径",
+        "browse": "浏览",
+        "description": "Codex 通过官方 Codex CLI 使用你的 ChatGPT 账号登录。无需 API 密钥——凭据将从 CLI 写入的本地文件读取。",
+        "expires_at": "令牌过期",
+        "not_signed_in": "未登录。请先通过 Codex CLI 登录以使用该提供商。",
+        "plan": "套餐：{{plan}}",
+        "quota_refresh_token": "刷新令牌",
+        "refresh": "刷新",
+        "session_usage": "会话（{{reset}}后重置）",
+        "signed_in": "邮箱：{{email}}",
+        "usage": "使用量",
+        "weekly_usage": "每周（{{reset}}后重置）"
+      },
       "copilot": {
         "auth_failed": "Github Copilot 认证失败",
         "auth_success": "Github Copilot 认证成功",
@@ -5809,6 +5864,9 @@
       },
       "show": {
         "time": "显示话题时间"
+      },
+      "delete_confirmation": {
+        "title": "删除话题时确认"
       }
     },
     "translate": {

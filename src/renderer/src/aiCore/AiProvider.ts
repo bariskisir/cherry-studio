@@ -7,6 +7,7 @@ import type { StartSpanParams } from '@renderer/trace/types/ModelSpanEntity'
 import type { Assistant, EditImageParams, GenerateImageParams, Model, Provider } from '@renderer/types'
 import type { StreamTextParams } from '@renderer/types/aiCoreTypes'
 import { getLowerBaseModelName } from '@renderer/utils'
+import { isClaudeCodeProvider } from '@renderer/utils/provider'
 import { buildClaudeCodeSystemModelMessage } from '@shared/anthropic'
 
 import AiSdkToChunkAdapter from './chunk/AiSdkToChunkAdapter'
@@ -109,7 +110,10 @@ export default class AiProvider {
 
     // 注意：模型对象将由 createExecutor 内部处理，不再需要预先创建
 
-    if (this.actualProvider.id === 'anthropic' && this.actualProvider.authType === 'oauth') {
+    if (
+      (this.actualProvider.id === 'anthropic' && this.actualProvider.authType === 'oauth') ||
+      isClaudeCodeProvider(this.actualProvider)
+    ) {
       // 类型守卫：确保 system 是 string、Array 或 undefined
       const system = params.system
       let systemParam: string | Array<any> | undefined

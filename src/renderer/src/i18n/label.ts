@@ -91,7 +91,10 @@ const providerKeyMap = {
   cerebras: 'provider.cerebras',
   mimo: 'provider.mimo',
   'minimax-global': 'provider.minimax-global',
-  zai: 'provider.zai'
+  zai: 'provider.zai',
+  codex: 'provider.codex',
+  antigravity: 'provider.antigravity',
+  'claude-code': 'provider.claude-code'
 } as const
 
 /**

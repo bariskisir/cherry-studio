@@ -3415,6 +3415,7 @@
     "aionly": "AiOnly",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "Baichuan",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "Alibaba Cloud",
     "deepseek": "DeepSeek",
@@ -3950,6 +3953,7 @@
         "button": "Releases",
         "title": "Release Notes"
       },
+
       "social": {
         "title": "Social Accounts"
       },
@@ -5297,6 +5301,26 @@
       "anthropic_api_host": "Anthropic API Host",
       "anthropic_api_host_preview": "Anthropic preview: {{url}}",
       "anthropic_api_host_tooltip": "Use only when the provider offers a Claude-compatible base URL.",
+      "antigravity": {
+        "auth_file_hint": "Sign in with the Antigravity/Gemini CLI, then click Refresh. Credentials are read from the Windows Credential Manager (or ~/.antigravity/.credentials.json).",
+        "auth_file_path": "Auth File Path",
+        "auth_source": "Auth Source",
+        "auth_source_file": "Auth File",
+        "auth_source_windows": "Windows Credentials",
+        "browse": "Browse",
+        "description": "Antigravity signs in with your Google account through the local Antigravity/Gemini CLI. There is no API key — credentials are read locally and the access token is refreshed automatically.",
+        "expires_at": "Token Expires",
+        "not_signed_in": "Not signed in. Sign in with the Antigravity CLI to use this provider.",
+        "plan": "Plan: {{plan}}",
+        "project": "Project: {{project}}",
+        "quota_refresh_token": "Refresh Token",
+        "refresh": "Refresh",
+        "resets_in": "resets {{time}}",
+        "session": "Session",
+        "signed_in": "Email: {{email}}",
+        "usage": "Usage",
+        "warning": "Google prohibits third-party tool usage. Use at your own risk."
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5427,37 @@
       "check": "Check",
       "check_all_keys": "Check All Keys",
       "check_multiple_keys": "Check Multiple API Keys",
+      "claude_code": {
+        "auth_file_hint": "Run `claude setup-token` in a terminal, then click Refresh. Credentials are read from ~/.claude/.credentials.json.",
+        "auth_file_path": "Auth File Path",
+        "browse": "Browse",
+        "description": "Claude Code signs in with your Anthropic account through the official Claude Code CLI. There is no API key — credentials are read from the local file written by the CLI and the access token is refreshed automatically.",
+        "expires_at": "Token Expires",
+        "five_hour_usage": "Session (resets {{reset}})",
+        "not_signed_in": "Not signed in. Sign in with the Claude Code CLI to use this provider.",
+        "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Refresh Token",
+        "refresh": "Refresh",
+        "seven_day_usage": "Weekly (resets {{reset}})",
+        "signed_in": "Signed in",
+        "usage": "Usage",
+        "warning": "Anthropic prohibits third-party tool usage. Use at your own risk."
+      },
+      "codex": {
+        "auth_file_hint": "Run `codex login` in a terminal, then click Refresh. Credentials are read from ~/.codex/auth.json.",
+        "auth_file_path": "Auth File Path",
+        "browse": "Browse",
+        "description": "Codex signs in with your ChatGPT account through the official Codex CLI. There is no API key — credentials are read from the local file written by the CLI.",
+        "expires_at": "Token Expires",
+        "not_signed_in": "Not signed in. Sign in with the Codex CLI to use this provider.",
+        "plan": "Plan: {{plan}}",
+        "quota_refresh_token": "Refresh Token",
+        "refresh": "Refresh",
+        "session_usage": "Session (resets {{reset}})",
+        "signed_in": "Email: {{email}}",
+        "usage": "Usage",
+        "weekly_usage": "Weekly (resets {{reset}})"
+      },
       "copilot": {
         "auth_failed": "Github Copilot authentication failed.",
         "auth_success": "GitHub Copilot authentication successful.",
@@ -5809,6 +5864,9 @@
       },
       "show": {
         "time": "Show topic time"
+      },
+      "delete_confirmation": {
+        "title": "Require Topic Delete Confirmation"
       }
     },
     "translate": {

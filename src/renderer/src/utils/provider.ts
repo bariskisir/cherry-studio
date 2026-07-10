@@ -153,6 +153,31 @@ export function isOpenAIProvider(provider: Provider): boolean {
   return provider.type === 'openai-response'
 }
 
+/**
+ * Codex uses the OpenAI Responses API against the ChatGPT backend, authenticating
+ * with credentials read from the local Codex CLI (`~/.codex/auth.json`).
+ */
+export function isCodexProvider(provider: Provider): boolean {
+  return provider.type === 'codex'
+}
+
+/**
+ * Antigravity uses Google's Cloud Code (Gemini Code Assist) API, authenticating with
+ * OAuth credentials read from the local Gemini/Antigravity CLI (Windows Credential
+ * Manager `gemini:antigravity`, falling back to `~/.antigravity/.credentials.json`).
+ */
+export function isAntigravityProvider(provider: Provider): boolean {
+  return provider.type === 'antigravity'
+}
+
+/**
+ * Claude Code uses the Anthropic API with an OAuth token read from the local Claude
+ * Code CLI (`~/.claude/.credentials.json`).
+ */
+export function isClaudeCodeProvider(provider: Provider): boolean {
+  return provider.type === 'claude-code'
+}
+
 export function isAwsBedrockProvider(provider: Provider): boolean {
   return provider.type === 'aws-bedrock'
 }
@@ -189,7 +214,13 @@ export const NOT_SUPPORT_API_KEY_PROVIDERS: readonly SystemProviderId[] = [
   'copilot'
 ]
 
-export const NOT_SUPPORT_API_KEY_PROVIDER_TYPES: readonly ProviderType[] = ['vertexai', 'aws-bedrock']
+export const NOT_SUPPORT_API_KEY_PROVIDER_TYPES: readonly ProviderType[] = [
+  'vertexai',
+  'aws-bedrock',
+  'codex',
+  'antigravity',
+  'claude-code'
+]
 
 // https://platform.claude.com/docs/en/build-with-claude/prompt-caching#1-hour-cache-duration
 export const isSupportAnthropicPromptCacheProvider = (provider: Provider) => {

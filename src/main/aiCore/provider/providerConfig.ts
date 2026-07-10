@@ -51,6 +51,7 @@ export async function formatProviderApiHost(provider: Provider): Promise<Provide
     },
     { match: isCherryAIProvider, format: (p) => formatApiHost(p.apiHost, false) },
     { match: isPerplexityProvider, format: (p) => formatApiHost(p.apiHost, false) },
+    { match: (p) => p.type === 'codex', format: (p) => formatApiHost(p.apiHost, false) },
     { match: isOllamaProvider, format: (p) => formatOllamaApiHost(p.apiHost) },
     { match: isGeminiProvider, format: (p, av) => formatApiHost(p.apiHost, av, 'v1beta') },
     { match: isAzureOpenAIProvider, format: (p) => formatApiHost(p.apiHost, false) },

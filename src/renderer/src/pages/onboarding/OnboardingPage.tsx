@@ -22,7 +22,7 @@ const OnboardingPage: FC<OnboardingPageProps> = ({ onComplete }) => {
   const dispatch = useAppDispatch()
   const [step, setStep] = useState<OnboardingStep>('welcome')
   const [cherryInLoggedIn, setCherryInLoggedIn] = useState(false)
-  const [privacyAccepted, setPrivacyAccepted] = useState(true)
+  const [privacyAccepted, setPrivacyAccepted] = useState(false)
 
   const updateDataCollection = useCallback(
     (enabled: boolean) => {
@@ -50,7 +50,7 @@ const OnboardingPage: FC<OnboardingPageProps> = ({ onComplete }) => {
   }, [t, updateDataCollection])
 
   useEffect(() => {
-    updateDataCollection(true)
+    updateDataCollection(false)
   }, [updateDataCollection])
 
   return (

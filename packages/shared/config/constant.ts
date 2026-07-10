@@ -198,13 +198,7 @@ export const GB = 1024 * MB
 export const defaultLanguage = 'en-US'
 
 export enum FeedUrl {
-  PRODUCTION = 'https://releases.cherry-ai.com',
-  GITHUB_LATEST = 'https://github.com/CherryHQ/cherry-studio/releases/latest/download'
-}
-
-export enum UpdateConfigUrl {
-  GITHUB = 'https://raw.githubusercontent.com/CherryHQ/cherry-studio/refs/heads/x-files/app-upgrade-config/app-upgrade-config.json',
-  GITCODE = 'https://raw.gitcode.com/CherryHQ/cherry-studio/raw/x-files%2Fapp-upgrade-config/app-upgrade-config.json'
+  GITHUB_LATEST = 'https://github.com/bariskisir/cherry-studio/releases/latest/download'
 }
 
 export enum UpgradeChannel {
@@ -214,8 +208,7 @@ export enum UpgradeChannel {
 }
 
 export enum UpdateMirror {
-  GITHUB = 'github',
-  GITCODE = 'gitcode'
+  GITHUB = 'github'
 }
 
 export const DEFAULT_TIMEOUT = 30 * 1000 * 60

@@ -3415,6 +3415,7 @@
     "aionly": "Einzige KI (AiOnly)",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "Baichuan",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "Alibaba Cloud Bailian",
     "deepseek": "DeepSeek",
@@ -5297,6 +5300,16 @@
       "anthropic_api_host": "Anthropic API-Adresse",
       "anthropic_api_host_preview": "Anthropic-Vorschau: {{url}}",
       "anthropic_api_host_tooltip": "Nur bei Anbietern, die ein Claude-kompatibles Basis-Endpunkt anbieten.",
+      "antigravity": {
+        "auth_file_hint": "Melden Sie sich mit der Antigravity/Gemini CLI an und klicken Sie dann auf Aktualisieren. Die Anmeldedaten werden aus dem Windows-Anmeldeinformationsmanager (oder ~/.antigravity/.credentials.json) gelesen.",
+        "description": "Antigravity meldet sich mit Ihrem Google-Konto über die lokale Antigravity/Gemini CLI an. Es gibt keinen API-Schlüssel — die Anmeldedaten werden lokal gelesen und das Zugriffstoken wird automatisch aktualisiert.",
+        "not_signed_in": "Nicht angemeldet. Melden Sie sich mit der Antigravity CLI an, um diesen Anbieter zu nutzen.",
+        "plan": "Plan: {{plan}}",
+        "project": "Projekt: {{project}}",
+        "refresh": "Aktualisieren",
+        "signed_in": "Angemeldet als {{email}}",
+        "warning": "Google untersagt die Nutzung durch Drittanbieter-Tools. Nutzung auf eigene Gefahr."
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5416,23 @@
       "check": "Erkennen",
       "check_all_keys": "Alle Schlüssel testen",
       "check_multiple_keys": "Mehrere API-Schlüssel testen",
+      "claude_code": {
+        "auth_file_hint": "Führen Sie `claude setup-token` in einem Terminal aus und klicken Sie dann auf Aktualisieren. Die Anmeldedaten werden aus ~/.claude/.credentials.json gelesen.",
+        "description": "Claude Code meldet sich mit Ihrem Anthropic-Konto über die offizielle Claude Code CLI an. Es gibt keinen API-Schlüssel — die Anmeldedaten werden aus der lokalen Datei gelesen, die von der CLI geschrieben wurde, und das Zugriffstoken wird automatisch aktualisiert.",
+        "not_signed_in": "Nicht angemeldet. Melden Sie sich mit der Claude Code CLI an, um diesen Anbieter zu nutzen.",
+        "plan": "Plan: {{plan}}",
+        "refresh": "Aktualisieren",
+        "signed_in": "Angemeldet",
+        "warning": "Anthropic untersagt die Nutzung durch Drittanbieter-Tools. Nutzung auf eigene Gefahr."
+      },
+      "codex": {
+        "auth_file_hint": "Führen Sie `codex login` in einem Terminal aus und klicken Sie dann auf Aktualisieren. Die Anmeldedaten werden aus ~/.codex/auth.json gelesen.",
+        "description": "Codex meldet sich mit Ihrem ChatGPT-Konto über die offizielle Codex CLI an. Es gibt keinen API-Schlüssel — die Anmeldedaten werden aus der lokalen Datei gelesen, die von der CLI geschrieben wurde.",
+        "not_signed_in": "Nicht angemeldet. Melden Sie sich mit der Codex CLI an, um diesen Anbieter zu nutzen.",
+        "plan": "Plan: {{plan}}",
+        "refresh": "Aktualisieren",
+        "signed_in": "Angemeldet als {{email}}"
+      },
       "copilot": {
         "auth_failed": "Github Copilot-Authentifizierung fehlgeschlagen",
         "auth_success": "Github Copilot-Authentifizierung erfolgreich",

@@ -1324,7 +1324,7 @@ const migrateConfig = {
   },
   '90': (state: RootState) => {
     try {
-      state.settings.enableDataCollection = true
+      state.settings.enableDataCollection = false
       return state
     } catch (error) {
       return state
@@ -3445,6 +3445,28 @@ const migrateConfig = {
       return state
     } catch (error) {
       logger.error('migrate 208 error', error as Error)
+      return state
+    }
+  },
+  '209': (state: RootState) => {
+    try {
+      addProvider(state, 'codex')
+      addProvider(state, 'antigravity')
+      addProvider(state, 'claude-code')
+      logger.info('migrate 209 success')
+      return state
+    } catch (error) {
+      logger.error('migrate 209 error', error as Error)
+      return state
+    }
+  },
+  '210': (state: RootState) => {
+    try {
+      state.settings.requireTopicDeleteConfirmation = false
+      logger.info('migrate 210 success')
+      return state
+    } catch (error) {
+      logger.error('migrate 210 error', error as Error)
       return state
     }
   }

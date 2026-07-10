@@ -18,6 +18,7 @@ import {
   setProxyBypassRules as _setProxyBypassRules,
   setProxyMode,
   setProxyUrl as _setProxyUrl,
+  setRequireTopicDeleteConfirmation,
   setSpellCheckLanguages
 } from '@renderer/store/settings'
 import type { LanguageVarious } from '@renderer/types'
@@ -68,7 +69,8 @@ const GeneralSettings: FC = () => {
     enableDataCollection,
     enableSpellCheck,
     disableHardwareAcceleration,
-    setDisableHardwareAcceleration
+    setDisableHardwareAcceleration,
+    requireTopicDeleteConfirmation
   } = useSettings()
   const [proxyUrl, setProxyUrl] = useState<string | undefined>(storeProxyUrl)
   const [proxyBypassRules, setProxyBypassRules] = useState<string | undefined>(storeProxyBypassRules)
@@ -305,6 +307,14 @@ const GeneralSettings: FC = () => {
         <SettingRow>
           <SettingRowTitle>{t('settings.hardware_acceleration.title')}</SettingRowTitle>
           <Switch checked={disableHardwareAcceleration} onChange={handleHardwareAccelerationChange} />
+        </SettingRow>
+        <SettingDivider />
+        <SettingRow>
+          <SettingRowTitle>{t('settings.topic.delete_confirmation.title')}</SettingRowTitle>
+          <Switch
+            checked={requireTopicDeleteConfirmation}
+            onChange={(v) => dispatch(setRequireTopicDeleteConfirmation(v))}
+          />
         </SettingRow>
       </SettingGroup>
       <SettingGroup theme={theme}>

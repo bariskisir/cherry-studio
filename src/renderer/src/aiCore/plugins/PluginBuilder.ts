@@ -10,7 +10,12 @@ import {
 import { getEnableDeveloperMode } from '@renderer/hooks/useSettings'
 import type { Assistant, Model, Provider } from '@renderer/types'
 import { SystemProviderIds } from '@renderer/types'
-import { isOllamaProvider, isSupportEnableThinkingProvider } from '@renderer/utils/provider'
+import {
+  isAntigravityProvider,
+  isCodexProvider,
+  isOllamaProvider,
+  isSupportEnableThinkingProvider
+} from '@renderer/utils/provider'
 
 import type { AiSdkMiddlewareConfig } from '../types/middlewareConfig'
 import { getReasoningTagName } from '../utils/reasoning'
@@ -77,7 +82,9 @@ export function buildPlugins({ provider, model, config }: BuildPluginsContext): 
   }
 
   // 0.2 Simulate streaming for non-streaming requests (must be AFTER reasoning extraction in array)
-  if (!config.streamOutput) {
+  // Codex (ChatGPT backend) and Antigravity (Cloud Code) only support streaming, so never
+  // simulate streaming for them — let the real streaming request go through instead.
+  if (!config.streamOutput && !isCodexProvider(provider) && !isAntigravityProvider(provider)) {
     plugins.push(createSimulateStreamingPlugin())
   }
 

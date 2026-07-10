@@ -3415,6 +3415,7 @@
     "aionly": "AiOnly",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "BaiChuan",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilote",
     "dashscope": "AliCloud BaiLian",
     "deepseek": "DeepSeek",
@@ -5297,6 +5300,16 @@
       "anthropic_api_host": "Adresse API Anthropic",
       "anthropic_api_host_preview": "Aperçu Anthropic : {{url}}",
       "anthropic_api_host_tooltip": "Remplir seulement lorsque le fournisseur propose une adresse de base compatible Claude.",
+      "antigravity": {
+        "auth_file_hint": "Connectez-vous avec la CLI Antigravity/Gemini, puis cliquez sur Actualiser. Les identifiants sont lus depuis le Gestionnaire d'identifiants Windows (ou ~/.antigravity/.credentials.json).",
+        "description": "Antigravity se connecte avec votre compte Google via la CLI locale Antigravity/Gemini. Il n'y a pas de clé API — les identifiants sont lus localement et le jeton d'accès est actualisé automatiquement.",
+        "not_signed_in": "Non connecté. Connectez-vous avec la CLI Antigravity pour utiliser ce fournisseur.",
+        "plan": "Forfait : {{plan}}",
+        "project": "Projet : {{project}}",
+        "refresh": "Actualiser",
+        "signed_in": "Connecté en tant que {{email}}",
+        "warning": "Google interdit l'utilisation par des outils tiers. Utilisation à vos risques et périls."
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5416,23 @@
       "check": "Vérifier",
       "check_all_keys": "Vérifier toutes les clés",
       "check_multiple_keys": "Vérifier plusieurs clés API",
+      "claude_code": {
+        "auth_file_hint": "Exécutez `claude setup-token` dans un terminal, puis cliquez sur Actualiser. Les identifiants sont lus depuis ~/.claude/.credentials.json.",
+        "description": "Claude Code se connecte avec votre compte Anthropic via la CLI officielle Claude Code. Il n'y a pas de clé API — les identifiants sont lus depuis le fichier local écrit par la CLI et le jeton d'accès est actualisé automatiquement.",
+        "not_signed_in": "Non connecté. Connectez-vous avec la CLI Claude Code pour utiliser ce fournisseur.",
+        "plan": "Forfait : {{plan}}",
+        "refresh": "Actualiser",
+        "signed_in": "Connecté",
+        "warning": "Anthropic interdit l'utilisation par des outils tiers. Utilisation à vos risques et périls."
+      },
+      "codex": {
+        "auth_file_hint": "Exécutez `codex login` dans un terminal, puis cliquez sur Actualiser. Les identifiants sont lus depuis ~/.codex/auth.json.",
+        "description": "Codex se connecte avec votre compte ChatGPT via la CLI officielle Codex. Il n'y a pas de clé API — les identifiants sont lus depuis le fichier local écrit par la CLI.",
+        "not_signed_in": "Non connecté. Connectez-vous avec la CLI Codex pour utiliser ce fournisseur.",
+        "plan": "Forfait : {{plan}}",
+        "refresh": "Actualiser",
+        "signed_in": "Connecté en tant que {{email}}"
+      },
       "copilot": {
         "auth_failed": "Échec de l'authentification Github Copilot",
         "auth_success": "Authentification Github Copilot réussie",

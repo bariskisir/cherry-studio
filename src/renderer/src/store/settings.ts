@@ -148,6 +148,8 @@ export interface SettingsState {
   topicNamingPrompt: string
   // 消息操作确认设置
   confirmDeleteMessage: boolean
+  // Topic delete confirmation
+  requireTopicDeleteConfirmation: boolean
   confirmRegenerateMessage: boolean
   // Sidebar icons
   sidebarIcons: {
@@ -382,13 +384,14 @@ export const initialState: SettingsState = {
   minappsOpenLinkExternal: false,
   minAppRegion: 'auto',
   privacyPolicyVersion: LATEST_PRIVACY_POLICY_VERSION,
-  enableDataCollection: true,
+  enableDataCollection: false,
   enableSpellCheck: false,
   spellCheckLanguages: [],
   enableQuickPanelTriggers: false,
   // 消息操作确认设置
   confirmDeleteMessage: true,
   confirmRegenerateMessage: true,
+  requireTopicDeleteConfirmation: false,
   // 硬件加速设置
   disableHardwareAcceleration: false,
   // 使用系统标题栏 (仅Linux)
@@ -831,6 +834,9 @@ const settingsSlice = createSlice({
     setConfirmRegenerateMessage: (state, action: PayloadAction<boolean>) => {
       state.confirmRegenerateMessage = action.payload
     },
+    setRequireTopicDeleteConfirmation: (state, action: PayloadAction<boolean>) => {
+      state.requireTopicDeleteConfirmation = action.payload
+    },
     setDisableHardwareAcceleration: (state, action: PayloadAction<boolean>) => {
       state.disableHardwareAcceleration = action.payload
     },
@@ -1018,6 +1024,7 @@ export const {
   setEnableQuickPanelTriggers,
   setConfirmDeleteMessage,
   setConfirmRegenerateMessage,
+  setRequireTopicDeleteConfirmation,
   setDisableHardwareAcceleration,
   setUseSystemTitleBar,
   setOpenAISummaryText,

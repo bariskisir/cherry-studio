@@ -3415,6 +3415,7 @@
     "aionly": "AiOnly",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "Παράκειμαι",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "AliCloud Bailian",
     "deepseek": "Βαθιά Αναζήτηση",
@@ -5297,6 +5300,16 @@
       "anthropic_api_host": "Διεύθυνση API Anthropic",
       "anthropic_api_host_preview": "Προεπισκόπηση Anthropic: {{url}}",
       "anthropic_api_host_tooltip": "Συμπληρώστε μόνο όταν ο πάροχος παρέχει βασική διεύθυνση συμβατή με Claude.",
+      "antigravity": {
+        "auth_file_hint": "Συνδεθείτε με το Antigravity/Gemini CLI και μετά κάντε κλικ στην Ανανέωση. Τα διαπιστευτήρια διαβάζονται από το Windows Credential Manager (ή ~/.antigravity/.credentials.json).",
+        "description": "Το Antigravity συνδέεται με τον λογαριασμό σας Google μέσω του τοπικού Antigravity/Gemini CLI. Δεν υπάρχει κλειδί API — τα διαπιστευτήρια διαβάζονται τοπικά και το διακριτικό πρόσβασης ανανεώνεται αυτόματα.",
+        "not_signed_in": "Δεν έχετε συνδεθεί. Συνδεθείτε με το Antigravity CLI για να χρησιμοποιήσετε αυτόν τον πάροχο.",
+        "plan": "Πλάνο: {{plan}}",
+        "project": "Έργο: {{project}}",
+        "refresh": "Ανανέωση",
+        "signed_in": "Συνδεδεμένος ως {{email}}",
+        "warning": "Η Google απαγορεύει τη χρήση από εργαλεία τρίτων. Χρήση με δική σας ευθύνη."
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5416,23 @@
       "check": "Έλεγχος",
       "check_all_keys": "Έλεγχος όλων των κλειδιών",
       "check_multiple_keys": "Έλεγχος πολλαπλών κλειδιών API",
+      "claude_code": {
+        "auth_file_hint": "Εκτελέστε `claude setup-token` σε ένα τερματικό και μετά κάντε κλικ στην Ανανέωση. Τα διαπιστευτήρια διαβάζονται από ~/.claude/.credentials.json.",
+        "description": "Το Claude Code συνδέεται με τον λογαριασμό σας Anthropic μέσω του επίσημου Claude Code CLI. Δεν υπάρχει κλειδί API — τα διαπιστευτήρια διαβάζονται από τοπικό αρχείο που γράφτηκε από το CLI και το διακριτικό πρόσβασης ανανεώνεται αυτόματα.",
+        "not_signed_in": "Δεν έχετε συνδεθεί. Συνδεθείτε με το Claude Code CLI για να χρησιμοποιήσετε αυτόν τον πάροχο.",
+        "plan": "Πλάνο: {{plan}}",
+        "refresh": "Ανανέωση",
+        "signed_in": "Συνδεδεμένος",
+        "warning": "Η Anthropic απαγορεύει τη χρήση από εργαλεία τρίτων. Χρήση με δική σας ευθύνη."
+      },
+      "codex": {
+        "auth_file_hint": "Εκτελέστε `codex login` σε ένα τερματικό και μετά κάντε κλικ στην Ανανέωση. Τα διαπιστευτήρια διαβάζονται από ~/.codex/auth.json.",
+        "description": "Το Codex συνδέεται με τον λογαριασμό σας ChatGPT μέσω του επίσημου Codex CLI. Δεν υπάρχει κλειδί API — τα διαπιστευτήρια διαβάζονται από τοπικό αρχείο που γράφτηκε από το CLI.",
+        "not_signed_in": "Δεν έχετε συνδεθεί. Συνδεθείτε με το Codex CLI για να χρησιμοποιήσετε αυτόν τον πάροχο.",
+        "plan": "Πλάνο: {{plan}}",
+        "refresh": "Ανανέωση",
+        "signed_in": "Συνδεδεμένος ως {{email}}"
+      },
       "copilot": {
         "auth_failed": "Η επιβεβαίωση του Github Copilot απέτυχε",
         "auth_success": "Η επιβεβαίωση του Github Copilot ήταν επιτυχής",

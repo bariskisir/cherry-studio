@@ -41,12 +41,21 @@ import fontList from 'font-list'
 import { agentMessageRepository } from './services/agents/database'
 import { skillService } from './services/agents/skills/SkillService'
 import { analyticsService } from './services/AnalyticsService'
+import AntigravityService from './services/AntigravityService'
 import { apiServerService } from './services/ApiServerService'
 import appService from './services/AppService'
 import AppUpdater from './services/AppUpdater'
 import BackupManager from './services/BackupManager'
 import CherryINOAuthService from './services/CherryINOAuthService'
+import ClaudeCodeService from './services/ClaudeCodeService'
+import {
+  validateAntigravityAuthOptions,
+  validateAuthFilePath,
+  validateBoolean,
+  validateCliAuthOptions
+} from './services/cliProviderValidation'
 import { codeToolsService } from './services/CodeToolsService'
+import CodexService from './services/CodexService'
 import { ConfigKeys, configManager } from './services/ConfigManager'
 import CopilotService from './services/CopilotService'
 import DxtService from './services/DxtService'
@@ -866,6 +875,53 @@ export async function registerIpc(mainWindow: BrowserWindow, app: Electron.App) 
   ipcMain.handle(IpcChannel.Copilot_GetToken, CopilotService.getToken.bind(CopilotService))
   ipcMain.handle(IpcChannel.Copilot_Logout, CopilotService.logout.bind(CopilotService))
   ipcMain.handle(IpcChannel.Copilot_GetUser, CopilotService.getUser.bind(CopilotService))
+
+  // codex
+  ipcMain.handle(IpcChannel.Codex_GetCredentials, (_e, options) =>
+    CodexService.getCredentials(validateCliAuthOptions(options))
+  )
+  ipcMain.handle(IpcChannel.Codex_GetStatus, CodexService.getStatus.bind(CodexService))
+  ipcMain.handle(IpcChannel.Codex_GetQuota, (_e, options) => CodexService.getQuota(validateCliAuthOptions(options)))
+  ipcMain.handle(IpcChannel.Codex_FetchModels, CodexService.fetchModels.bind(CodexService))
+  ipcMain.handle(IpcChannel.Codex_SetAuthPath, (_e, authFilePath) => {
+    CodexService.setAuthPath(validateAuthFilePath(authFilePath) ?? '')
+  })
+  ipcMain.handle(IpcChannel.Codex_SetSkipRefresh, (_e, value) => {
+    CodexService.setSkipRefresh(validateBoolean(value, 'skipRefresh'))
+  })
+
+  // antigravity
+  ipcMain.handle(IpcChannel.Antigravity_GetCredentials, AntigravityService.getCredentials.bind(AntigravityService))
+  ipcMain.handle(IpcChannel.Antigravity_GetStatus, AntigravityService.getStatus.bind(AntigravityService))
+  ipcMain.handle(IpcChannel.Antigravity_GetQuota, (_e, options) =>
+    AntigravityService.getQuota(validateAntigravityAuthOptions(options))
+  )
+  ipcMain.handle(IpcChannel.Antigravity_FetchModels, AntigravityService.fetchModels.bind(AntigravityService))
+  ipcMain.handle(IpcChannel.Antigravity_SetAuthPath, (_e, authFilePath) => {
+    AntigravityService.setAuthPath(validateAuthFilePath(authFilePath) ?? '')
+  })
+  ipcMain.handle(IpcChannel.Antigravity_SetAuthSource, (_e, useCredMan) => {
+    AntigravityService.setUseCredentialManager(validateBoolean(useCredMan, 'useCredentialManager'))
+  })
+  ipcMain.handle(IpcChannel.Antigravity_SetSkipRefresh, (_e, value) => {
+    AntigravityService.setSkipRefresh(validateBoolean(value, 'skipRefresh'))
+  })
+
+  // claude code
+  ipcMain.handle(IpcChannel.ClaudeCode_GetCredentials, (_e, options) =>
+    ClaudeCodeService.getCredentials(validateCliAuthOptions(options))
+  )
+  ipcMain.handle(IpcChannel.ClaudeCode_GetStatus, ClaudeCodeService.getStatus.bind(ClaudeCodeService))
+  ipcMain.handle(IpcChannel.ClaudeCode_GetQuota, (_e, options) =>
+    ClaudeCodeService.getQuota(validateCliAuthOptions(options))
+  )
+  ipcMain.handle(IpcChannel.ClaudeCode_FetchModels, ClaudeCodeService.fetchModels.bind(ClaudeCodeService))
+  ipcMain.handle(IpcChannel.ClaudeCode_SetAuthPath, (_e, authFilePath) => {
+    ClaudeCodeService.setAuthPath(validateAuthFilePath(authFilePath) ?? '')
+  })
+  ipcMain.handle(IpcChannel.ClaudeCode_SetSkipRefresh, (_e, value) => {
+    ClaudeCodeService.setSkipRefresh(validateBoolean(value, 'skipRefresh'))
+  })
 
   // CherryIN OAuth
   ipcMain.handle(IpcChannel.CherryIN_SaveToken, CherryINOAuthService.saveToken.bind(CherryINOAuthService))

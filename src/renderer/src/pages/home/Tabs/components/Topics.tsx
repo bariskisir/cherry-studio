@@ -74,7 +74,8 @@ export const Topics: React.FC<Props> = ({ assistant: _assistant, activeTopic, se
   const { notesPath } = useNotesSettings()
   const { assistants } = useAssistants()
   const { assistant, addTopic, removeTopic, moveTopic, updateTopic, updateTopics } = useAssistant(_assistant.id)
-  const { showTopicTime, pinTopicsToTop, setTopicPosition, topicPosition } = useSettings()
+  const { showTopicTime, pinTopicsToTop, setTopicPosition, topicPosition, requireTopicDeleteConfirmation } =
+    useSettings()
 
   const renamingTopics = useSelector((state: RootState) => state.runtime.chat.renamingTopics)
   const topicLoadingQuery = useSelector((state: RootState) => state.messages.loadingByTopic)
@@ -669,7 +670,7 @@ export const Topics: React.FC<Props> = ({ assistant: _assistant, activeTopic, se
                       <MenuButton
                         className="menu"
                         onClick={(e) => {
-                          if (e.ctrlKey || e.metaKey) {
+                          if (!requireTopicDeleteConfirmation || e.ctrlKey || e.metaKey) {
                             void handleConfirmDelete(topic, e)
                           } else if (deletingTopicId === topic.id) {
                             void handleConfirmDelete(topic, e)

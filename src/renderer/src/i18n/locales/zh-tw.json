@@ -3415,6 +3415,7 @@
     "aionly": "唯一 AI (AiOnly)",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "百川",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "阿里雲百鍊",
     "deepseek": "深度求索",
@@ -3950,6 +3953,7 @@
         "button": "檢視",
         "title": "更新日誌"
       },
+
       "social": {
         "title": "社交帳號"
       },
@@ -5297,6 +5301,26 @@
       "anthropic_api_host": "Anthropic API 主機位址",
       "anthropic_api_host_preview": "Anthropic 預覽：{{url}}",
       "anthropic_api_host_tooltip": "僅在供應商提供 Claude 相容的基礎網址時設定。",
+      "antigravity": {
+        "auth_file_hint": "使用 Antigravity/Gemini CLI 登入後點擊重新整理。憑證會從 Windows 憑證管理員（或 ~/.antigravity/.credentials.json）讀取。",
+        "auth_file_path": "認證檔案路徑",
+        "auth_source": "認證來源",
+        "auth_source_file": "認證檔案",
+        "auth_source_windows": "Windows 憑證",
+        "browse": "瀏覽",
+        "description": "Antigravity 透過本機 Antigravity/Gemini CLI 使用你的 Google 帳號登入。無需 API 金鑰——憑證從本機讀取，存取權杖會自動重新整理。",
+        "expires_at": "權杖過期",
+        "not_signed_in": "尚未登入。請先透過 Antigravity CLI 登入以使用此提供商。",
+        "plan": "方案：{{plan}}",
+        "project": "專案：{{project}}",
+        "quota_refresh_token": "重新整理權杖",
+        "refresh": "重新整理",
+        "resets_in": "{{time}}後重置",
+        "session": "會話",
+        "signed_in": "信箱：{{email}}",
+        "usage": "使用量",
+        "warning": "Google 禁止第三方工具使用。使用風險自負。"
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5427,37 @@
       "check": "檢查",
       "check_all_keys": "檢查所有金鑰",
       "check_multiple_keys": "檢查多個 API 金鑰",
+      "claude_code": {
+        "auth_file_hint": "在終端機執行 `claude setup-token`，然後點擊重新整理。憑證會從 ~/.claude/.credentials.json 讀取。",
+        "auth_file_path": "認證檔案路徑",
+        "browse": "瀏覽",
+        "description": "Claude Code 透過官方 Claude Code CLI 使用你的 Anthropic 帳號登入。無需 API 金鑰——憑證從 CLI 寫入的本機檔案讀取，存取權杖會自動重新整理。",
+        "expires_at": "權杖過期",
+        "five_hour_usage": "會話（{{reset}}後重置）",
+        "not_signed_in": "尚未登入。請先透過 Claude Code CLI 登入以使用此提供商。",
+        "plan": "方案：{{plan}}",
+        "quota_refresh_token": "重新整理權杖",
+        "refresh": "重新整理",
+        "seven_day_usage": "每週（{{reset}}後重置）",
+        "signed_in": "已登入",
+        "usage": "使用量",
+        "warning": "Anthropic 禁止第三方工具使用。使用風險自負。"
+      },
+      "codex": {
+        "auth_file_hint": "在終端機執行 `codex login`，然後點擊重新整理。憑證將從 ~/.codex/auth.json 讀取。",
+        "auth_file_path": "認證檔案路徑",
+        "browse": "瀏覽",
+        "description": "Codex 透過官方 Codex CLI 使用你的 ChatGPT 帳號登入。無需 API 金鑰——憑證將從 CLI 寫入的本機檔案讀取。",
+        "expires_at": "權杖過期",
+        "not_signed_in": "尚未登入。請先透過 Codex CLI 登入以使用此提供商。",
+        "plan": "方案：{{plan}}",
+        "quota_refresh_token": "重新整理權杖",
+        "refresh": "重新整理",
+        "session_usage": "會話（{{reset}}後重置）",
+        "signed_in": "信箱：{{email}}",
+        "usage": "使用量",
+        "weekly_usage": "每週（{{reset}}後重置）"
+      },
       "copilot": {
         "auth_failed": "GitHub Copilot 認證失敗",
         "auth_success": "GitHub Copilot 認證成功",
@@ -5809,6 +5864,9 @@
       },
       "show": {
         "time": "顯示話題時間"
+      },
+      "delete_confirmation": {
+        "title": "刪除話題時確認"
       }
     },
     "translate": {

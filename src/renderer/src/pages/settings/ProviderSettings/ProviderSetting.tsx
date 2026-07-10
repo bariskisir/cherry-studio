@@ -26,7 +26,10 @@ import { serializeHealthCheckError } from '@renderer/utils/error'
 import {
   isAIGatewayProvider,
   isAnthropicProvider,
+  isAntigravityProvider,
   isAzureOpenAIProvider,
+  isClaudeCodeProvider,
+  isCodexProvider,
   isGeminiProvider,
   isNewApiProvider,
   isOllamaProvider,
@@ -52,10 +55,13 @@ import {
   SettingSubtitle,
   SettingTitle
 } from '..'
+import AntigravitySettings from './AntigravitySettings'
 import ApiOptionsSettingsPopup from './ApiOptionsSettings/ApiOptionsSettingsPopup'
 import AwsBedrockSettings from './AwsBedrockSettings'
 import CherryINOAuth from './CherryINOAuth'
 import CherryINSettings from './CherryINSettings'
+import ClaudeCodeSettings from './ClaudeCodeSettings'
+import CodexSettings from './CodexSettings'
 import CustomHeaderPopup from './CustomHeaderPopup'
 import DMXAPISettings from './DMXAPISettings'
 import GithubCopilotSettings from './GithubCopilotSettings'
@@ -118,10 +124,15 @@ const ProviderSetting: FC<Props> = ({ providerId, isOnboarding = false }) => {
   const isDmxapi = provider.id === 'dmxapi'
   const isCherryIN = provider.id === 'cherryin'
   const isChineseUser = i18n.language.startsWith('zh')
-  const noAPIInputProviders = ['aws-bedrock'] as const satisfies SystemProviderId[]
-  const hideApiInput = noAPIInputProviders.some((id) => id === provider.id)
+  const noAPIInputProviders = [
+    'aws-bedrock',
+    'codex',
+    'antigravity',
+    'claude-code'
+  ] as const satisfies SystemProviderId[]
+  const hideApiInput = noAPIInputProviders.some((id) => id === provider.id) || noAPIInputProviders.some((id) => id === provider.type)
   const noAPIKeyInputProviders = ['copilot', 'vertexai'] as const satisfies SystemProviderId[]
-  const hideApiKeyInput = noAPIKeyInputProviders.some((id) => id === provider.id)
+  const hideApiKeyInput = noAPIKeyInputProviders.some((id) => id === provider.id) || noAPIKeyInputProviders.some((id) => id === provider.type)
 
   const providerConfig = PROVIDER_URLS[provider.id]
   const officialWebsite = providerConfig?.websites?.official
@@ -662,6 +673,9 @@ const ProviderSetting: FC<Props> = ({ providerId, isOnboarding = false }) => {
       {provider.id === 'copilot' && <GithubCopilotSettings providerId={provider.id} />}
       {provider.id === 'aws-bedrock' && <AwsBedrockSettings />}
       {provider.id === 'vertexai' && <VertexAISettings />}
+      {isCodexProvider(provider) && <CodexSettings key={provider.id} />}
+      {isAntigravityProvider(provider) && <AntigravitySettings key={provider.id} />}
+      {isClaudeCodeProvider(provider) && <ClaudeCodeSettings key={provider.id} />}
       <ModelList providerId={provider.id} />
     </SettingContainer>
   )

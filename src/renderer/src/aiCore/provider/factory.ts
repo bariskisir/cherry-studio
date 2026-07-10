@@ -33,6 +33,21 @@ export function getAiSdkProviderId(provider: Provider): AppProviderId {
     return appProviderIds['xai-responses']
   }
 
+  // Codex uses the OpenAI Responses API against the ChatGPT backend.
+  if (provider.type === 'codex') {
+    return appProviderIds.openai
+  }
+
+  // Antigravity uses the Google Cloud Code (Gemini) API via a request adapter.
+  if (provider.type === 'antigravity') {
+    return appProviderIds.google
+  }
+
+  // Claude Code uses the Anthropic API with an OAuth token from the local CLI.
+  if (provider.type === 'claude-code') {
+    return appProviderIds.anthropic
+  }
+
   if (provider.id in appProviderIds) {
     return appProviderIds[provider.id]
   }

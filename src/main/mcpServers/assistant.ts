@@ -585,7 +585,7 @@ class AssistantServer {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), 5000)
 
-      const response = await fetch('https://api.github.com/repos/CherryHQ/cherry-studio/releases/latest', {
+      const response = await fetch('https://api.github.com/repos/bariskisir/cherry-studio/releases/latest', {
         method: 'GET',
         headers: { Accept: 'application/vnd.github.v3+json', 'User-Agent': 'CherryStudio' },
         signal: controller.signal

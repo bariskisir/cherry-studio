@@ -400,6 +400,36 @@ export const SYSTEM_PROVIDERS_CONFIG: Record<SystemProviderId, SystemProvider> =
     enabled: false,
     serviceTier: OpenAIServiceTiers.auto
   },
+  codex: {
+    id: 'codex',
+    name: 'Codex',
+    type: 'codex',
+    apiKey: '',
+    apiHost: 'https://chatgpt.com/backend-api/codex',
+    models: SYSTEM_MODELS.codex,
+    isSystem: true,
+    enabled: false
+  },
+  antigravity: {
+    id: 'antigravity',
+    name: 'Antigravity',
+    type: 'antigravity',
+    apiKey: '',
+    apiHost: 'https://daily-cloudcode-pa.googleapis.com',
+    models: SYSTEM_MODELS.antigravity,
+    isSystem: true,
+    enabled: false
+  },
+  'claude-code': {
+    id: 'claude-code',
+    name: 'Claude Code',
+    type: 'claude-code',
+    apiKey: '',
+    apiHost: 'https://api.anthropic.com',
+    models: SYSTEM_MODELS['claude-code'],
+    isSystem: true,
+    enabled: false
+  },
   'azure-openai': {
     id: 'azure-openai',
     name: 'Azure OpenAI',
@@ -749,6 +779,9 @@ export const PROVIDER_LOGO_MAP: AtLeast<SystemProviderId, string> = {
   ph8: Ph8ProviderLogo,
   '302ai': Ai302ProviderLogo,
   openai: OpenAiProviderLogo,
+  codex: OpenAiProviderLogo,
+  antigravity: GoogleProviderLogo,
+  'claude-code': AnthropicProviderLogo,
   silicon: SiliconFlowProviderLogo,
   deepseek: DeepSeekProviderLogo,
   'gitee-ai': GiteeAIProviderLogo,
@@ -876,6 +909,36 @@ export const PROVIDER_URLS: Record<SystemProviderId, ProviderUrls> = {
       apiKey: 'https://platform.openai.com/api-keys',
       docs: 'https://platform.openai.com/docs',
       models: 'https://platform.openai.com/docs/models'
+    }
+  },
+  codex: {
+    api: {
+      url: 'https://chatgpt.com/backend-api/codex'
+    },
+    websites: {
+      official: 'https://openai.com/codex/',
+      docs: 'https://github.com/openai/codex',
+      models: 'https://platform.openai.com/docs/models'
+    }
+  },
+  antigravity: {
+    api: {
+      url: 'https://daily-cloudcode-pa.googleapis.com'
+    },
+    websites: {
+      official: 'https://antigravity.google/',
+      docs: 'https://antigravity.google/docs',
+      models: 'https://ai.google.dev/gemini-api/docs/models/gemini'
+    }
+  },
+  'claude-code': {
+    api: {
+      url: 'https://api.anthropic.com'
+    },
+    websites: {
+      official: 'https://www.anthropic.com/claude-code',
+      docs: 'https://docs.anthropic.com/en/docs/claude-code',
+      models: 'https://docs.anthropic.com/en/docs/about-claude/models'
     }
   },
   burncloud: {

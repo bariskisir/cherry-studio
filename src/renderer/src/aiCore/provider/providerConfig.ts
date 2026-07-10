@@ -1,4 +1,5 @@
 import { formatPrivateKey, hasProviderConfig, type StringKeys } from '@cherrystudio/ai-core/provider'
+import { loggerService } from '@logger'
 import type { AppProviderId, AppProviderSettingsMap } from '@renderer/aiCore/types'
 import {
   getAwsBedrockAccessKeyId,
@@ -21,8 +22,11 @@ import {
 } from '@renderer/utils/api'
 import {
   isAnthropicProvider,
+  isAntigravityProvider,
   isAzureOpenAIProvider,
   isCherryAIProvider,
+  isClaudeCodeProvider,
+  isCodexProvider,
   isGeminiProvider,
   isOllamaProvider,
   isPerplexityProvider,
@@ -33,8 +37,11 @@ import { defaultAppHeaders } from '@shared/utils'
 import { cloneDeep, isEmpty } from 'lodash'
 
 import type { ProviderConfig } from '../types'
+import { CLAUDE_CODE_OAUTH_BETA, patchCodexRequestBody, transformAntigravityStream } from './cliProviderAdapters'
 import { COPILOT_DEFAULT_HEADERS } from './constants'
 import { getAiSdkProviderId } from './factory'
+
+const logger = loggerService.withContext('ProviderConfig')
 
 // === Types ===
 
@@ -84,6 +91,9 @@ export function formatProviderApiHost(provider: Provider): Provider {
     },
     { match: isCherryAIProvider, format: (p) => formatApiHost(p.apiHost, false) },
     { match: isPerplexityProvider, format: (p) => formatApiHost(p.apiHost, false) },
+    { match: isCodexProvider, format: (p) => formatApiHost(p.apiHost, false) },
+    { match: isAntigravityProvider, format: (p) => formatApiHost(p.apiHost, false) },
+    { match: isClaudeCodeProvider, format: (p) => formatApiHost(p.apiHost, false) },
     { match: isOllamaProvider, format: (p) => formatOllamaApiHost(p.apiHost) },
     { match: isGeminiProvider, format: (p, av) => formatApiHost(p.apiHost, av, 'v1beta') },
     { match: isAzureOpenAIProvider, format: (p) => formatApiHost(p.apiHost, false) },
@@ -123,6 +133,9 @@ export function providerToAiSdkConfig(
   const builders: ConfigBuilderEntry[] = [
     { match: (p) => p.id === SystemProviderIds.copilot, build: buildCopilotConfig },
     { match: (p) => p.id === 'cherryai', build: buildCherryAIConfig },
+    { match: (p) => isCodexProvider(p), build: buildCodexConfig },
+    { match: (p) => isAntigravityProvider(p), build: buildAntigravityConfig },
+    { match: (p) => isClaudeCodeProvider(p), build: buildClaudeCodeConfig },
     { match: (p) => p.id === 'anthropic' && p.authType === 'oauth', build: buildAnthropicConfig },
     { match: (p) => isOllamaProvider(p), build: buildOllamaConfig },
     { match: (p) => isAzureOpenAIProvider(p), build: buildAzureConfig },
@@ -282,6 +295,188 @@ async function buildCherryAIConfig(ctx: BuilderContext): Promise<ProviderConfig<
           body: init?.body && typeof init.body === 'string' ? JSON.parse(init.body) : undefined
         })
         return fetch(input, { ...init, headers: { ...init?.headers, ...signature } })
+      }
+    }
+  }
+}
+
+// ChatGPT backend endpoint used by the Codex CLI (OpenAI Responses API).
+const CODEX_BASE_URL = 'https://chatgpt.com/backend-api/codex'
+
+/**
+ * Builds the Codex provider config.
+ *
+ * Codex talks to the ChatGPT backend using the OpenAI Responses API, authenticating with
+ * the OAuth token maintained by the official Codex CLI in `~/.codex/auth.json`. The token
+ * and account id are read fresh from disk on every request (via IPC), mirroring the CLI's
+ * "no in-app login" model. The request body is patched to always disable server-side
+ * storage and to guarantee a non-empty `instructions` field, as the backend requires.
+ */
+async function buildCodexConfig(ctx: BuilderContext): Promise<ProviderConfig<'openai'>> {
+  const { accessToken, accountId } = await window.api.codex.getCredentials()
+
+  const headers: Record<string, string> = {
+    originator: 'codex_cli_rs',
+    'OpenAI-Beta': 'responses=experimental',
+    ...ctx.actualProvider.extra_headers
+  }
+  if (accountId) {
+    headers['chatgpt-account-id'] = accountId
+  }
+
+  return {
+    providerId: 'openai',
+    endpoint: ctx.endpoint,
+    providerSettings: {
+      baseURL: ctx.baseConfig.baseURL || CODEX_BASE_URL,
+      apiKey: accessToken,
+      headers,
+      fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+        init = { ...init, body: patchCodexRequestBody(init?.body) }
+        const response = await fetch(input, init)
+        if (!response.ok) {
+          response
+            .clone()
+            .text()
+            .then((text) => logger.error(`Codex API request failed (${response.status}): ${text}`))
+            .catch(() => {})
+        }
+        return response
+      }
+    }
+  }
+}
+
+// Google Cloud Code (Gemini Code Assist) endpoint used by the Antigravity CLI.
+const ANTIGRAVITY_API_BASE = 'https://daily-cloudcode-pa.googleapis.com'
+
+/**
+ * Builds the Antigravity provider config.
+ *
+ * Antigravity talks to Google's Cloud Code (Gemini Code Assist) API using OAuth
+ * credentials maintained by the local Gemini/Antigravity CLI. It maps to the AI SDK
+ * Google provider, then a custom `fetch` rewrites the request URL to the Cloud Code
+ * endpoint, wraps the Gemini request body in the Cloud Code envelope
+ * (`{ project, request, model, ... }`), and unwraps the `response` envelope from the
+ * streamed result. The access token and project id are read via IPC and cached in the
+ * main process.
+ */
+async function buildAntigravityConfig(ctx: BuilderContext): Promise<ProviderConfig<'google'>> {
+  const { accessToken, projectId } = await window.api.antigravity.getCredentials()
+
+  return {
+    providerId: 'google',
+    endpoint: ctx.endpoint,
+    providerSettings: {
+      baseURL: `${ANTIGRAVITY_API_BASE}/v1beta`,
+      apiKey: accessToken || 'antigravity-oauth',
+      fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+        const urlString = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
+        const isStream = urlString.includes(':streamGenerateContent')
+
+        const modelMatch = urlString.match(/\/models\/([^:/?]+):/)
+        const modelId = modelMatch ? decodeURIComponent(modelMatch[1]) : ctx.model.id
+
+        let outgoingBody = init?.body
+        if (init?.body && typeof init.body === 'string') {
+          try {
+            const geminiRequest = JSON.parse(init.body)
+            geminiRequest.sessionId = geminiRequest.sessionId || `-${Date.now()}`
+            outgoingBody = JSON.stringify({
+              model: modelId,
+              project: projectId,
+              requestId: `chat-${crypto.randomUUID()}`,
+              userAgent: 'antigravity',
+              requestType: 'checkpoint',
+              request: geminiRequest
+            })
+          } catch {
+            // Leave the body untouched if it is not JSON.
+          }
+        }
+
+        const method = isStream ? 'streamGenerateContent' : 'generateContent'
+        const newUrl = `${ANTIGRAVITY_API_BASE}/v1internal:${method}${isStream ? '?alt=sse' : ''}`
+
+        const headers: Record<string, string> = {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+          Accept: isStream ? 'text/event-stream' : 'application/json',
+          ...ctx.actualProvider.extra_headers
+        }
+
+        const response = await fetch(newUrl, { ...init, method: 'POST', headers, body: outgoingBody })
+        if (!response.ok) {
+          response
+            .clone()
+            .text()
+            .then((text) => logger.error(`Antigravity API request failed (${response.status}) at ${newUrl}: ${text}`))
+            .catch(() => {})
+          return response
+        }
+
+        // Unwrap the Cloud Code `response` envelope for the AI SDK Google parser.
+        if (isStream && response.body) {
+          return new Response(transformAntigravityStream(response.body), {
+            status: response.status,
+            statusText: response.statusText,
+            headers: response.headers
+          })
+        }
+        const json = await response.json().catch(() => null)
+        const unwrapped = json && typeof json === 'object' && 'response' in json ? json.response : json
+        return new Response(JSON.stringify(unwrapped), {
+          status: response.status,
+          statusText: response.statusText,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      }
+    }
+  }
+}
+
+/**
+ * Builds the Claude Code provider config.
+ *
+ * Claude Code talks to the Anthropic API using an OAuth token maintained by the local
+ * Claude Code CLI (`~/.claude/.credentials.json`), read (and refreshed) via IPC. It
+ * maps to the AI SDK Anthropic provider; a custom `fetch` injects the OAuth bearer
+ * token and guarantees the `oauth-2025-04-20` beta header is present. The required
+ * "You are Claude Code" system prompt is injected in `AiProvider.completions`.
+ */
+async function buildClaudeCodeConfig(ctx: BuilderContext): Promise<ProviderConfig<'anthropic'>> {
+  const { accessToken } = await window.api.claudeCode.getCredentials()
+
+  return {
+    providerId: 'anthropic',
+    endpoint: ctx.endpoint,
+    providerSettings: {
+      baseURL: 'https://api.anthropic.com/v1',
+      apiKey: '',
+      headers: {
+        'anthropic-version': '2023-06-01',
+        'anthropic-beta': CLAUDE_CODE_OAUTH_BETA,
+        'anthropic-dangerous-direct-browser-access': 'true',
+        Authorization: `Bearer ${accessToken}`,
+        ...ctx.actualProvider.extra_headers
+      },
+      fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+        const headers = new Headers(init?.headers)
+        headers.delete('x-api-key')
+        headers.set('Authorization', `Bearer ${accessToken}`)
+        const existingBeta = headers.get('anthropic-beta')
+        const betas = new Set((existingBeta ? existingBeta.split(',') : []).map((b) => b.trim()).filter(Boolean))
+        betas.add(CLAUDE_CODE_OAUTH_BETA)
+        headers.set('anthropic-beta', Array.from(betas).join(','))
+        const response = await fetch(input, { ...init, headers })
+        if (!response.ok) {
+          response
+            .clone()
+            .text()
+            .then((text) => logger.error(`Claude Code API request failed (${response.status}): ${text}`))
+            .catch(() => {})
+        }
+        return response
       }
     }
   }

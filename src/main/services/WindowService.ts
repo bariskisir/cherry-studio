@@ -14,6 +14,7 @@ import path, { join } from 'path'
 
 import iconPath from '../../../build/icon.png?asset'
 import { titleBarOverlayDark, titleBarOverlayLight } from '../config'
+import AntigravityService from './AntigravityService'
 import { configManager } from './ConfigManager'
 import { contextMenu } from './ContextMenu'
 import { isSafeExternalUrl } from './security'
@@ -355,6 +356,25 @@ export class WindowService {
       }
       callback({ cancel: false, responseHeaders: details.responseHeaders })
     })
+
+    // Antigravity (Google Cloud Code) gates access on the Antigravity CLI User-Agent, which the
+    // renderer's fetch cannot set (User-Agent is a forbidden request header). Inject it here and
+    // strip browser-only headers so the request looks like the native CLI client.
+    mainWindow.webContents.session.webRequest.onBeforeSendHeaders(
+      { urls: ['https://daily-cloudcode-pa.googleapis.com/*'] },
+      (details, callback) => {
+        const headers = details.requestHeaders
+        headers['User-Agent'] = AntigravityService.getUserAgent()
+        delete headers['Origin']
+        delete headers['origin']
+        delete headers['Referer']
+        delete headers['referer']
+        delete headers['Sec-Fetch-Mode']
+        delete headers['Sec-Fetch-Site']
+        delete headers['Sec-Fetch-Dest']
+        callback({ cancel: false, requestHeaders: headers })
+      }
+    )
   }
 
   private loadMainWindowContent(mainWindow: BrowserWindow) {

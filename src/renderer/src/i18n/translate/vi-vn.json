@@ -3415,6 +3415,7 @@
     "aionly": "Chỉ có AI",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "Baichuan",
@@ -3423,6 +3424,8 @@
     "cephalon": "cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "Alibaba Cloud",
     "deepseek": "DeepSeek",
@@ -5297,6 +5300,16 @@
       "anthropic_api_host": "Máy chủ API của Anthropic",
       "anthropic_api_host_preview": "Xem trước Anthropic: {{url}}",
       "anthropic_api_host_tooltip": "Chỉ sử dụng khi nhà cung cấp cung cấp URL cơ sở tương thích với Claude.",
+      "antigravity": {
+        "auth_file_hint": "Đăng nhập bằng CLI Antigravity/Gemini, sau đó nhấp vào Làm mới. Thông tin xác thực được đọc từ Trình quản lý Thông tin xác thực Windows (hoặc ~/.antigravity/.credentials.json).",
+        "description": "Antigravity đăng nhập bằng tài khoản Google của bạn thông qua CLI Antigravity/Gemini cục bộ. Không có khóa API — thông tin xác thực được đọc cục bộ và mã truy cập được làm mới tự động.",
+        "not_signed_in": "Chưa đăng nhập. Hãy đăng nhập bằng CLI Antigravity để sử dụng nhà cung cấp này.",
+        "plan": "Gói: {{plan}}",
+        "project": "Dự án: {{project}}",
+        "refresh": "Làm mới",
+        "signed_in": "Đã đăng nhập với tư cách {{email}}",
+        "warning": "Google cấm sử dụng công cụ của bên thứ ba. Sử dụng với rủi ro của riêng bạn."
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5416,23 @@
       "check": "Kiểm tra",
       "check_all_keys": "Kiểm tra tất cả các phím",
       "check_multiple_keys": "Kiểm tra nhiều khóa API",
+      "claude_code": {
+        "auth_file_hint": "Chạy `claude setup-token` trong terminal, sau đó nhấp vào Làm mới. Thông tin xác thực được đọc từ ~/.claude/.credentials.json.",
+        "description": "Claude Code đăng nhập bằng tài khoản Anthropic của bạn thông qua CLI Claude Code chính thức. Không có khóa API — thông tin xác thực được đọc từ tệp cục bộ do CLI ghi và mã truy cập được làm mới tự động.",
+        "not_signed_in": "Chưa đăng nhập. Hãy đăng nhập bằng CLI Claude Code để sử dụng nhà cung cấp này.",
+        "plan": "Gói: {{plan}}",
+        "refresh": "Làm mới",
+        "signed_in": "Đã đăng nhập",
+        "warning": "Anthropic cấm sử dụng công cụ của bên thứ ba. Sử dụng với rủi ro của riêng bạn."
+      },
+      "codex": {
+        "auth_file_hint": "Chạy `codex login` trong terminal, sau đó nhấp vào Làm mới. Thông tin xác thực được đọc từ ~/.codex/auth.json.",
+        "description": "Codex đăng nhập bằng tài khoản ChatGPT của bạn thông qua CLI Codex chính thức. Không có khóa API — thông tin xác thực được đọc từ tệp cục bộ do CLI ghi.",
+        "not_signed_in": "Chưa đăng nhập. Hãy đăng nhập bằng CLI Codex để sử dụng nhà cung cấp này.",
+        "plan": "Gói: {{plan}}",
+        "refresh": "Làm mới",
+        "signed_in": "Đã đăng nhập với tư cách {{email}}"
+      },
       "copilot": {
         "auth_failed": "Xác thực Github Copilot thất bại.",
         "auth_success": "Xác thực GitHub Copilot thành công.",

@@ -15,7 +15,14 @@ import store from '@renderer/store'
 import type { EndpointType, Model, Provider } from '@renderer/types'
 import { SystemProviderIds } from '@renderer/types'
 import { formatApiHost, getDefaultGroupName, withoutTrailingSlash } from '@renderer/utils'
-import { isGeminiProvider, isOllamaProvider, isVertexProvider } from '@renderer/utils/provider'
+import {
+  isAntigravityProvider,
+  isClaudeCodeProvider,
+  isCodexProvider,
+  isGeminiProvider,
+  isOllamaProvider,
+  isVertexProvider
+} from '@renderer/utils/provider'
 import { defaultAppHeaders } from '@shared/utils'
 import * as z from 'zod'
 
@@ -555,6 +562,33 @@ const openAICompatibleFetcher: ModelFetcher = {
   }
 }
 
+/** Antigravity: model catalog fetched via IPC from the Google Cloud Code API */
+const antigravityFetcher: ModelFetcher = {
+  match: (p) => isAntigravityProvider(p),
+  fetch: async (provider) => {
+    const models = await window.api.antigravity.fetchModels()
+    return dedup(models, (m) => m.id).map((m) => toModel(m.id, provider, { name: m.name }))
+  }
+}
+
+/** Claude Code: model catalog fetched via IPC from the Anthropic API (OAuth) */
+const claudeCodeFetcher: ModelFetcher = {
+  match: (p) => isClaudeCodeProvider(p),
+  fetch: async (provider) => {
+    const models = await window.api.claudeCode.fetchModels()
+    return dedup(models, (m) => m.id).map((m) => toModel(m.id, provider, { name: m.name }))
+  }
+}
+
+/** Codex: fetches models from the ChatGPT backend via the Codex API */
+const codexFetcher: ModelFetcher = {
+  match: (p) => isCodexProvider(p),
+  fetch: async (provider) => {
+    const models = await window.api.codex.fetchModels()
+    return models.map((m) => toModel(m.id, provider, { name: m.name }))
+  }
+}
+
 // === Registry (order matters: first match wins) ===
 
 const fetchers: ModelFetcher[] = [
@@ -562,6 +596,9 @@ const fetchers: ModelFetcher[] = [
   ollamaFetcher,
   geminiFetcher,
   anthropicFetcher,
+  antigravityFetcher,
+  claudeCodeFetcher,
+  codexFetcher,
   vertexFetcher,
   githubFetcher,
   copilotFetcher,

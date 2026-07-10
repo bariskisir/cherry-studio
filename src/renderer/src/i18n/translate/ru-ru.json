@@ -3415,6 +3415,7 @@
     "aionly": "AiOnly",
     "alayanew": "Alaya NeW",
     "anthropic": "Anthropic",
+    "antigravity": "Antigravity",
     "aws-bedrock": "AWS Bedrock",
     "azure-openai": "Azure OpenAI",
     "baichuan": "Baichuan",
@@ -3423,6 +3424,8 @@
     "cephalon": "Cephalon",
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
+    "claude-code": "Claude Code",
+    "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "Alibaba Cloud",
     "deepseek": "DeepSeek",
@@ -5297,6 +5300,16 @@
       "anthropic_api_host": "Адрес API Anthropic",
       "anthropic_api_host_preview": "Предпросмотр Anthropic: {{url}}",
       "anthropic_api_host_tooltip": "Заполняйте только когда провайдер предоставляет базовый адрес, совместимый с Claude.",
+      "antigravity": {
+        "auth_file_hint": "Войдите с помощью Antigravity/Gemini CLI, затем нажмите Обновить. Учётные данные считываются из диспетчера учётных данных Windows (или ~/.antigravity/.credentials.json).",
+        "description": "Antigravity выполняет вход с вашей учётной записью Google через локальный Antigravity/Gemini CLI. Ключ API не требуется — учётные данные считываются локально, а маркер доступа обновляется автоматически.",
+        "not_signed_in": "Вход не выполнен. Войдите с помощью Antigravity CLI, чтобы использовать этого поставщика.",
+        "plan": "План: {{plan}}",
+        "project": "Проект: {{project}}",
+        "refresh": "Обновить",
+        "signed_in": "Выполнен вход как {{email}}",
+        "warning": "Google запрещает использование сторонними инструментами. Используйте на свой страх и риск."
+      },
       "api": {
         "key": {
           "check": {
@@ -5403,6 +5416,23 @@
       "check": "Проверить",
       "check_all_keys": "Проверить все ключи",
       "check_multiple_keys": "Проверить несколько ключей API",
+      "claude_code": {
+        "auth_file_hint": "Запустите `claude setup-token` в терминале, затем нажмите Обновить. Учётные данные считываются из ~/.claude/.credentials.json.",
+        "description": "Claude Code выполняет вход с вашей учётной записью Anthropic через официальный Claude Code CLI. Ключ API не требуется — учётные данные считываются из локального файла, записанного CLI, а маркер доступа обновляется автоматически.",
+        "not_signed_in": "Вход не выполнен. Войдите с помощью Claude Code CLI, чтобы использовать этого поставщика.",
+        "plan": "План: {{plan}}",
+        "refresh": "Обновить",
+        "signed_in": "Выполнен вход",
+        "warning": "Anthropic запрещает использование сторонними инструментами. Используйте на свой страх и риск."
+      },
+      "codex": {
+        "auth_file_hint": "Запустите `codex login` в терминале, затем нажмите Обновить. Учётные данные считываются из ~/.codex/auth.json.",
+        "description": "Codex выполняет вход с вашей учётной записью ChatGPT через официальный Codex CLI. Ключ API не требуется — учётные данные считываются из локального файла, записанного CLI.",
+        "not_signed_in": "Вход не выполнен. Войдите с помощью Codex CLI, чтобы использовать этого поставщика.",
+        "plan": "План: {{plan}}",
+        "refresh": "Обновить",
+        "signed_in": "Выполнен вход как {{email}}"
+      },
       "copilot": {
         "auth_failed": "Github Copilot认证失败",
         "auth_success": "Github Copilot认证成功",

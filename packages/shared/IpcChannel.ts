@@ -137,6 +137,31 @@ export enum IpcChannel {
   Copilot_Logout = 'copilot:logout',
   Copilot_GetUser = 'copilot:get-user',
 
+  // codex
+  Codex_GetCredentials = 'codex:get-credentials',
+  Codex_GetStatus = 'codex:get-status',
+  Codex_GetQuota = 'codex:get-quota',
+  Codex_FetchModels = 'codex:fetch-models',
+  Codex_SetAuthPath = 'codex:set-auth-path',
+  Codex_SetSkipRefresh = 'codex:set-skip-refresh',
+
+  // antigravity
+  Antigravity_GetCredentials = 'antigravity:get-credentials',
+  Antigravity_GetStatus = 'antigravity:get-status',
+  Antigravity_GetQuota = 'antigravity:get-quota',
+  Antigravity_FetchModels = 'antigravity:fetch-models',
+  Antigravity_SetAuthPath = 'antigravity:set-auth-path',
+  Antigravity_SetAuthSource = 'antigravity:set-auth-source',
+  Antigravity_SetSkipRefresh = 'antigravity:set-skip-refresh',
+
+  // claude code
+  ClaudeCode_GetCredentials = 'claude-code:get-credentials',
+  ClaudeCode_GetStatus = 'claude-code:get-status',
+  ClaudeCode_GetQuota = 'claude-code:get-quota',
+  ClaudeCode_FetchModels = 'claude-code:fetch-models',
+  ClaudeCode_SetAuthPath = 'claude-code:set-auth-path',
+  ClaudeCode_SetSkipRefresh = 'claude-code:set-skip-refresh',
+
   // CherryIN OAuth
   CherryIN_SaveToken = 'cherryin:save-token',
   CherryIN_HasToken = 'cherryin:has-token',

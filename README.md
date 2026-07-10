@@ -1,3 +1,21 @@
+<div align="center">
+  <br />
+  <blockquote>
+    <h1>🍒 Fork Notice</h1>
+    <p>This repository is a <strong>fork</strong> of <a href="https://github.com/CherryHQ/cherry-studio">Cherry Studio</a>, forked at version <code>1.9.12</code>.</p>
+    <p>Below is a list of changes made in this fork:</p>
+    <div align="left">
+      <ul>
+        <li>Codex provider added</li>
+        <li>Antigravity provider added</li>
+        <li>Claude Code provider added</li>
+        <li>Analytics disabled by default</li>
+      </ul>
+    </div>
+  </blockquote>
+  <br />
+</div>
+
 <div align="right" >
   <details>
     <summary >🌐 Language</summary>

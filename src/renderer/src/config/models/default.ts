@@ -326,6 +326,9 @@ export const SYSTEM_MODELS: Record<SystemProviderId | 'defaultModel', Model[]> =
     { id: 'gpt-5-chat', provider: 'openai', name: ' GPT 5 Chat', group: 'gpt-5' },
     { id: 'gpt-image-1', provider: 'openai', name: ' GPT Image 1', group: 'gpt-image' }
   ],
+  codex: [],
+  antigravity: [],
+  'claude-code': [],
   'azure-openai': [
     {
       id: 'gpt-4o',
