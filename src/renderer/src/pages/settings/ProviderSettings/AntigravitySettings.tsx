@@ -58,10 +58,8 @@ const AntigravitySettings: FC = () => {
 
   const signedIn = quota?.available === true
 
-  const bucketLabel = (bucket: AntigravityBucket, siblings: AntigravityBucket[]): string => {
-    if (siblings.length <= 1) return t('settings.provider.antigravity.session')
-    const sorted = [...siblings].sort((a, b) => parseWindowHours(a.window) - parseWindowHours(b.window))
-    if (bucket === sorted[0]) return t('settings.provider.antigravity.session')
+  const bucketLabel = (bucket: AntigravityBucket): string => {
+    if (Number.isFinite(parseWindowHours(bucket.window))) return t('settings.provider.antigravity.session')
     return bucket.window
   }
 
@@ -78,7 +76,7 @@ const AntigravitySettings: FC = () => {
         loading={loading}
         message={
           signedIn
-            ? t('settings.provider.antigravity.signed_in', { email: quota?.email || quota?.projectId || '' })
+            ? t('settings.provider.antigravity.signed_in', { email: quota?.email || '' })
             : t('settings.provider.antigravity.not_signed_in')
         }
         refreshLabel={t('settings.provider.antigravity.refresh')}
@@ -97,17 +95,19 @@ const AntigravitySettings: FC = () => {
             {quota.groups.map((group) => (
               <GroupSection key={group.displayName}>
                 <GroupLabel>{group.displayName}</GroupLabel>
-                {group.buckets.map((bucket) => (
-                  <ProgressRow key={bucket.window}>
-                    <span>
-                      {bucketLabel(bucket, group.buckets)}
-                      {bucket.resetTime
-                        ? ` (${t('settings.provider.antigravity.resets_in', { time: formatReset(bucket.resetTime, t) })})`
-                        : ''}
-                    </span>
-                    <StretchProgress percent={Math.round(bucket.usedPercent)} size="small" />
-                  </ProgressRow>
-                ))}
+                {[...group.buckets]
+                  .sort((a, b) => parseWindowHours(a.window) - parseWindowHours(b.window))
+                  .map((bucket) => (
+                    <ProgressRow key={bucket.window}>
+                      <span>
+                        {bucketLabel(bucket)}
+                        {bucket.resetTime
+                          ? ` (${t('settings.provider.antigravity.resets_in', { time: formatReset(bucket.resetTime, t) })})`
+                          : ''}
+                      </span>
+                      <StretchProgress percent={Math.round(bucket.usedPercent)} size="small" />
+                    </ProgressRow>
+                  ))}
               </GroupSection>
             ))}
           </UsageContainer>

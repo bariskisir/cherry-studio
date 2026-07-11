@@ -72,7 +72,7 @@ class AntigravityService {
         refreshToken: token?.refresh_token ?? '',
         expiry: Number.isNaN(expiry) ? 0 : expiry,
         idToken,
-        email: idToken ? readJwtClaim(idToken, 'email') : ''
+        email: idToken ? readJwtClaim(idToken, 'email') : readJwtClaim(accessToken, 'email')
       }
     } catch {
       return null
