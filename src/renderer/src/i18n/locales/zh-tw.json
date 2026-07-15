@@ -3425,6 +3425,7 @@
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
     "claude-code": "Claude Code",
+    "claude-web": "[to be translated]:Claude Web",
     "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "阿里雲百鍊",
@@ -5441,6 +5442,17 @@
         "signed_in": "已登入",
         "usage": "使用量",
         "warning": "Anthropic 禁止第三方工具使用。使用風險自負。"
+      },
+      "claude_web": {
+        "login": "[to be translated]:Sign in with Claude Web",
+        "login_failed": "[to be translated]:Claude Web sign-in failed.",
+        "login_success": "[to be translated]:Signed in to Claude Web.",
+        "logout": "[to be translated]:Sign out",
+        "logout_failed": "[to be translated]:Claude Web sign-out failed.",
+        "logout_success": "[to be translated]:Signed out of Claude Web.",
+        "not_signed_in": "[to be translated]:Sign in with your Claude account to use this provider.",
+        "plan": "[to be translated]:Plan: {{plan}}",
+        "signed_in": "[to be translated]:Signed in to Claude Web"
       },
       "codex": {
         "auth_file_hint": "在終端機執行 `codex login`，然後點擊重新整理。憑證將從 ~/.codex/auth.json 讀取。",

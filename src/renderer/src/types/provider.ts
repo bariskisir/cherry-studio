@@ -19,7 +19,8 @@ export const ProviderTypeSchema = z.enum([
   'ollama',
   'codex',
   'antigravity',
-  'claude-code'
+  'claude-code',
+  'claude-web'
 ])
 
 export type ProviderType = z.infer<typeof ProviderTypeSchema>
@@ -207,7 +208,8 @@ export const SystemProviderIdSchema = z.enum([
   'zai',
   'codex',
   'antigravity',
-  'claude-code'
+  'claude-code',
+  'claude-web'
 ])
 
 export type SystemProviderId = z.infer<typeof SystemProviderIdSchema>
@@ -281,7 +283,8 @@ export const SystemProviderIds = {
   zai: 'zai',
   codex: 'codex',
   antigravity: 'antigravity',
-  'claude-code': 'claude-code'
+  'claude-code': 'claude-code',
+  'claude-web': 'claude-web'
 } as const satisfies Record<SystemProviderId, SystemProviderId>
 
 type SystemProviderIdTypeMap = typeof SystemProviderIds

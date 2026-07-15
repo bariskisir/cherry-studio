@@ -160,6 +160,15 @@ export enum IpcChannel {
   ClaudeCode_SetAuthPath = 'claude-code:set-auth-path',
   ClaudeCode_SetSkipRefresh = 'claude-code:set-skip-refresh',
 
+  // claude web
+  ClaudeWeb_StartLogin = 'claude-web:start-login',
+  ClaudeWeb_Logout = 'claude-web:logout',
+  ClaudeWeb_GetStatus = 'claude-web:get-status',
+  ClaudeWeb_FetchModels = 'claude-web:fetch-models',
+  ClaudeWeb_Complete = 'claude-web:complete',
+  ClaudeWeb_CancelCompletion = 'claude-web:cancel-completion',
+  ClaudeWeb_StreamEvent = 'claude-web:stream-event',
+
   // CherryIN OAuth
   CherryIN_SaveToken = 'cherryin:save-token',
   CherryIN_HasToken = 'cherryin:has-token',

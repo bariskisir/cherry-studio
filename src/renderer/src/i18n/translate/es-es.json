@@ -3425,6 +3425,7 @@
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
     "claude-code": "Claude Code",
+    "claude-web": "[to be translated]:Claude Web",
     "codex": "Codex",
     "copilot": "GitHub Copiloto",
     "dashscope": "Álibaba Nube BaiLiàn",
@@ -5441,6 +5442,17 @@
         "signed_in": "Sesión iniciada",
         "usage": "Uso",
         "warning": "Anthropic prohíbe el uso por herramientas de terceros. Úselo bajo su propio riesgo."
+      },
+      "claude_web": {
+        "login": "[to be translated]:Sign in with Claude Web",
+        "login_failed": "[to be translated]:Claude Web sign-in failed.",
+        "login_success": "[to be translated]:Signed in to Claude Web.",
+        "logout": "[to be translated]:Sign out",
+        "logout_failed": "[to be translated]:Claude Web sign-out failed.",
+        "logout_success": "[to be translated]:Signed out of Claude Web.",
+        "not_signed_in": "[to be translated]:Sign in with your Claude account to use this provider.",
+        "plan": "[to be translated]:Plan: {{plan}}",
+        "signed_in": "[to be translated]:Signed in to Claude Web"
       },
       "codex": {
         "auth_file_hint": "Ejecute `codex login` en una terminal y luego haga clic en Actualizar. Las credenciales se leen de ~/.codex/auth.json.",

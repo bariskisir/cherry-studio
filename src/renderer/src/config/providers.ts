@@ -430,6 +430,16 @@ export const SYSTEM_PROVIDERS_CONFIG: Record<SystemProviderId, SystemProvider> =
     isSystem: true,
     enabled: false
   },
+  'claude-web': {
+    id: 'claude-web',
+    name: 'Claude Web',
+    type: 'claude-web',
+    apiKey: '',
+    apiHost: 'https://claude.ai',
+    models: SYSTEM_MODELS['claude-web'],
+    isSystem: true,
+    enabled: false
+  },
   'azure-openai': {
     id: 'azure-openai',
     name: 'Azure OpenAI',
@@ -782,6 +792,7 @@ export const PROVIDER_LOGO_MAP: AtLeast<SystemProviderId, string> = {
   codex: OpenAiProviderLogo,
   antigravity: GoogleProviderLogo,
   'claude-code': AnthropicProviderLogo,
+  'claude-web': AnthropicProviderLogo,
   silicon: SiliconFlowProviderLogo,
   deepseek: DeepSeekProviderLogo,
   'gitee-ai': GiteeAIProviderLogo,
@@ -939,6 +950,16 @@ export const PROVIDER_URLS: Record<SystemProviderId, ProviderUrls> = {
       official: 'https://www.anthropic.com/claude-code',
       docs: 'https://docs.anthropic.com/en/docs/claude-code',
       models: 'https://docs.anthropic.com/en/docs/about-claude/models'
+    }
+  },
+  'claude-web': {
+    api: {
+      url: 'https://claude.ai'
+    },
+    websites: {
+      official: 'https://claude.ai',
+      docs: 'https://support.claude.com',
+      models: 'https://claude.ai'
     }
   },
   burncloud: {

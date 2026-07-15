@@ -3425,6 +3425,7 @@
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
     "claude-code": "Claude Code",
+    "claude-web": "[to be translated]:Claude Web",
     "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "Alibaba Cloud Bailian",
@@ -5441,6 +5442,17 @@
         "signed_in": "Angemeldet",
         "usage": "Nutzung",
         "warning": "Anthropic untersagt die Nutzung durch Drittanbieter-Tools. Nutzung auf eigene Gefahr."
+      },
+      "claude_web": {
+        "login": "[to be translated]:Sign in with Claude Web",
+        "login_failed": "[to be translated]:Claude Web sign-in failed.",
+        "login_success": "[to be translated]:Signed in to Claude Web.",
+        "logout": "[to be translated]:Sign out",
+        "logout_failed": "[to be translated]:Claude Web sign-out failed.",
+        "logout_success": "[to be translated]:Signed out of Claude Web.",
+        "not_signed_in": "[to be translated]:Sign in with your Claude account to use this provider.",
+        "plan": "[to be translated]:Plan: {{plan}}",
+        "signed_in": "[to be translated]:Signed in to Claude Web"
       },
       "codex": {
         "auth_file_hint": "Führen Sie `codex login` in einem Terminal aus und klicken Sie dann auf Aktualisieren. Die Anmeldedaten werden aus ~/.codex/auth.json gelesen.",

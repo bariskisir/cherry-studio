@@ -142,50 +142,20 @@ artifactBuildCompleted: scripts/artifact-build-completed.js
 releaseInfo:
   releaseNotes: |
     <!--LANG:en-->
-    Cherry Studio 1.9.12 - Model, Provider, and Tool Updates
+    Cherry Studio 1.9.13 - Claude Web and Antigravity Updates
 
     ✨ New Features
-    - [Models] Add support for Kimi K2.7 Code and refresh Moonshot defaults.
-
-    🐛 Bug Fixes
-    - [Models] Fix DeepSeek V4+ thinking effort not applying with custom OpenAI-compatible providers.
-    - [Models] Fix Claude Fable and Opus 5 capability detection.
-    - [Tools] Fix approval buttons toggling collapsed tool groups.
-    - [Providers] Fix NewAPI/OneAPI ignoring the configured Anthropic API host.
-    - [Agent] Fix agent mode requests being blocked by some third-party provider risk checks.
-    - [Images] Fix downloading AI-generated SVG images that were blocked by browser security rules.
-    - [Files] Fix saved or pasted images getting malformed file extensions.
-    - [Models] Fix MiniMax M3 thinking controls.
-    - [Chat] Show an error when a response stream ends unexpectedly.
-    - [CherryIN] Fix CherryIN API requests using the wrong domain.
-    - [Web Search] Fix ExaMCP results missing usable URLs and highlights.
-    - [Claude Code] Fix Windows updates that could leave the native binary missing.
-    - [Providers] Fix AiHubMix Gemini requests ignoring custom base URLs.
+    - [Providers] Add Claude Web with browser sign-in, account-specific models, thinking controls, and support for multiple accounts.
 
     💄 Improvements
-    - [Models] Fetch Anthropic model lists directly from Anthropic so new models appear sooner.
+    - [Antigravity] Sort usage periods by duration and show the signed-in email more reliably.
 
     <!--LANG:zh-CN-->
-    Cherry Studio 1.9.12 - 模型、提供商与工具更新
+    Cherry Studio 1.9.13 - Claude Web 与 Antigravity 更新
 
     ✨ 新功能
-    - [模型] 新增 Kimi K2.7 Code 支持，并更新 Moonshot 默认模型列表。
-
-    🐛 问题修复
-    - [模型] 修复自定义 OpenAI 兼容提供商中 DeepSeek V4+ 思考强度不生效的问题。
-    - [模型] 修复 Claude Fable 系列和 Opus 5 能力识别问题。
-    - [工具] 修复折叠工具组中点击审批按钮会误触发展开/收起的问题。
-    - [提供商] 修复 NewAPI/OneAPI 未使用已配置 Anthropic API Host 的问题。
-    - [智能体] 修复部分第三方提供商误拦截智能体模式请求的问题。
-    - [图片] 修复部分 AI 生成 SVG 图片无法下载的问题。
-    - [文件] 修复保存或粘贴图片时文件扩展名异常的问题。
-    - [模型] 修复 MiniMax M3 思考开关控制问题。
-    - [聊天] 修复回复流异常结束时未正确提示错误的问题。
-    - [CherryIN] 修复 CherryIN API 请求域名错误的问题。
-    - [联网搜索] 修复 ExaMCP 搜索结果 URL 和高亮内容解析问题。
-    - [Claude Code] 修复 Windows 更新后可能丢失原生可执行文件的问题。
-    - [提供商] 修复 AiHubMix Gemini 请求未使用自定义 base URL 的问题。
+    - [提供商] 新增 Claude Web，支持浏览器登录、按账户获取模型与思考设置，并可同时使用多个账户。
 
     💄 改进
-    - [模型] 改为直接从 Anthropic 获取模型列表，让新模型更快显示。
+    - [Antigravity] 按时长排序用量周期，并更可靠地显示已登录邮箱。
     <!--LANG:END-->

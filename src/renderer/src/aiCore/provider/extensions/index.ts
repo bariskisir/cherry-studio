@@ -26,6 +26,7 @@ import { createOllama } from 'ollama-ai-provider-v2'
 import { createVoyage, type VoyageProviderSettings } from 'voyage-ai-provider'
 
 import { type AihubmixProviderSettings, createAihubmix } from '../custom/aihubmix-provider'
+import { type ClaudeWebProviderSettings, createClaudeWeb } from '../custom/claude-web-provider'
 import { createNewApi, type NewApiProviderSettings } from '../custom/newapi-provider'
 
 /**
@@ -183,6 +184,13 @@ export const AiHubMixExtension = ProviderExtension.create({
   create: createAihubmix
 } as const satisfies ProviderExtensionConfig<AihubmixProviderSettings, ProviderV3, 'aihubmix'>)
 
+/** Claude Web - browser-session-backed Claude.ai provider. */
+export const ClaudeWebExtension = ProviderExtension.create({
+  name: 'claude-web',
+  supportsImageGeneration: false,
+  create: createClaudeWeb
+} as const satisfies ProviderExtensionConfig<ClaudeWebProviderSettings, ProviderV3, 'claude-web'>)
+
 /**
  * NewAPI Extension - multi-backend gateway routed by endpoint_type
  */
@@ -228,6 +236,7 @@ export const extensions = [
   CerebrasExtension,
   OllamaExtension,
   AiHubMixExtension,
+  ClaudeWebExtension,
   NewApiExtension,
   VoyageExtension,
   TogetherAIExtension,

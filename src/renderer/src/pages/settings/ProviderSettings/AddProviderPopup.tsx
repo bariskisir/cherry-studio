@@ -263,7 +263,8 @@ const PopupContainer: React.FC<Props> = ({ provider, resolve }) => {
               { label: 'Ollama', value: 'ollama' },
               { label: 'Codex', value: 'codex' },
               { label: 'Antigravity', value: 'antigravity' },
-              { label: 'Claude Code', value: 'claude-code' }
+              { label: 'Claude Code', value: 'claude-code' },
+              { label: 'Claude Web', value: 'claude-web' }
             ]}
           />
         </Form.Item>

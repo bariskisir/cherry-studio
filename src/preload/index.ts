@@ -4,6 +4,12 @@ import { electronAPI } from '@electron-toolkit/preload'
 import type { SpanEntity, TokenUsage } from '@mcp-trace/trace-core'
 import type { SpanContext } from '@opentelemetry/api'
 import type {
+  ClaudeWebCompletionRequest,
+  ClaudeWebModel,
+  ClaudeWebStatus,
+  ClaudeWebStreamEvent
+} from '@shared/claudeWeb'
+import type {
   AntigravityAuthOptions,
   AntigravityCredentials,
   AntigravityQuota,
@@ -495,6 +501,24 @@ const api = {
     fetchModels: (): Promise<CliProviderModel[]> => ipcRenderer.invoke(IpcChannel.ClaudeCode_FetchModels),
     setAuthPath: (authFilePath: string) => ipcRenderer.invoke(IpcChannel.ClaudeCode_SetAuthPath, authFilePath),
     setSkipRefresh: (value: boolean) => ipcRenderer.invoke(IpcChannel.ClaudeCode_SetSkipRefresh, value)
+  },
+  claudeWeb: {
+    startLogin: (providerId: string): Promise<ClaudeWebStatus> =>
+      ipcRenderer.invoke(IpcChannel.ClaudeWeb_StartLogin, providerId),
+    logout: (providerId: string): Promise<void> => ipcRenderer.invoke(IpcChannel.ClaudeWeb_Logout, providerId),
+    getStatus: (providerId: string): Promise<ClaudeWebStatus> =>
+      ipcRenderer.invoke(IpcChannel.ClaudeWeb_GetStatus, providerId),
+    fetchModels: (providerId: string): Promise<ClaudeWebModel[]> =>
+      ipcRenderer.invoke(IpcChannel.ClaudeWeb_FetchModels, providerId),
+    complete: (request: ClaudeWebCompletionRequest): Promise<void> =>
+      ipcRenderer.invoke(IpcChannel.ClaudeWeb_Complete, request),
+    cancelCompletion: (requestId: string): Promise<void> =>
+      ipcRenderer.invoke(IpcChannel.ClaudeWeb_CancelCompletion, requestId),
+    onStreamEvent: (callback: (event: ClaudeWebStreamEvent) => void) => {
+      const listener = (_event: Electron.IpcRendererEvent, streamEvent: ClaudeWebStreamEvent) => callback(streamEvent)
+      ipcRenderer.on(IpcChannel.ClaudeWeb_StreamEvent, listener)
+      return () => ipcRenderer.off(IpcChannel.ClaudeWeb_StreamEvent, listener)
+    }
   },
   cherryin: {
     saveToken: (accessToken: string, refreshToken?: string) =>

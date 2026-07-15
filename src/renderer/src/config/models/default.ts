@@ -329,6 +329,7 @@ export const SYSTEM_MODELS: Record<SystemProviderId | 'defaultModel', Model[]> =
   codex: [],
   antigravity: [],
   'claude-code': [],
+  'claude-web': [],
   'azure-openai': [
     {
       id: 'gpt-4o',

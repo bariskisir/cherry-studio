@@ -92,6 +92,8 @@ export interface ReasoningLevelOption {
 export interface CliProviderModel {
   id: string
   name: string
+  description?: string
+  supportsVision?: boolean
   reasoningLevels?: ReasoningLevelOption[]
   defaultReasoningLevel?: string
   supportsThinking?: boolean

@@ -18,6 +18,7 @@ import { formatApiHost, getDefaultGroupName, withoutTrailingSlash } from '@rende
 import {
   isAntigravityProvider,
   isClaudeCodeProvider,
+  isClaudeWebProvider,
   isCodexProvider,
   isGeminiProvider,
   isOllamaProvider,
@@ -565,14 +566,16 @@ const openAICompatibleFetcher: ModelFetcher = {
 
 function createCliProviderFetcher(
   match: (provider: Provider) => boolean,
-  fetchModels: () => Promise<CliProviderModel[]>
+  fetchModels: (provider: Provider) => Promise<CliProviderModel[]>
 ): ModelFetcher {
   return {
     match,
     fetch: async (provider) =>
-      dedup(await fetchModels(), (model) => model.id).map((model) =>
+      dedup(await fetchModels(provider), (model) => model.id).map((model) =>
         toModel(model.id, provider, {
           name: model.name,
+          description: model.description,
+          capabilities: model.supportsVision ? [{ type: 'vision' }] : undefined,
           supportsThinking: model.supportsThinking,
           reasoningLevels: model.reasoningLevels,
           defaultReasoningLevel: model.defaultReasoningLevel
@@ -587,6 +590,11 @@ const antigravityFetcher = createCliProviderFetcher(isAntigravityProvider, () =>
 /** Claude Code: model catalog fetched via IPC from the Anthropic API (OAuth) */
 const claudeCodeFetcher = createCliProviderFetcher(isClaudeCodeProvider, () => window.api.claudeCode.fetchModels())
 
+/** Claude Web: model catalog and server-provided thinking efforts from Claude bootstrap. */
+const claudeWebFetcher = createCliProviderFetcher(isClaudeWebProvider, (provider) =>
+  window.api.claudeWeb.fetchModels(provider.id)
+)
+
 /** Codex: fetches models from the ChatGPT backend via the Codex API */
 const codexFetcher = createCliProviderFetcher(isCodexProvider, () => window.api.codex.fetchModels())
 
@@ -599,6 +607,7 @@ const fetchers: ModelFetcher[] = [
   anthropicFetcher,
   antigravityFetcher,
   claudeCodeFetcher,
+  claudeWebFetcher,
   codexFetcher,
   vertexFetcher,
   githubFetcher,

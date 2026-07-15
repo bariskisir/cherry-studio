@@ -178,6 +178,11 @@ export function isClaudeCodeProvider(provider: Provider): boolean {
   return provider.type === 'claude-code'
 }
 
+/** Claude Web uses a browser-authenticated claude.ai session. */
+export function isClaudeWebProvider(provider: Provider): boolean {
+  return provider.type === 'claude-web'
+}
+
 export function isAwsBedrockProvider(provider: Provider): boolean {
   return provider.type === 'aws-bedrock'
 }

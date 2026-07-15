@@ -48,6 +48,7 @@ import AppUpdater from './services/AppUpdater'
 import BackupManager from './services/BackupManager'
 import CherryINOAuthService from './services/CherryINOAuthService'
 import ClaudeCodeService from './services/ClaudeCodeService'
+import ClaudeWebService from './services/ClaudeWebService'
 import {
   validateAntigravityAuthOptions,
   validateAuthFilePath,
@@ -915,6 +916,21 @@ export async function registerIpc(mainWindow: BrowserWindow, app: Electron.App) 
   })
   ipcMain.handle(IpcChannel.ClaudeCode_SetSkipRefresh, (_e, value) => {
     ClaudeCodeService.setSkipRefresh(validateBoolean(value, 'skipRefresh'))
+  })
+
+  // claude web
+  ipcMain.handle(IpcChannel.ClaudeWeb_StartLogin, (_event, providerId: string) =>
+    ClaudeWebService.startLogin(providerId)
+  )
+  ipcMain.handle(IpcChannel.ClaudeWeb_Logout, (_event, providerId: string) => ClaudeWebService.logout(providerId))
+  ipcMain.handle(IpcChannel.ClaudeWeb_GetStatus, (_event, providerId: string) => ClaudeWebService.getStatus(providerId))
+  ipcMain.handle(IpcChannel.ClaudeWeb_FetchModels, (_event, providerId: string) =>
+    ClaudeWebService.fetchModels(providerId)
+  )
+  ipcMain.handle(IpcChannel.ClaudeWeb_Complete, (event, request) => ClaudeWebService.complete(event.sender, request))
+  ipcMain.handle(IpcChannel.ClaudeWeb_CancelCompletion, (_event, requestId: string) => {
+    if (typeof requestId !== 'string') throw new TypeError('Claude Web requestId must be a string')
+    ClaudeWebService.cancelCompletion(requestId)
   })
 
   // CherryIN OAuth

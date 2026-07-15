@@ -26,6 +26,7 @@ import {
   isAzureOpenAIProvider,
   isCherryAIProvider,
   isClaudeCodeProvider,
+  isClaudeWebProvider,
   isCodexProvider,
   isGeminiProvider,
   isOllamaProvider,
@@ -94,6 +95,7 @@ export function formatProviderApiHost(provider: Provider): Provider {
     { match: isCodexProvider, format: (p) => formatApiHost(p.apiHost, false) },
     { match: isAntigravityProvider, format: (p) => formatApiHost(p.apiHost, false) },
     { match: isClaudeCodeProvider, format: (p) => formatApiHost(p.apiHost, false) },
+    { match: isClaudeWebProvider, format: (p) => formatApiHost(p.apiHost, false) },
     { match: isOllamaProvider, format: (p) => formatOllamaApiHost(p.apiHost) },
     { match: isGeminiProvider, format: (p, av) => formatApiHost(p.apiHost, av, 'v1beta') },
     { match: isAzureOpenAIProvider, format: (p) => formatApiHost(p.apiHost, false) },
@@ -136,6 +138,7 @@ export function providerToAiSdkConfig(
     { match: (p) => isCodexProvider(p), build: buildCodexConfig },
     { match: (p) => isAntigravityProvider(p), build: buildAntigravityConfig },
     { match: (p) => isClaudeCodeProvider(p), build: buildClaudeCodeConfig },
+    { match: (p) => isClaudeWebProvider(p), build: buildClaudeWebConfig },
     { match: (p) => p.id === 'anthropic' && p.authType === 'oauth', build: buildAnthropicConfig },
     { match: (p) => isOllamaProvider(p), build: buildOllamaConfig },
     { match: (p) => isAzureOpenAIProvider(p), build: buildAzureConfig },
@@ -479,6 +482,14 @@ async function buildClaudeCodeConfig(ctx: BuilderContext): Promise<ProviderConfi
         return response
       }
     }
+  }
+}
+
+function buildClaudeWebConfig(ctx: BuilderContext): ProviderConfig<'claude-web'> {
+  return {
+    providerId: 'claude-web',
+    endpoint: ctx.endpoint,
+    providerSettings: { providerId: ctx.actualProvider.id }
   }
 }
 

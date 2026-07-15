@@ -48,6 +48,10 @@ export function getAiSdkProviderId(provider: Provider): AppProviderId {
     return appProviderIds.anthropic
   }
 
+  if (provider.type === 'claude-web') {
+    return appProviderIds['claude-web']
+  }
+
   if (provider.id in appProviderIds) {
     return appProviderIds[provider.id]
   }

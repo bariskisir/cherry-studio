@@ -29,6 +29,7 @@ import {
   isAntigravityProvider,
   isAzureOpenAIProvider,
   isClaudeCodeProvider,
+  isClaudeWebProvider,
   isCodexProvider,
   isGeminiProvider,
   isNewApiProvider,
@@ -61,6 +62,7 @@ import AwsBedrockSettings from './AwsBedrockSettings'
 import CherryINOAuth from './CherryINOAuth'
 import CherryINSettings from './CherryINSettings'
 import ClaudeCodeSettings from './ClaudeCodeSettings'
+import ClaudeWebSettings from './ClaudeWebSettings'
 import CodexSettings from './CodexSettings'
 import CustomHeaderPopup from './CustomHeaderPopup'
 import DMXAPISettings from './DMXAPISettings'
@@ -128,7 +130,8 @@ const ProviderSetting: FC<Props> = ({ providerId, isOnboarding = false }) => {
     'aws-bedrock',
     'codex',
     'antigravity',
-    'claude-code'
+    'claude-code',
+    'claude-web'
   ] as const satisfies SystemProviderId[]
   const hideApiInput =
     noAPIInputProviders.some((id) => id === provider.id) || noAPIInputProviders.some((id) => id === provider.type)
@@ -678,6 +681,7 @@ const ProviderSetting: FC<Props> = ({ providerId, isOnboarding = false }) => {
       {isCodexProvider(provider) && <CodexSettings key={provider.id} />}
       {isAntigravityProvider(provider) && <AntigravitySettings key={provider.id} />}
       {isClaudeCodeProvider(provider) && <ClaudeCodeSettings key={provider.id} />}
+      {isClaudeWebProvider(provider) && <ClaudeWebSettings key={provider.id} providerId={provider.id} />}
       <ModelList providerId={provider.id} />
     </SettingContainer>
   )

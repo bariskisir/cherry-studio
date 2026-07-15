@@ -3425,6 +3425,7 @@
     "cerebras": "Cerebras AI",
     "cherryin": "CherryIN",
     "claude-code": "Claude Code",
+    "claude-web": "Claude Web",
     "codex": "Codex",
     "copilot": "GitHub Copilot",
     "dashscope": "Alibaba Cloud",
@@ -5441,6 +5442,17 @@
         "signed_in": "Signed in",
         "usage": "Usage",
         "warning": "Anthropic prohibits third-party tool usage. Use at your own risk."
+      },
+      "claude_web": {
+        "login": "Sign in with Claude Web",
+        "login_failed": "Claude Web sign-in failed.",
+        "login_success": "Signed in to Claude Web.",
+        "logout": "Sign out",
+        "logout_failed": "Claude Web sign-out failed.",
+        "logout_success": "Signed out of Claude Web.",
+        "not_signed_in": "Sign in with your Claude account to use this provider.",
+        "plan": "Plan: {{plan}}",
+        "signed_in": "Signed in to Claude Web"
       },
       "codex": {
         "auth_file_hint": "Run `codex login` in a terminal, then click Refresh. Credentials are read from ~/.codex/auth.json.",

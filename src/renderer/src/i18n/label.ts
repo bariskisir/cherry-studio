@@ -94,7 +94,8 @@ const providerKeyMap = {
   zai: 'provider.zai',
   codex: 'provider.codex',
   antigravity: 'provider.antigravity',
-  'claude-code': 'provider.claude-code'
+  'claude-code': 'provider.claude-code',
+  'claude-web': 'provider.claude-web'
 } as const
 
 /**
